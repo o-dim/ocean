@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="~{/layout/header::oceanHead('song')}"></head>
+</head>
+<script>
+   function fnSearchSong() {
+      $.ajax({
+         type : 'get',
+         url : 'searchartist.do',
+         data : $('#frmSongSearch'),
+         dataType : 'json',
+         success : function(resData) {
+            $('#trackList').empty();
+            if(resData.status == 200){   // 성공 (목록 o)
+               $.each(resData.list, function(i, track){
+                  let str = '<tr>';
+                  str += '<td>' + track.artistName;
+                  str += '<td>' + track.title;
+                  str += '<td>' + track.albumName;
+                  str += '<td><img th:src="' + track.imageurl +'">';
+                  $('#trackList').append(str);
+               })
+            } else if(resData.status == 500){   // 실패 (목록 x)
+               let str = '<tr>';
+               str += '<td colspan="4">조회된 결과가 없습니다.';
+               $('#trackList').append(str);
+         }
+      }
+   })
+}
+   
+</script>
+<body>
+	<header th:replace="~{/layout/header::oceanHeader}"></header>
+   
+	<!-- 검색 구현 -->
+	<form id="frmSongSearch">
+	   <div>
+	      <label for="search">노래 검색</label>
+	      <input type="text" name="seach" id="search" placeholder="검색">
+	      <input type="button" value="검색하기 버튼" onclick="fnSearchSong">
+	   </div>
+	</form>
+   
+	<div>
+	   <table>
+	      <thead>
+	         <tr>
+	            <td>artistName</td>
+	            <td>title</td>
+	            <td>albumName</td>
+	            <td>imageUrl</td>
+	         </tr>
+	      </thead>
+	      <tbody id="trackList">
+	         
+	      </tbody>
+	   </table>
+	</div>
+   
+</body>
+</html>

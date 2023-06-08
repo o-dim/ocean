@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head th:fragment="oceanHead(title)">
+  <meta charset="UTF-8">
+  <title th:text="${title}"></title>
+  <script th:src="@{/js/lib/jquery-3.6.4.min.js}"></script>
+  <link rel="stylesheet" th:href="@{/css/header.css(ver=1.0)}">
+  <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css}" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+	<header class="header" id="header" th:fragment="oceanHeader">
+        <nav class="nav-container">
+            <i class="fa-solid fa-bars" id="menuOpenBtn"></i>
+            <nav class="nav__menu">
+                <i class="fa-solid fa-xmark" id="menuCloseBtn"></i>
+                <ul class="nav__list">
+                    <li class="nav__item">
+                        <a th:href="@{/users/login.html}" class="nav__link">login/register</a>
+                    </li>
+                    <li class="nav__item">
+                        <a th:href="@{/index.html}" class="nav__link">home</a>
+                    </li>
+                    <li class="nav__item">
+                        <a th:href="@{/shop/shop.html}" class="nav__link">shop</a>
+                    </li>
+                    <li class="nav__item">
+                        <a th:href="@{/song/song.html}" class="nav__link">songs</a> 
+                    </li>
+                    <li class="nav__item">
+                        <a th:href="@{/song/myplaylist.html}" class="nav__link">my playlist</a>
+                    </li>
+                    <li class="nav__item">
+                        <a th:href="@{#}" class="nav__link">cart</a>
+                    </li>
+                    <li class="nav__item">
+                        <a th:href="@{/users/mypage.html}" class="nav__link">mypage</a>
+                    </li>
+                    <li class="nav__item">
+                        <a th:href="@{/admin/board.html}" class="nav__link">admin</a>
+                    </li>
+                </ul>
+            </nav>
+        </nav>
+        <script>
+        	$(function(){
+				$('.nav__menu').hide();
+        	});
+
+			$("#menuOpenBtn").click(function() {
+				$(".nav__menu").show();
+				
+			})
+			$("#menuCloseBtn").click(function() {
+				$('.nav__menu').hide();
+			})
+		</script>
+    </header>
+</body>
+</html>
