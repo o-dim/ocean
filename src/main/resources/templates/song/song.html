@@ -2,24 +2,29 @@
 <html>
 <head th:replace="~{/layout/header::oceanHead('song')}"></head>
 </head>
+<style>
+	.container {
+		margin-left : 300px;
+	}
+</style>
 <script>
    function fnSearchSong() {
       $.ajax({
          type : 'get',
-         url : 'searchartist.do',
+         url : 'search-artist.do',
          data : $('#frmSongSearch'),
          dataType : 'json',
          success : function(resData) {
             $('#trackList').empty();
             if(resData.status == 200){   // 성공 (목록 o)
-               $.each(resData.list, function(i, track){
-                  let str = '<tr>';
-                  str += '<td>' + track.artistName;
-                  str += '<td>' + track.title;
-                  str += '<td>' + track.albumName;
-                  str += '<td><img th:src="' + track.imageurl +'">';
-                  $('#trackList').append(str);
-               })
+            	for (var i = 0; i < response.tracks.length; i++) {
+                    var track = response.tracks[i];
+                    var title = track.title;
+                    var artist = track.artistName;
+
+                    var trackElement = $('').html('Title: ' + title + ', Artist: ' + artist);
+                    resultContainer.append($('#trackList'));
+              	}
             } else if(resData.status == 500){   // 실패 (목록 x)
                let str = '<tr>';
                str += '<td colspan="4">조회된 결과가 없습니다.';
@@ -32,12 +37,13 @@
 </script>
 <body>
 	<header th:replace="~{/layout/header::oceanHeader}"></header>
-   
+	
+	<nav class="container">
 	<!-- 검색 구현 -->
 	<form id="frmSongSearch">
 	   <div>
 	      <label for="search">노래 검색</label>
-	      <input type="text" name="seach" id="search" placeholder="검색">
+	      <input type="text" name="search" id="search" placeholder="검색">
 	      <input type="button" value="검색하기 버튼" onclick="fnSearchSong">
 	   </div>
 	</form>
@@ -57,6 +63,6 @@
 	      </tbody>
 	   </table>
 	</div>
-   
+   </nav>
 </body>
 </html>
