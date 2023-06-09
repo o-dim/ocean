@@ -10,6 +10,7 @@ public class MenuController {
 	public String home() {
 		return "/index.html";
 	}
+	
 	@GetMapping("/song.html")
 	public String song() {
 		return "/song/song.html";

@@ -4,15 +4,27 @@
     <script th:src="@{/js/lib/jquery-3.6.4.min.js}"></script>
     <link rel="stylesheet" type="text/css" th:href="@{/slick/slick.css}"/>
     <script type="text/javascript" th:src="@{/slick/slick.min.js}"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <style>
-        body {
+
+        .whiteon {
             height: 100vh;
             width: 100vw;
             background-size: cover;
             /* background: no-repeat center fixed; */
-       		background-image: url("https://bestanimations.com/media/water/404701640water-ripples-close-up-animated-gif.gif");
+       		/* background-image: url("https://bestanimations.com/media/water/404701640water-ripples-close-up-animated-gif.gif"); */
+       		background-image: url("https://media.tenor.com/RCu7qA-pVOwAAAAd/water-sparkling.gif");
+       		background-attachment: scroll;
            /*  background-color: #efefef; */
         }
+        /* .blackon {
+        	height : 100vh;
+        	            width: 100vw;
+        	
+        	background-color: black;
+        	background-attachment: fixed;
+        } */
         .wrapper{
             padding: 10% 0;
         }
@@ -71,9 +83,11 @@
 </head>
 <body>
 	<header th:replace="~{/layout/header::oceanHeader}"></header>
-    <div class="logo-top"><img th:src="@{/photo/OCEAN.png}"></div>
-    <div class="logo-btm"><img th:src="@{/photo/OCEAN.png}"></div>
-	<div class="wrapper">
+	
+	<div class="whiteon" data-aos="fade-up">
+    <div class="logo-top"><img th:src="@{/photo/OCEAN.png}" ></div>
+    <div class="logo-btm"><img th:src="@{/photo/OCEAN.png}" ></div>
+	<div class="wrapper" data-aos="fade-up">
         <div class="center-slider">
             <div><img class="slick-slide" th:src="@{/photo/unnamed-2.jpg}" ></div>
             <div><img class="slick-slide" th:src="@{/photo/unnamed-3.jpg}" ></div>
@@ -89,6 +103,7 @@
             <div><img class="slick-slide" th:src="@{/photo/unnamed.jpg}" ></div>
           </div>
       </div>
+    </div>
       <script>
         $(document).ready(function(){
         	$('.center-slider').slick({
@@ -122,6 +137,8 @@
         		  ]
         		});
             })
+          AOS.init();
+
         </script>
 </body>
 

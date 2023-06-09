@@ -27,6 +27,9 @@
             <div class="left_sub_menu">
                 <div class="sub_menu">
                     <!--키보드에 과자 떨어졌네...........화이탱  -->
+                    <ul class="big_menu" id="quitMenu">
+                    	<li> X </li>
+                    </ul>
                     <ul class="big_menu">
                         <li><a th:href="@{/home.html}">HOME</a></li>
                     </ul>
@@ -40,7 +43,7 @@
                     <ul class="big_menu">
                         <li>SONG</li>
                         <ul class="small_menu">
-                            <li><a th:href="@{/song/song.html}">songs</a></li>
+                            <li><a th:href="@{/song.html}">songs</a></li>
                             <li><a th:href="@{/song/myplaylist.html}">my playlist</a></li>
                         </ul>
                     </ul>
@@ -219,7 +222,7 @@
 	            $("ul", this).slideToggle(300);
 	        });
 	        // 외부 클릭 시 좌측 사이드 메뉴 숨기기
-	        $('.overlay').on('click', function () {
+	        $('#quitMenu').on('click', function () {
 	            $('.left_sub_menu').fadeOut();
 	            $('.hide_sidemenu').fadeIn();
 	        });
