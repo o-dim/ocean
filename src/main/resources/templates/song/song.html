@@ -11,28 +11,31 @@
    function fnSearchSong() {
       $.ajax({
          type : 'get',
-         url : 'search-artist.do',
-         data : $('#frmSongSearch'),
+         url : '/song/search-artist.do',
+         data : $('#frmSongSearch').serialize(),
          dataType : 'json',
          success : function(resData) {
             $('#trackList').empty();
             if(resData.status == 200){   // 성공 (목록 o)
-            	for (var i = 0; i < response.tracks.length; i++) {
-                    var track = response.tracks[i];
+            	for (var i = 0; i < resData.tracks.length; i++) {
+                    var track = resData.tracks[i];
                     var title = track.title;
                     var artist = track.artistName;
 
                     var trackElement = $('').html('Title: ' + title + ', Artist: ' + artist);
-                    resultContainer.append($('#trackList'));
+                    // resultContainer.append($('#trackList'));
+                    $('#trackList').append(trackElement);
               	}
             } else if(resData.status == 500){   // 실패 (목록 x)
                let str = '<tr>';
                str += '<td colspan="4">조회된 결과가 없습니다.';
-               $('#trackList').append(str);	// 화이팅
+               $('#trackList').append(str);
          }
       }
    })
 }
+
+
    
 </script>
 <body>
@@ -44,7 +47,7 @@
 	   <div>
 	      <label for="search">노래 검색</label>
 	      <input type="text" name="search" id="search" placeholder="검색">
-	      <input type="button" value="검색하기 버튼" onclick="fnSearchSong">
+	      <input type="button" value="검색하기 버튼" onclick="fnSearchSong()">
 	   </div>
 	</form>
    
@@ -64,5 +67,6 @@
 	   </table>
 	</div>
    </nav>
+   
 </body>
 </html>

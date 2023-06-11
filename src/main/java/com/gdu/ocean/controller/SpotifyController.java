@@ -29,7 +29,7 @@ public class SpotifyController {
 		return "/song/myplaylist.html";
 	}
 
-    @GetMapping("/search-artist.do")
+    @GetMapping(value="/search-artist.do", produces="application/json")
     @ResponseBody
     public List<SpotifyTrackDTO> searchArtist(@RequestParam("keyword") String keyword) {
         return spotifyService.searchArtist(keyword);

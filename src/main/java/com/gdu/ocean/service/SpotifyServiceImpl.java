@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.hc.core5.http.ParseException;
 import org.springframework.stereotype.Service;
 
-import com.gdu.ocean.config.SpotifyConfig;
 import com.gdu.ocean.domain.SpotifyTrackDTO;
 
 import lombok.RequiredArgsConstructor;
@@ -23,19 +22,13 @@ import se.michaelthelin.spotify.requests.data.search.simplified.SearchTracksRequ
 @Service
 public class SpotifyServiceImpl implements SpotifyService {
 	
-
-	private SpotifyConfig spotifyConfig;
-	
-	public SpotifyServiceImpl(SpotifyConfig spotifyConfig) {
-        this.spotifyConfig = spotifyConfig;
-    }
+	private SearchTracksRequest searchTracksRequest;
 	
 	@Override
 	public List<SpotifyTrackDTO> searchArtist(String keyword) {
 		List<SpotifyTrackDTO> tracklist = new ArrayList<>();
         try {
-            SearchTracksRequest searchRequest = spotifyConfig.searchTracksRequest();
-            final Paging<Track> trackPaging = searchRequest.execute();
+            final Paging<Track> trackPaging = searchTracksRequest.execute();
             Track[] tracks = trackPaging.getItems();
             if (tracks.length > 0) {
                 Track track = tracks[0];
@@ -53,6 +46,10 @@ public class SpotifyServiceImpl implements SpotifyService {
         }
         return tracklist;
 	}
+	
+
+	
+	
 
 //	@Override
 //	public List<SpotifyTrackDTO> SearchSong(String keyword) {

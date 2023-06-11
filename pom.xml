@@ -57,11 +57,15 @@
 			<optional>true</optional>
 		</dependency>
 		<dependency>
-		  <groupId>se.michaelthelin.spotify</groupId>
-		  <artifactId>spotify-web-api-java</artifactId>
-		  <version>8.0.0</version>
+		  	<groupId>se.michaelthelin.spotify</groupId>
+		  	<artifactId>spotify-web-api-java</artifactId>
+		  	<version>8.0.0</version>
 		</dependency>
-		
+		<dependency>
+  		  	<groupId>com.github.thelinmichael</groupId>
+  			<artifactId>spotify-web-api-java</artifactId>
+  			<version>master-SNAPSHOT</version>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-tomcat</artifactId>
