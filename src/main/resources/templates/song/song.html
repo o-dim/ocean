@@ -6,13 +6,20 @@
 	function fnSportifySearch(){
 	    $('#searchBtn').click(function() {	    	
 	        $.ajax({
-	            url: '/song/spotifysearch',
+	            url: '/song/spotifysearch.do',
 	            type: 'GET',
 	            data: 'q=' + $('#q').val(),
 	            dataType: 'json',
 	            success: function(resData) {
-	                $('#result').text('Artist: ' + resData.artist);
-	                $('#result').text('song: ' + resData.song);
+					$('#result').empty();
+	                $('#result').append('검색결과갯수: ' + resData.total);
+	                $.each(resData.songList, function(i, song){
+		                $('#result').append(song.title);
+		                $('#result').append(song.singer);
+		                $('#result').append('<img src="' + song.imgUrl +'" width="640" height="480">');
+		                $('#result').append(song.preview);
+		                $('#result').append('<div>-----</div>');						
+					})
 	            }
 	        });
 	    });	

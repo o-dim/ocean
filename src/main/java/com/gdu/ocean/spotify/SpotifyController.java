@@ -1,6 +1,7 @@
 package com.gdu.ocean.spotify;
 
-import org.springframework.http.ResponseEntity;
+import java.util.Map;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,13 +24,10 @@ public class SpotifyController {
 		return "/song/myplaylist.html";
 	}
 
-	@GetMapping("/spotifysearch")
+	@GetMapping("/spotifysearch.do")
 	@ResponseBody
-	public ResponseEntity<SpotifySearch> searchArtist(@RequestParam("q") String q) {
-		spotifyService.spotifySearch(q);
-		return ResponseEntity.ok(null);
-	//public List<Map<String, Object>> searchArtist(@RequestParam("q") String query) {
-	  //  return spotifySearch.searchTracks_Sync(query);
+	public Map<String, Object> spotifysearch(@RequestParam("q") String q) {
+		return spotifyService.spotifySearch(q);
 	}
     
     @GetMapping("/callback")
