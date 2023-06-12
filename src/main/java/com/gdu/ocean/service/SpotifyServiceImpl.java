@@ -70,7 +70,9 @@ public class SpotifyServiceImpl implements SpotifyService {
 			System.out.println("Error: " + e.getMessage());
 		}
 		
-		return resultMap;
+		return resultMap;	// Map 안에 리스트가 들어있다. resultMap는 total과 songList라는 두 개의 항목을 가지고 있다. 
+							// total은 검색 결과의 총 개수를 나타내는 정수 값이고, songList는 노래 정보를 담은 리스트 
+							// 각각의 노래 정보는 title, singer, imgUrl, preview라는 키를 가지고 있는 맵 객체로 구성
 
 	}
 	

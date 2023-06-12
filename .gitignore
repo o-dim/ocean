@@ -4,6 +4,12 @@
 # application.yaml
 application.yaml
 
+#accessToken.java
+accessToken.java
+
+#app.js
+app.js
+
 ### Java ###
 # Compiled class file
 *.class
