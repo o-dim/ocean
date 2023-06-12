@@ -11,4 +11,10 @@ public class MvcController {
 		return "index"; // src/main/resources/templates/index.html
 	}
 	
+
+	@GetMapping("/index.do")
+	public String index() {
+		return "index";
+	}
+	
 }
