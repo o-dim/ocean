@@ -1,70 +1,69 @@
 package com.gdu.ocean.service;
 
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.hc.core5.http.ParseException;
 import org.springframework.stereotype.Service;
 
-import com.gdu.ocean.domain.SpotifyTrackDTO;
+import com.gdu.ocean.spotify.AccessToken;
+import com.neovisionaries.i18n.CountryCode;
+import com.wrapper.spotify.SpotifyApi;
+import com.wrapper.spotify.model_objects.specification.ArtistSimplified;
+import com.wrapper.spotify.model_objects.specification.Paging;
+import com.wrapper.spotify.model_objects.specification.Track;
+import com.wrapper.spotify.requests.data.search.simplified.SearchTracksRequest;
 
-import lombok.RequiredArgsConstructor;
-import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
-import se.michaelthelin.spotify.model_objects.specification.ArtistSimplified;
-import se.michaelthelin.spotify.model_objects.specification.Paging;
-import se.michaelthelin.spotify.model_objects.specification.Track;
-import se.michaelthelin.spotify.requests.data.search.simplified.SearchTracksRequest;
-
-@RequiredArgsConstructor
 @Service
 public class SpotifyServiceImpl implements SpotifyService {
 	
-	private SearchTracksRequest searchTracksRequest;
-	
 	@Override
-	public List<SpotifyTrackDTO> searchArtist(String keyword) {
-		List<SpotifyTrackDTO> tracklist = new ArrayList<>();
-        try {
-            final Paging<Track> trackPaging = searchTracksRequest.execute();
-            Track[] tracks = trackPaging.getItems();
-            if (tracks.length > 0) {
-                Track track = tracks[0];
-                SpotifyTrackDTO spotifyTrackDTO = new SpotifyTrackDTO();
-                spotifyTrackDTO.setTitle(track.getName());
-                spotifyTrackDTO.setAlbumName(track.getAlbum().getName());
-                spotifyTrackDTO.setImageUrl(track.getAlbum().getImages());
-                spotifyTrackDTO.setArtistName(track.getArtists()[0].getName());
+	public void spotifySearch(String q) {
+		
+		// 검색해서 가수 노래 나오게 하기
+	    SpotifyApi spotifyApi = new SpotifyApi.Builder()
+	    .setAccessToken(AccessToken.accessToken())
+	    .build();
 
-                tracklist.add(spotifyTrackDTO);
-            }
+		SearchTracksRequest searchTracksRequest = spotifyApi.searchTracks(q)
+				.market(CountryCode.KR)
+		          .limit(10)
+		          .offset(0)
+		          .includeExternal("audio")
+				.build();
+			
+		String preview = "";
+		Track track = null;
+		ArtistSimplified artist = null;
+		List<Map<String, Object>> list = new ArrayList<>(); 
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		try {
+			
+			final Paging<Track> trackPaging = searchTracksRequest.execute();
 
-        } catch (IOException | SpotifyWebApiException | ParseException e) {
-            // 예외 처리
-        }
-        return tracklist;
+			System.out.println(trackPaging.toString());
+			
+//				System.out.println("Total: " + trackPaging.getTotal());
+			track = trackPaging.getItems()[0];	//해당가수의 첫번째 음악
+			
+			String title = track.getName();
+			String singer = track.getArtists()[0].getName();
+            
+			
+			map.put("title", title);
+			map.put("singer", singer);
+			list.add(map);
+//				artist=trackPaging.getItems()[0].getArtists()[0];	//해당 노래를 부르는 메인 가수
+//				preview = trackPaging.getItems()[0].getPreviewUrl();	//미리듣기
+//				System.out.println("미리듣기 : " +preview);
+			
+
+		} catch (Exception e) {
+			System.out.println("Error: " + e.getMessage());
+		}
+
 	}
 	
-
-	
-	
-
-//	@Override
-//	public List<SpotifyTrackDTO> SearchSong(String keyword) {
-//		
-//		List<SpotifyTrackDTO> tracklist = new ArrayList<>();
-//		Track track = null;
-//		
-//		try {
-//			final Paging<Artist> trackPaging = searchArtistRequest.execute();
-//
-//			track = trackPaging.getItems()[0];
-//			spotifyTrackDTO.setArtistName(track.getName());
-//		} catch (Exception e) {
-//			// TODO: handle exception
-//		}
-//		return null;
-//	}
 }
