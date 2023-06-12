@@ -43,13 +43,20 @@ public class SpotifyServiceImpl implements SpotifyService {
 			
 			final Paging<Track> trackPaging = searchTracksRequest.execute();
 
-			System.out.println(trackPaging.toString());
-			
+			for (int i = 0; i < 10; i++) {
+				
+			}
 //				System.out.println("Total: " + trackPaging.getTotal());
 			track = trackPaging.getItems()[0];	//해당가수의 첫번째 음악
 			
 			String title = track.getName();
 			String singer = track.getArtists()[0].getName();
+			System.out.println("제목 : "+track.getName());
+			System.out.println("가수 : "+track.getArtists()[0].getName());
+            System.out.println(track.getAlbum().getImages()[0].getUrl());
+			artist=trackPaging.getItems()[0].getArtists()[0];	//해당 노래를 부르는 메인 가수
+			preview = trackPaging.getItems()[0].getPreviewUrl();	//미리듣기
+			System.out.println("미리듣기 : " +preview);
             
 			
 			map.put("title", title);
