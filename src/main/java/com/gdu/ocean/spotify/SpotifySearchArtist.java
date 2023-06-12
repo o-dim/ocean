@@ -10,10 +10,11 @@ import com.wrapper.spotify.requests.data.search.simplified.SearchArtistsRequest;
 import com.wrapper.spotify.requests.data.search.simplified.SearchTracksRequest;
 
 import org.apache.hc.core5.http.ParseException;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
-@service
+@Service
 public class SpotifySearchArtist {
     static String q = "Abba";	
     // 특정 가수 검색해서 가수 노래 나오게 하기
