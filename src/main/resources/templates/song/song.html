@@ -1,63 +1,94 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{/layout/header::oceanHead('song')}"></head>
+<script th:src="@{/js/lib/jquery-3.6.4.min.js}"></script>
 <style>
-
-	table {
-		font-size: 24px;
-	}
-
-	tr,th {
-		text-align: center;
-	}
-	th {
-        vertical-align: top;
+    table {
+        font-size: 16px;
+        border-collapse: collapse;
+        margin: 0 auto;
+    }
+    
+    tr, th, td {
+        text-align: center;
+        border: transparent;
+        padding: 8px;
+    }
+    
+    td {
+        font-size: 16px;
+        vertical-align: middle;
+        text-align: center;
+    }
+    
+    .title {
+        margin-bottom: 5px;
     }
 
+    .singer {
+        margin-top: 5px;
+    }
+    
+    .search_query {
+    	display: flex;
+   	 	align-items: center;
+    	justify-content: center;
+    	gap: 10px;
+    	margin-top: 20px;
+	}
+    
+    #q {
+		width: 200px;
+		font-size: 16px;
+	}
+	
+	#searchBtn {
+		width: 80px;
+		font-size: 16px;
+	}
+    
+    
 </style>
 </head>
 <script>
-	function fnSportifySearch(){
-	    $('#searchBtn').click(function() {	    	
-	        $.ajax({
-	            url: '/song/spotifysearch.do',
-	            type: 'GET',
-	            data: 'q=' + $('#q').val(),
-	            dataType: 'json',
-	            success: function(resData) {
-					$('#result').empty();
-	                $('#result').append('검색결과 : ' + resData.total);
-					$('#result').append('<table>');
-					$('#result').append('<tr><th>title</th><th>singer</th><th>image</th><th>preview</th></tr>');
-	                $.each(resData.songList, function(i, song){
-		
-					var row = '<tr>';
-                    row += '<td>' + song.title + '</td>';
-                    row += '<td>' + song.singer + '</td>';
-                    row += '<td><img src="' + song.imgUrl + '" width="160" height="120"></td>';
-                    row += '<td>' + song.preview + '</td>';
-                    row += '</tr>';
-                    $('#result').append(row);			
-		                
-                
-                	$('#result').append('</table>');      			
-					})
-	            }
-	        });
-	    });	
-	}
-	
-	$(function(){
-		fnSportifySearch();
-	})
+    function fnSportifySearch() {
+        $('#searchBtn').click(function() {	    	
+            $.ajax({
+                url: '/song/spotifysearch.do',
+                type: 'GET',
+                data: 'q=' + $('#q').val(),
+                dataType: 'json',
+                success: function(resData) {
+                    $('#result').empty();
+                    $('#result').append('검색결과 : ' + resData.total);
+                    var table = $('<table>');
+                    var tableHeader = '<tr><th></th><th>title</th><th>preview</th></tr>';
+                    table.append(tableHeader);
+                    $.each(resData.songList, function(i, song) {
+                        var row = $('<tr>');
+                        var img_td = $('<td>').append('<img src="' + song.imgUrl + '" width="240" height="180">');
+                        var title_td = $('<td>').append('<div class="title">' + song.title + '</div><div class="singer">' + song.singer + '</div>');
+                        var preview_td = $('<td>').append('<a href="' + song.preview + '">미리듣기</a>');
+                        row.append(img_td, title_td, preview_td);
+                        table.append(row);
+                    });
+                    $('#result').empty().append(table);
+                }
+            });
+        });
+    }
+    
+    $(function() {
+        fnSportifySearch();
+    });
 </script>
 
 <body>
     <h1>Spotify Search</h1>
-
-	<input type="text" id="q">
-    <button id="searchBtn">Search</button>
-    <div id="result"></div>
-
+    <div class="search_query">
+    	<input type="text" id="q">
+    	<button id="searchBtn">Search</button>
+    </div>
+    	<div id="result"></div>
 </body>
 </html>
