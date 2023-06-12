@@ -35,6 +35,11 @@ public class SpotifyController {
         return spotifyService.searchArtist(keyword);
     }
     
+    @GetMapping("/callback")
+    public String callback() {
+    	return "/song/callback.html";
+    }
+    
 	
 //	@GetMapping(value="/searchSong.do", produces = "application/json")
 //	@ResponseBody
