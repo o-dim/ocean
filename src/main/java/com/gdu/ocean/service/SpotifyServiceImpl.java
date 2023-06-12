@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import com.gdu.ocean.spotify.AccessToken;
 import com.neovisionaries.i18n.CountryCode;
 import com.wrapper.spotify.SpotifyApi;
-import com.wrapper.spotify.model_objects.specification.ArtistSimplified;
 import com.wrapper.spotify.model_objects.specification.Paging;
 import com.wrapper.spotify.model_objects.specification.Track;
 import com.wrapper.spotify.requests.data.search.simplified.SearchTracksRequest;
@@ -19,7 +18,9 @@ import com.wrapper.spotify.requests.data.search.simplified.SearchTracksRequest;
 public class SpotifyServiceImpl implements SpotifyService {
 	
 	@Override
-	public void spotifySearch(String q) {
+	public Map<String, Object> spotifySearch(String q) {
+		
+		int limit = 20;
 		
 		// 검색해서 가수 노래 나오게 하기
 	    SpotifyApi spotifyApi = new SpotifyApi.Builder()
@@ -28,48 +29,48 @@ public class SpotifyServiceImpl implements SpotifyService {
 
 		SearchTracksRequest searchTracksRequest = spotifyApi.searchTracks(q)
 				.market(CountryCode.KR)
-		          .limit(10)
+		          .limit(limit)
 		          .offset(0)
 		          .includeExternal("audio")
 				.build();
 			
-		String preview = "";
 		Track track = null;
-		ArtistSimplified artist = null;
-		List<Map<String, Object>> list = new ArrayList<>(); 
-		Map<String, Object> map = new HashMap<String, Object>();
+		List<Map<String, String>> songList = new ArrayList<>(); 
+		Map<String, Object> resultMap = new HashMap<String, Object>();
 		
 		try {
 			
 			final Paging<Track> trackPaging = searchTracksRequest.execute();
-
-			for (int i = 0; i < 10; i++) {
+			int total = trackPaging.getTotal(); // 검색해서 나온 총 갯수
+			
+			resultMap.put("total", total);
+			
+			for (int i = 0; i < limit; i++) {
+				
+				track = trackPaging.getItems()[i];	// 해당가수의 첫번째 음악
+				
+				String title = track.getName();                             // 제목 
+				String singer = track.getArtists()[0].getName();            // 이 노래 가수이름
+				String imgUrl = track.getAlbum().getImages()[0].getUrl();   // 앨범이미지
+				String preview = trackPaging.getItems()[0].getPreviewUrl();	//미리듣기
+				
+				Map<String, String> song = new HashMap<>();
+				song.put("title", title);
+				song.put("singer", singer);
+				song.put("imgUrl", imgUrl);
+				song.put("preview", preview);
+				
+				songList.add(song);
 				
 			}
-//				System.out.println("Total: " + trackPaging.getTotal());
-			track = trackPaging.getItems()[0];	//해당가수의 첫번째 음악
 			
-			String title = track.getName();
-			String singer = track.getArtists()[0].getName();
-			System.out.println("제목 : "+track.getName());
-			System.out.println("가수 : "+track.getArtists()[0].getName());
-            System.out.println(track.getAlbum().getImages()[0].getUrl());
-			artist=trackPaging.getItems()[0].getArtists()[0];	//해당 노래를 부르는 메인 가수
-			preview = trackPaging.getItems()[0].getPreviewUrl();	//미리듣기
-			System.out.println("미리듣기 : " +preview);
-            
-			
-			map.put("title", title);
-			map.put("singer", singer);
-			list.add(map);
-//				artist=trackPaging.getItems()[0].getArtists()[0];	//해당 노래를 부르는 메인 가수
-//				preview = trackPaging.getItems()[0].getPreviewUrl();	//미리듣기
-//				System.out.println("미리듣기 : " +preview);
-			
+			resultMap.put("songList", songList);
 
 		} catch (Exception e) {
 			System.out.println("Error: " + e.getMessage());
 		}
+		
+		return resultMap;
 
 	}
 	
