@@ -8,7 +8,7 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <style>
 
-        .whiteon {
+        body {
             height: 100vh;
             width: 100vw;
             background-size: cover;
@@ -83,10 +83,8 @@
 </head>
 <body>
 	<header th:replace="~{/layout/header::oceanHeader}"></header>
-	
-	<div class="whiteon" data-aos="fade-up">
-    <div class="logo-top"><img th:src="@{/photo/OCEAN.png}" ></div>
-    <div class="logo-btm"><img th:src="@{/photo/OCEAN.png}" ></div>
+    <div class="logo-top" data-aos="fade-up"><img th:src="@{/photo/OCEAN.png}" ></div>
+    <div class="logo-btm" data-aos="fade-up"><img th:src="@{/photo/OCEAN.png}" ></div>
 	<div class="wrapper" data-aos="fade-up">
         <div class="center-slider">
             <div><img class="slick-slide" th:src="@{/photo/unnamed-2.jpg}" ></div>
@@ -103,7 +101,6 @@
             <div><img class="slick-slide" th:src="@{/photo/unnamed.jpg}" ></div>
           </div>
       </div>
-    </div>
       <script>
         $(document).ready(function(){
         	$('.center-slider').slick({
@@ -137,8 +134,8 @@
         		  ]
         		});
             })
+          // 스크롤 시 위로 뜨게 하는 것 
           AOS.init();
-
         </script>
 </body>
 

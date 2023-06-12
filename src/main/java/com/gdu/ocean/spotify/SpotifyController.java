@@ -1,21 +1,15 @@
-package com.gdu.ocean.controller;
+package com.gdu.ocean.spotify;
 
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.gdu.ocean.domain.SpotifyTrackDTO;
 import com.gdu.ocean.service.SpotifyService;
 
 import lombok.RequiredArgsConstructor;
-
 
 @RequiredArgsConstructor
 @Controller
@@ -29,22 +23,17 @@ public class SpotifyController {
 		return "/song/myplaylist.html";
 	}
 
-    @GetMapping(value="/search-artist.do", produces="application/json")
-    @ResponseBody
-    public List<SpotifyTrackDTO> searchArtist(@RequestParam("keyword") String keyword) {
-        return spotifyService.searchArtist(keyword);
-    }
+	@GetMapping("/spotifysearch")
+	@ResponseBody
+	public ResponseEntity<SpotifySearch> searchArtist(@RequestParam("q") String q) {
+		spotifyService.spotifySearch(q);
+		return ResponseEntity.ok(null);
+	//public List<Map<String, Object>> searchArtist(@RequestParam("q") String query) {
+	  //  return spotifySearch.searchTracks_Sync(query);
+	}
     
     @GetMapping("/callback")
     public String callback() {
     	return "/song/callback.html";
     }
-    
-	
-//	@GetMapping(value="/searchSong.do", produces = "application/json")
-//	@ResponseBody
-//	public List<SpotifyTrackDTO> searchSong(HttpServletRequest request) {
-//		String keyword = request.getParameter("keyword");
-//		return spotifyService.SearchSong(keyword);
-//	}
 }
