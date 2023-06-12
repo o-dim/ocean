@@ -1,6 +1,20 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{/layout/header::oceanHead('song')}"></head>
+<style>
+
+	table {
+		font-size: 24px;
+	}
+
+	tr,th {
+		text-align: center;
+	}
+	th {
+        vertical-align: top;
+    }
+
+</style>
 </head>
 <script>
 	function fnSportifySearch(){
@@ -12,13 +26,21 @@
 	            dataType: 'json',
 	            success: function(resData) {
 					$('#result').empty();
-	                $('#result').append('검색결과갯수: ' + resData.total);
+	                $('#result').append('검색결과 : ' + resData.total);
+					$('#result').append('<table>');
+					$('#result').append('<tr><th>title</th><th>singer</th><th>image</th><th>preview</th></tr>');
 	                $.each(resData.songList, function(i, song){
-		                $('#result').append(song.title);
-		                $('#result').append(song.singer);
-		                $('#result').append('<img src="' + song.imgUrl +'" width="640" height="480">');
-		                $('#result').append(song.preview);
-		                $('#result').append('<div>-----</div>');						
+		
+					var row = '<tr>';
+                    row += '<td>' + song.title + '</td>';
+                    row += '<td>' + song.singer + '</td>';
+                    row += '<td><img src="' + song.imgUrl + '" width="160" height="120"></td>';
+                    row += '<td>' + song.preview + '</td>';
+                    row += '</tr>';
+                    $('#result').append(row);			
+		                
+                
+                	$('#result').append('</table>');      			
 					})
 	            }
 	        });
