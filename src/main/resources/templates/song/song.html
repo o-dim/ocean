@@ -4,7 +4,7 @@
 <script th:src="@{/js/lib/jquery-3.6.4.min.js}"></script>
 <style>
     table {
-        font-size: 16px;
+        font-size: 20px;
         border-collapse: collapse;
         margin: 0 auto;
     }
@@ -16,7 +16,7 @@
     }
     
     td {
-        font-size: 16px;
+        font-size: 20px;
         vertical-align: middle;
         text-align: center;
     }
@@ -39,18 +39,19 @@
     
     #q {
 		width: 200px;
-		font-size: 16px;
+		font-size: 18px;
 	}
 	
 	#searchBtn {
 		width: 80px;
-		font-size: 16px;
+		font-size: 18px;
 	}
     
     
 </style>
 </head>
 <script>
+
     function fnSportifySearch() {
         $('#searchBtn').click(function() {	    	
             $.ajax({
@@ -78,9 +79,36 @@
         });
     }
     
+    function fnRecommendsong() {
+		$('#recommendBtn').click(function(){
+	        $.ajax({
+	            url: '/song/recommendsong.do',
+	            type: 'GET',
+	            data: 'mood=' + $('#mood').val(),
+	            dataType: 'json',
+	            success: function(resData) {
+	                $('#recommendResult').empty();
+	                var table = $('<table>');
+	                var tableHeader = '<tr><th>title</th><th>preview</th></tr>';
+	                table.append(tableHeader);
+	                $.each(resData, function(i, song) {
+	                    var row = $('<tr>');
+	                    var title_td = $('<td>').append('<div class="title">' + song.title + '</div><div class="singer">' + song.singer + '</div>');
+	                    var preview_td = $('<td>').append('<audio src="' + song.preview + '" controls></audio>');
+	                    row.append(title_td, preview_td);
+	                    table.append(row);
+	                });
+	                $('#recommendResult').append(table);
+	            }
+	        });
+		})
+    }
+    
     $(function() {
         fnSportifySearch();
+        fnRecommendsong();
     });
+    
 </script>
 
 <body>
@@ -89,6 +117,26 @@
     	<input type="text" id="q">
     	<button id="searchBtn">Search</button>
     </div>
-    	<div id="result"></div>
+    <div id="result">
+    </div>
+    
+    <h1>recommendSong</h1>
+    <form>
+	    <select id="mood">
+	    	<option value="">선택하세요</option>
+	    	<option value="sad">sad</option>
+	    	<option value="happy">happy</option>
+	    	<option value="chill">chill</option>
+	    	<option value="groove">groove</option>
+	    	<option value="summer">summer</option>
+	    	<option value="romance">romance</option>
+	    	<option value="r-n-b">r-n-b</option>
+	    	<option value="dance">dance</option>
+		</select>
+		<input type="button" value="조회" id="recommendBtn">
+    </form>
+    <div id="recommendResult">
+    </div>
+	
 </body>
 </html>
