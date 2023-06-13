@@ -1,5 +1,9 @@
 @charset "UTF-8";
-
+	
+	.nav_title1 {
+	margin-right: 40%;
+	}
+	
 	.nav_ocean_link1 {
 	z-index: 1;
 	width: 808px;
@@ -215,17 +219,22 @@
 	  font-family: lato, sans-serif;
 	  font-size: 16px;
 	  line-height: 1.2em;
-	  height: 100vh;
+	  height: 50vh;
 	  align-items: center;
 	  background-color: #efefef;
 	  background-image: -webkit-linear-gradient(-225deg, #efefef 0%, #ffffff 100%);
 	  background-image: linear-gradient(-225deg, #efefef 0%, #ffffff 100%);
 	  
 	}
+	
+	
+	
+
 
 	
 	#top {
 		display: flex;
+
 	}
 	
 	h1 {
@@ -237,6 +246,7 @@
 	  line-height: 1.2em;
 	  letter-spacing: 0.03em;
 	  margin-bottom: 1.66em;
+	  margin-right: 3em;
 	}
 	
 	h1:after {
@@ -279,3 +289,11 @@
 	border-bottom: 2px solid #c0bfbe;
 	}
 	
+	
+	/* detail css */
+	
+	#DetailImg {
+		width: 500;
+		height: 500;
+	
+	}

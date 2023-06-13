@@ -46,5 +46,17 @@ public class ShopServiceImpl implements ShopService {
 		model.addAttribute("pagination", pageUtil.getPagination(request.getContextPath() + "/shop/list.do"));
 	
 }
+	
+	@Override
+	public void getCdByNo(int cdNo, Model model) {
+		model.addAttribute("cdDetail", shopMapper.getCdByNo(cdNo));
+		//model.addAttribute(null, model)
+	}
+	
+	//@Override
+	//public void getCartCount(int cdNo) {
+		
+		
+	}
+	
 
-}

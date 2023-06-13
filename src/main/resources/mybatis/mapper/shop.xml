@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.gdu.ocean.mapper.ShopMapper">
+<!-- namespace는 @Mapper를 지정한다. -->
+
+<!-- 
+<resultMap type="CartDetailDTO" id="CartDetailMap">
+		<id column="CART_DETAIL_NO" property="cartDetailNo" />
+			<result column="COUNT" property="count" />
+			<result column="CART_NO" property="cartNo" />
+		<association javaType="CdDTO" property="cdNo">
+			<id column="CD_NO" property="cdNo" />
+			<result column="TITLE" property="title" />
+			<result column="SINGER" property="singer" />
+			<result column="MAIN_IMG" property="mainImg" />
+			<result column="DETAIL_IMG" property="detailImg" />
+			<result column="PRICE" property="price" />
+			<result column="STOCK" property="stock" />
+			<result column="RECOMMEND_COUNT" property="recommendCount" />
+			<result column="WRITED_AT" property="writedAt" />
+		</association>
+	</resultMap>
+ -->
+	
+
+
+
+	<select id="getShopCount" resultType="int">
+		SELECT COUNT(*)
+		 FROM CD
+	</select>
+	
+	<select id="getShopList" parameterType="Map" resultType="CdDTO">
+	SELECT C.CD_NO, C.TITLE, C.SINGER, C.MAIN_IMG, C.DETAIL_IMG, C.PRICE, C.STOCK, C.RECOMMEND_COUNT, C.WRITED_AT
+		FROM (SELECT CD_NO, TITLE, SINGER, MAIN_IMG, DETAIL_IMG, PRICE, STOCK, RECOMMEND_COUNT, WRITED_AT
+			FROM CD) C
+		  ORDER BY WRITED_AT DESC
+		 LIMIT #{begin}, #{recordPerPage}
+	</select>
+	
+	<select id="getCdByNo">
+		SELECT CD_NO, TITLE, SINGER, MAIN_IMG, DETAIL_IMG, PRICE, STOCK, RECOMMEND_COUNT, WRITED_AT
+			FROM CD
+		WHERE CD_NO = #{cdNo}
+	</select>
+	
+	<!-- 
+	
+	<select id="getCartCount" parameterType="Map" resultMap="CartDetailMap">
+		SELECT CART_DETAIL_NO, COUNT, CART_NO, CD_NO
+			FROM CART_DETAIL
+		WHERE CD_NO = #{cdNo}
+	</select>
+	 -->
+	
+
+</mapper>

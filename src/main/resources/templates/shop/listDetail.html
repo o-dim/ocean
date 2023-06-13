@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{/layout/shopHeader::shopHead('welcome')}"></head>
+<!-- <head th:replace="~{/layout/header::oceanHead('welcome')}"></head> -->
+<body>
+
+	<header th:replace="~{layout/shopHeader::shopHeader}"></header>
+	<!-- 빠진거 : 해시태그, 앨범 설명, 로그인 세션 유무(장바구니, 구매하기 로그인여부에따라) -->
+	<form>
+		<div>
+			<table>
+				<tr>
+					<td id="DetailImg"><img th:src="${cdDetail.mainImg}" ></td>
+					<td th:text="${cdDetail.title}"></td>
+				</tr>
+				<tr>
+					<td th:text="${cdDetail.price}"></td>
+					<td><h3>수량</h3></td>
+					<td><input type="button" class="plus" value="+" onclick="btnPlus()"></td>
+					<td>0</td>
+					<td><input type="button" class="minus" value="-" onclick="btnMinus()"></td>
+					<!--<td><a th:text="${cdDetail.recommendCount}">b</a></td>-->
+					<td><input type="button" value="장바구니" class="detailCart"></td>
+					<td><input type="button" value="구매하기" class="detailBuy" ></td>
+				</tr>
+			</table>
+		</div>
+	</form>
+	
+	<script th:inline="javascript">
+    
+		var buyCount = 0;
+	    var stock = /*[[${stock}]]*/ null;
+	    
+	    function btnPlus() {
+	    	buyCount++;
+	    	buyCount = (buyCount <= stock) ? buyCount : stock;
+	   	}
+	    
+	    function btnMinus() {
+	    	buyCount--;
+	    	buyCount = (buyCount >= 0) ? buyCount : 0;
+	    }
+    
+	</script>
+
+</body>
+</html>

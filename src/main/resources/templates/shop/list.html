@@ -4,7 +4,7 @@
 <!-- <head th:replace="~{/layout/header::oceanHead('welcome')}"></head> -->
 <body>
 		<div class="nav_title1">
-    		<img th:src="@{/photo/OCEAN.png}" class="nav_ocean_link1" th:onclick="fnOcean()" >	
+    		<img th:src="@{/photo/OCEAN.png}" class="nav_ocean_link1" th:onclick="'fnBackground()'" th:ondblclick="'fnOcean()'" >	
       	</div>
 		<div id="top">
 			<div id="new">
@@ -30,14 +30,16 @@
 		</div>
 		<div>
 		</div>
+		
+		
 		<div id="cdTable">
-			<table border="1">
+			<table>
 				<tbody>
 					<th:block th:each="cd,vs:${cdList}">
 						<tr class="cdList">
-							<td><img th:src="${cd.mainImg}"></td>
-							<td th:text="${cd.cdNo}"></td>
-							<td th:text="${cd.title}"></td>
+							<td id="listMainImg"><a th:href="@{/shop/listDetail.do(cdNo=${cd.cdNo})}"><img th:src="@{${cd.mainImg}}"/></a></td>
+							<td><a th:href="@{/shop/listDetail.do(cdNo=${cd.cdNo})}" th:text="${cd.cdNo}"></a></td>
+							<td><a th:href="@{/shop/listDetail.do(cdNo=${cd.cdNo})}" th:text="${cd.title}"></a></td>
 							<td th:text="${cd.singer}"></td>
 							<td th:text="${cd.price}"></td>
 							<td th:text="${cd.stock}"></td>
@@ -47,18 +49,24 @@
 			</table>
 		<div th:utext="${pagination}"></div>
 		</div>	
+	
 		
 		
 		<script>
-		var clicked = false;
-   		  function fnOcean() {
-   			if(!clicked) {
-   				document.body.classList.add("oceanClicked");
-   			}else{
-   			 location.href='/index.do';
-   			} 
-   			clicked = !clicked;
-   		  }
+			function fnBackground() {
+				 $('body').css({
+					 	'background-image': 'linear-gradient(to top, rgba(0, 3, 30, 1) 40%,  #0C0D0D, #3C3D3E, #A6A5A4, #D8D7D7), url("https://media.tenor.com/RCu7qA-pVOwAAAAd/water-sparkling.gif")',
+					    'background-size': 'cover',
+				    	'background-blend-mode': 'overlay'
+				 }),
+				 
+				 $('.nav_title1').css({
+					 	'color': 'gray'
+				 });
+			}
+			function fnOcean() {
+	   			location.href='/index.do';	 
+	 		}
 		</script>
 		
 		
