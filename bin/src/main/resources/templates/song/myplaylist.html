@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{/layout/header::oceanHead('playlist')}"></head>
+</head>
+<script>
+	function fnPlaylist() {
+		$('#playBtn').click(function(){
+			$.ajax({
+				url: '/song/myplaylist.do',
+				type: 'GET',
+				dataType: 'json',
+				success: function(resData) {
+					
+					var tracks = [];
+				}
+			})
+		})
+	}
+</script>
+<body>
+	<h1>내 플레이리스트</h1>
+	<div class="play_music">
+		<button id="playBtn">Play</button>
+	</div>
+	<div>
+		<table border="1">
+			<tr>
+				<th>플레이리스트</th>
+			</tr>
+			<tr>
+				<td>음악1</td>
+			</tr>
+			<tr>
+				<td>음악2</td>
+			</tr>
+			<tr>
+				<td>음악3</td>
+			</tr>
+		</table>
+	</div>
+	
+</body>
+</html>

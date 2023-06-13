@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace는 @Mapper를 지정한다. -->
+
+<mapper namespace="com.gdu.ocean.mapper.ShopMapper">
+	<select id="getShopCount" resultType="int">
+		SELECT COUNT(*)
+		 FROM CD
+	</select>
+	
+	<select id="getShopList" parameterType="Map" resultType="CdDTO">
+	SELECT C.CD_NO, C.TITLE, C.SINGER, C.MAIN_IMG, C.DETAIL_IMG, C.PRICE, C.STOCK, C.RECOMMEND_COUNT, C.WRITED_AT
+		FROM (SELECT CD_NO, TITLE, SINGER, MAIN_IMG, DETAIL_IMG, PRICE, STOCK, RECOMMEND_COUNT, WRITED_AT
+			FROM CD) C
+		  ORDER BY WRITED_AT DESC
+		 LIMIT #{begin}, #{recordPerPage}
+	</select>
+	
+
+	
+
+</mapper>

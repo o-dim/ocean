@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{/layout/shopHeader::shopHead('welcome')}"></head>
+<!-- <head th:replace="~{/layout/header::oceanHead('welcome')}"></head> -->
+<body>
+		<div class="nav_title1">
+    		<img th:src="@{/photo/OCEAN.png}" class="nav_ocean_link1" th:onclick="fnOcean()" >	
+      	</div>
+		<div id="top">
+			<div id="new">
+				<h1>new</h1>
+				<header th:replace="~{layout/shopHeader::shopHeader}"></header>
+			</div>
+			<div id="picture">
+				<img th:src="@{/photo/blackpink2.jpg}">
+			</div>	
+		</div>
+		
+		
+		<div>
+			<form id="frmSearch" th:action="@{#}">
+				<select name="search" id="search">
+					<option value="new">new</option> 
+					<option value="artist">artist</option> 
+					<option value="hot">hot</option> 
+				</select>
+			<input type="text" id="searchText" name="searchText">
+			<span class="material-icons" onclick="fnSearch()">search</span>
+			</form>
+		</div>
+		<div>
+		</div>
+		<div id="cdTable">
+			<table border="1">
+				<tbody>
+					<th:block th:each="cd,vs:${cdList}">
+						<tr class="cdList">
+							<td><img th:src="${cd.mainImg}"></td>
+							<td th:text="${cd.cdNo}"></td>
+							<td th:text="${cd.title}"></td>
+							<td th:text="${cd.singer}"></td>
+							<td th:text="${cd.price}"></td>
+							<td th:text="${cd.stock}"></td>
+						</tr>
+					</th:block>
+				</tbody>
+			</table>
+		<div th:utext="${pagination}"></div>
+		</div>	
+		
+		
+		<script>
+		var clicked = false;
+   		  function fnOcean() {
+   			if(!clicked) {
+   				document.body.classList.add("oceanClicked");
+   			}else{
+   			 location.href='/index.do';
+   			} 
+   			clicked = !clicked;
+   		  }
+		</script>
+		
+		
+
+</body>
+</html>

@@ -7,139 +7,182 @@
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <style>
+	@font-face {
+    font-family: 'HSBombaram21-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.0/HSBombaram21-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+	}
+	
+	.blackon{
+		left: 0;
+		top: 0;
+		width: 100vw;
+		height: 110vh;
+		background-image : url("/photo/index1.svg");
+		background-size: cover;
+		position: relative;
 
-        .whiteon {
-            height: 100vh;
-            width: 100vw;
-            background-size: cover;
-            /* background: no-repeat center fixed; */
-       		/* background-image: url("https://bestanimations.com/media/water/404701640water-ripples-close-up-animated-gif.gif"); */
-       		background-image: url("https://media.tenor.com/RCu7qA-pVOwAAAAd/water-sparkling.gif");
-       		background-attachment: scroll;
-           /*  background-color: #efefef; */
-        }
-        /* .blackon {
-        	height : 100vh;
-        	            width: 100vw;
-        	
-        	background-color: black;
-        	background-attachment: fixed;
-        } */
-        .wrapper{
-            padding: 10% 0;
-        }
-        /* Default slide */
-        .center-slider .slick-slide{
-            height: auto;
-            display: flex;
-            margin-bottom : 40px;
-            align-items: center;
-            justify-content: center;
-            transform: scale(0.8, 0.8);
-        }
-        
-        .center-slider .slick-slide,
-        .center-slider .slick-slide[aria-hidden="true"]:not(.slick-cloned) ~ .slick-cloned[aria-hidden="true"] {
-            transform: scale(0.8, 0.8);
-        }
+	}
+	.oceanBtn {
+		position: absolute;
+	    width: 300px;
+	    top : 30%;
+	    left : calc(50vw - 150px);
+	
+	}
 
-        /* Active center slide (You can change anything here for center slide)*/
-        .center-slider .slick-center,
-        .center-slider .slick-current.slick-active,
-        .center-slider .slick-slide[aria-hidden="true"]:not([tabindex="-1"]) + .slick-cloned[aria-hidden="true"] {
-            transform: scale(1.0, 1.0);
-            background-color: rgba(0, 0, 0, 0.5);
-            border-radius: 20px;
-            background-position: center;
-        }
- 
-        .slick-next, .slick-prev{
-            z-index: 5;
-        }
-        .slick-next{
-            right: 15px;
-        }
-        .slick-prev{
-            left: 15px;
-        }
+	.whiteon {
+	    height: 120vh;
+	    width: 100vw;
+	    background-size: cover;
+		/* background-image: url("https://bestanimations.com/media/water/404701640water-ripples-close-up-animated-gif.gif"); */
+		/* background-image: url("https://media.tenor.com/RCu7qA-pVOwAAAAd/water-sparkling.gif"); */
+		background-image : linear-gradient(rgba(0, 0, 0, 0.527), rgba(0, 0, 0, 0.3)), url("https://i.pinimg.com/originals/c6/a2/fb/c6a2fb8cd65edc585019348f6aa48e45.gif");
+		background-attachment: scroll;
+	   	/*  background-color: #efefef; */
+	    position: relative;
+	   
+	}
 
-        img {
-            width: 100%;
-            height: 100%;
-        }
-        .logo-top {
-            position: absolute;
-            left: -25px;
-            top: -15px;
-            width: 60%;
-        }
-        .logo-btm {
-        	position: absolute;
-        	bottom: 0;
-        	right : 10px;
-        	width: 60%;
-        }
+	.logo-text {
+		position : absolute;
+		margin-top : 10%;
+		left : 10%;
+		color: white;
+	}
+	.first-line {
+    	font-family: 'HSBombaram21-Regular';
+		font-weight: 300;
+		font-size : 18px;
+	}
+
+	
+	.wrapper{
+	    padding: 15% 0;
+	}
+	
+	/* Default slide */
+	.center-slider .slick-slide{
+	    height: auto;
+	    margin-bottom : 40px;
+	    align-items: center;
+	    justify-content: center;
+	    transform: scale(0.8, 0.8);
+	}
+	
+	
+	.center-slider .slick-slide,
+	.center-slider .slick-slide[aria-hidden="true"]:not(.slick-cloned) ~ .slick-cloned[aria-hidden="true"] {
+	    transform: scale(0.8, 0.8);
+	}
+	
+	/* Active center slide (You can change anything here for center slide)*/
+	.center-slider .slick-center,
+	.center-slider .slick-current.slick-active,
+	.center-slider .slick-slide[aria-hidden="true"]:not([tabindex="-1"]) + .slick-cloned[aria-hidden="true"] {
+	    transform: scale(1.0, 1.0);
+	    background-color: rgba(0, 0, 0, 0.5);
+	    border-radius: 20px;
+	    background-position: center;
+	}
+	
+	.slick-next, .slick-prev{
+	    z-index: 5;
+	}
+	.slick-next{
+	    right: 15px;
+	}
+	.slick-prev{
+	    left: 15px;
+	}
+	
+	img {
+	    width: 100%;
+	    height: 100%;
+	}
+	.logo-top {
+	    position: absolute;
+	    left: -25px;
+	    top: -15px;
+	    width: 40%;
+	}
+	.logo-btm {
+		position: absolute;
+		bottom: 0;
+		right : 10px;
+		width: 40%;
+	}
 </style>
 </head>
 <body>
 	<header th:replace="~{/layout/header::oceanHeader}"></header>
-	
-	<div class="whiteon" data-aos="fade-up">
-    <div class="logo-top"><img th:src="@{/photo/OCEAN.png}" ></div>
-    <div class="logo-btm"><img th:src="@{/photo/OCEAN.png}" ></div>
-	<div class="wrapper" data-aos="fade-up">
-        <div class="center-slider">
-            <div><img class="slick-slide" th:src="@{/photo/unnamed-2.jpg}" ></div>
-            <div><img class="slick-slide" th:src="@{/photo/unnamed-3.jpg}" ></div>
-            <div><img class="slick-slide" th:src="@{/photo/unnamed-4.jpg}" ></div>
-            <div><img class="slick-slide" th:src="@{/photo/unnamed-5.jpg}" ></div>
-            <div><img class="slick-slide" th:src="@{/photo/unnamed-6.jpg}" ></div>
-            <div><img class="slick-slide" th:src="@{/photo/unnamed.jpg}" ></div>
-            <div><img class="slick-slide" th:src="@{/photo/unnamed-2.jpg}" ></div>
-            <div><img class="slick-slide" th:src="@{/photo/unnamed-3.jpg}" ></div>
-            <div><img class="slick-slide" th:src="@{/photo/unnamed-4.jpg}" ></div>
-            <div><img class="slick-slide" th:src="@{/photo/unnamed-5.jpg}" ></div>
-            <div><img class="slick-slide" th:src="@{/photo/unnamed-6.jpg}" ></div>
-            <div><img class="slick-slide" th:src="@{/photo/unnamed.jpg}" ></div>
-          </div>
-      </div>
+	<div class="blackon" data-aos="fade-up">
+		<div><img th:src="@{/photo/oceanBtn.svg}" data-aos="fade-up" data-aos-delay="300" class="oceanBtn"></div>
+	</div>
+	<div class="whiteon">
+		<div class=logo-wrap data-aos="fade-up">
+			<div class="logo-top"><img th:src="@{/photo/OCEAN.png}" ></div>
+			<div class="logo-text" data-aos="fade-up" data-aos-delay="400">
+				<div class="first-line"></div>
+				<!-- <div class="second-line">지금 가입해서 음악의 OCEAN을 경험해보세요</div> -->
+			</div>
+		</div>
+	    <!-- <div class="logo-btm"><img th:src="@{/photo/OCEAN.png}" ></div> -->
+		<div class="wrapper" data-aos="fade-up" data-aos-delay="800">
+	        <div class="center-slider">
+	            <div><img class="slick-slide" th:src="@{/photo/unnamed-2.jpg}" ></div>
+	            <div><img class="slick-slide" th:src="@{/photo/unnamed-3.jpg}" ></div>
+	            <div><img class="slick-slide" th:src="@{/photo/unnamed-4.jpg}" ></div>
+	            <div><img class="slick-slide" th:src="@{/photo/unnamed-5.jpg}" ></div>
+	            <div><img class="slick-slide" th:src="@{/photo/unnamed-6.jpg}" ></div>
+	            <div><img class="slick-slide" th:src="@{/photo/unnamed.jpg}" ></div>
+	            <div><img class="slick-slide" th:src="@{/photo/unnamed-2.jpg}" ></div>
+	            <div><img class="slick-slide" th:src="@{/photo/unnamed-3.jpg}" ></div>
+	            <div><img class="slick-slide" th:src="@{/photo/unnamed-4.jpg}" ></div>
+	            <div><img class="slick-slide" th:src="@{/photo/unnamed-5.jpg}" ></div>
+	            <div><img class="slick-slide" th:src="@{/photo/unnamed-6.jpg}" ></div>
+	            <div><img class="slick-slide" th:src="@{/photo/unnamed.jpg}" ></div>
+	          </div>
+	      </div>
     </div>
-      <script>
-        $(document).ready(function(){
-        	$('.center-slider').slick({
-        		  centerMode: true,
-        		  centerPadding: '30px',
-        		  slidesToShow: 5,
-        		  arrows : false,
-        		  speed : 300,
-        		  infinite : true,
-        		  autoplaySpeed: 4000,
-        		  autoplay : true,
-        		  responsive: [
-        		    {
-        		      breakpoint: 768,
-        		      settings: {
-        		        arrows: false,
-        		        centerMode: true,
-        		        centerPadding: '20px',
-        		        slidesToShow: 3
-        		      }
-        		    },
-        		    {
-        		      breakpoint: 480,
-        		      settings: {
-        		        arrows: false,
-        		        centerMode: true,
-        		        centerPadding: '20px',
-        		        slidesToShow: 1
-        		      }
-        		    }
-        		  ]
-        		});
-            })
-          AOS.init();
+    <audio src=""></audio>
+<script>
+$(document).ready(function(){
+	$('.center-slider').slick({
+		  centerMode: true,
+		  centerPadding: '30px',
+		  slidesToShow: 5,
+		  arrows : false,
+		  speed : 300,
+		  infinite : true,
+		  autoplaySpeed: 8000,
+		  autoplay : true,
+		  responsive: [
+		    {
+		      breakpoint: 768,
+		      settings: {
+		        arrows: false,
+		        centerMode: true,
+		        centerPadding: '20px',
+		        slidesToShow: 3
+		      }
+		    },
+		    {
+		      breakpoint: 480,
+		      settings: {
+		        arrows: false,
+		        centerMode: true,
+		        centerPadding: '20px',
+		        slidesToShow: 1
+		      }
+		    }
+		  ]
+		});
+    })
+  AOS.init();
 
-        </script>
+</script>
 </body>
 
 </html>
