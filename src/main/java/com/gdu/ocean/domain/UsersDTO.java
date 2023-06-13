@@ -21,6 +21,8 @@ public class UsersDTO {
 	private String detailAddress;
 	private String name;
 	private Date joinedAt;
-	
+	private int agreecode;
+	private String autologinEmail;
+	private Date autologinExpiredAt;
 
 }

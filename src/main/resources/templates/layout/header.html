@@ -26,7 +26,6 @@
             <!-- 왼쪽 서브 메뉴 -->
             <div class="left_sub_menu">
                 <div class="sub_menu">
-                    <!--키보드에 과자 떨어졌네...........화이탱  -->
                     <ul class="big_menu" id="quitMenu">
                     	<li> X </li>
                     </ul>
@@ -64,8 +63,9 @@
                     <ul class="big_menu">
                         <li>ADMIN</li>
                         <ul class="small_menu">
-                            <li><a href="#">소메뉴2-1</a></li>
-                            <li><a href="#">소메뉴2-2</a></li>
+                             <li><a th:href="@{/users/login.html}">로그인</a></li>
+                            <li><a th:href="@{/users/agree.html}">회원가입</a></li>
+                            <li><a th:href="@{/users/mypage.html}">마이페이지</a></li>
                         </ul>
                     </ul>
                 </div>
