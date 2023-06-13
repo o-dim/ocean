@@ -1,5 +1,7 @@
 package com.gdu.ocean.service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,8 +12,13 @@ import org.springframework.stereotype.Service;
 import com.gdu.ocean.spotify.AccessToken;
 import com.neovisionaries.i18n.CountryCode;
 import com.wrapper.spotify.SpotifyApi;
+import com.wrapper.spotify.model_objects.specification.ArtistSimplified;
 import com.wrapper.spotify.model_objects.specification.Paging;
+import com.wrapper.spotify.model_objects.specification.PlaylistTrack;
+import com.wrapper.spotify.model_objects.specification.Recommendations;
 import com.wrapper.spotify.model_objects.specification.Track;
+import com.wrapper.spotify.model_objects.specification.TrackSimplified;
+import com.wrapper.spotify.requests.data.browse.GetRecommendationsRequest;
 import com.wrapper.spotify.requests.data.search.simplified.SearchTracksRequest;
 
 @Service
@@ -52,8 +59,8 @@ public class SpotifyServiceImpl implements SpotifyService {
 				String title = track.getName();                             // 제목 
 				String singer = track.getArtists()[0].getName();            // 이 노래 가수이름
 				String imgUrl = track.getAlbum().getImages()[0].getUrl();   // 앨범이미지
-				String preview = trackPaging.getItems()[0].getPreviewUrl();	//미리듣기
-				
+				String preview = trackPaging.getItems()[0].getPreviewUrl();	// 미리듣기
+				track.getUri();
 				Map<String, String> song = new HashMap<>();
 				song.put("title", title);
 				song.put("singer", singer);
@@ -76,4 +83,69 @@ public class SpotifyServiceImpl implements SpotifyService {
 
 	}
 	
+	// uri, name, artist, album, image, 
+//	@Override
+//	public Map<String, Object> spotifyPlaylist() {
+//		
+//		SpotifyApi spotifyApi = new SpotifyApi.Builder()
+//			    .setAccessToken(AccessToken.accessToken())
+//			    .build();
+//		
+//		int limit = 20;
+//		LocalDateTime now = LocalDateTime.now();
+//		String playlist_id = now.getHour() + "" + now.getMinute() + "" + now.getSecond();
+//		List<String> selectSongs = new ArrayList<>();
+//		selectSongs.add(e)
+//		
+//		PlaylistTrack playlistTrack = spotifyApi.addItemsToPlaylist(playlist_id, uris));
+//		 
+//		 Track track = null;
+//		
+//		return null;
+//	}
+	
+	@Override
+	public List<Map<String, String>> getRecommendsong(String mood){
+
+		  SpotifyApi spotifyApi = new SpotifyApi.Builder()
+		    .setAccessToken(AccessToken.accessToken())
+		    .build();
+
+		  
+		  GetRecommendationsRequest getRecommendationsRequest = spotifyApi.getRecommendations()
+	          .limit(30)
+	          .market(CountryCode.KR)
+	          .max_popularity(100)
+	          .min_popularity(80)
+	          .seed_genres(mood)
+//	          .target_popularity(20)
+	          .build();
+		  
+		List<Map<String, String>> songList = new ArrayList<>(); 
+		  
+	    try {
+	    	
+	      final Recommendations recommendations = getRecommendationsRequest.execute();
+	      
+	      for(TrackSimplified track :  recommendations.getTracks()) {
+			String preview = track.getPreviewUrl();
+			String title = track.getName();                     // 제목 
+			String singer = track.getArtists()[0].getName();    // 이 노래 가수이름
+			Map<String, String> song = new HashMap<>();
+			song.put("title", title);
+			song.put("singer", singer);
+			song.put("preview", preview);
+			
+			songList.add(song);
+	      
+	      }
+			
+	    } catch (Exception e) {
+		      e.printStackTrace();
+	    }
+
+	    return songList;
+	    
+	}
+		
 }
