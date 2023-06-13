@@ -20,7 +20,7 @@ public class SleepUsersDTO {
 	private String jibunAddress;
 	private String detailAddress;
 	private String name;
-	private Date joinedAt;
+	private UsersDTO joinedAt;
 	private Date sleptAt;
 
 }
