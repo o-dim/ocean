@@ -2,96 +2,195 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
 <script th:src="@{/js/lib/jquery-3.6.4.min.js}"></script>
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js" integrity="sha512-3j3VU6WC5rPQB4Ld1jnLV7Kd5xr+cq9avvhwqzbH/taCRNURoeEpoPBK9pDyeukwSxwRPJ8fDgvYXd6SkaZ2TA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script th:inline="javascript">
+// 로그인하기
+function fnLogin(){
   
-  // $.cookie() : jquery-cookie 라이브러리가 필요함
-
-  // 로그인하기
-  function fnLogin(){
+  $('#frmLogin').on('submit', function(event){
     
-    $('#frmLogin').on('submit', function(event){
-      
-      // 아이디, 비밀번호 공백 검사
-      if($('#email').val() == '' || $('#pw').val() == ''){
-        alert('아이디와 비밀번호를 모두 입력하세요.');
-        event.preventDefault();
-        return;
-      }
-      
-      // 아이디 기억을 체크하면 rememberId 쿠키에 입력된 아이디를 저장
-      if($('#chkRememberEmail').is(':checked')){
-        $.cookie('rememberEmail', $('#id').val());
-      } else {
-        $.cookie('rememberEmail', '');
-      }
-      
-    });
-    
-  }
-  
-  // 쿠키에 기억된 아이디 보여주기(아이디 기억)
-  function fnDisplayRememberId(){
-    
-    // rememberId 쿠키에 저장된 아이디를 가져와서 표시
-    
-    let rememberId = $.cookie('rememberEmail');
-    if(rememberId == ''){
-      $('#email').val('');
-      $('#chkRememberEmail').prop('checked', false);
-    } else {
-      $('#email').val(rememberEmail);
-      $('#chkRememberEmail').prop('checked', true);
+    // 아이디, 비밀번호 공백 검사
+    if($('#email').val() == '' || $('#pw').val() == ''){
+      alert('아이디와 비밀번호를 모두 입력하세요.');
+      event.preventDefault();
+      return;
     }
-    
-  }
-  
-  $(function(){
-    fnLogin();
-    fnDisplayRememberId();
+   
   });
   
+}
+
+$(function(){
+    fnLogin();
+    //fnDisplayRememberId();
+  });
 </script>
+    <style>
+        body {
+            background-color: #E9E9E9;
+            font-size: 15px;
+        }
+
+        .logo-top {
+            position: absolute;
+            left: -85px;
+            top: 25px;
+            width: 40%;
+        }
+
+        .logo-btm {
+            position: absolute;
+            bottom: 0;
+            right: 160px;
+            width: 40%;
+        }
+
+        #box {
+
+            position: absolute;
+            width: 480px;
+            height: 530px;
+            left: 35%;
+            margin-left: -25px;
+            margin-top: -25px;
+            top: 20%;
+            background-color: #000;
+            opacity: 0.7;
+            border-radius: 20px;
+            box-shadow: 8px 8px 8px #585858;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start; 
+            padding-left: 90px; 
+        }
+
+        input {
+            width: 380px;
+            border: none;
+            border-bottom: 1px solid white;
+            outline: none;
+            background-color: transparent;
+            margin-bottom: 20px;
+            color: white;
+            font-size: 15px;
+        }
+        
+
+        #container {
+         	margin-top: -50px;
+            margin-bottom: 30px;
+            text-align: left;
+            color: white;
+        }
+        
+        .form-row {
+	    display: flex;
+	    flex-direction: column;
+    }
+    
+        button {
+        background-color: transparent;
+        font-size: 15px;
+	    width: 400px;
+	    height: 50px;
+	    margin-bottom: 20px;
+	    color:white;
+	    border: 1px solid white;
+	    border-radius: 20px;
+	    text-align: center;
+	    cursor:pointer
+    }
+    
+    .simpleLogin {
+    display: flex;
+    }
+
+    
+      #n-login {
+     	display: block;
+     	background-color:#0aa620;
+     	width: 190px;
+     	height: 50px;
+     	border: 1px solid white;
+     	border-radius: 20px;
+     	justify-content: center;
+     	margin-right: 20px;
+     	cursor:pointer
+     }
+     
+     #k-login {
+     	  display: block;
+   		  background-color: #ffc631;
+     	  width: 190px;
+     	  height: 50px;
+     	  border: 1px solid white;
+     	  border-radius: 20px;
+     	  cursor:pointer
+     }
+     
+     .radio input {
+     	width: 10px;
+     	cursor:pointer
+     }
+     
+     .link a {
+     	color: white;
+     	text-decoration-line: none;
+     }
+    </style>
 </head>
 <body>
-	<header th:replace="~{/layout/header::oceanHeader}"></header>
-	<div>
-  
-    <h1>로그인</h1>
-    
-    <form id="frmLogin" method="post" th:action="@{/users/login.do}">
-      
-      <!-- 로그인 이후에 이동할 주소 -->
-      <input type="hidden" name="url" value="@{/index.html}">
-      
-      <div>
-        <label for="email">아이디</label>
-        <input type="text" name="id" id="id" textholder="@을 포함한 메일 주소 입력">
-      </div>
-      
-      <div>
-        <label for="pw">비밀번호</label>
-        <input type="password" name="pw" id="pw">
-      </div>
-      
-      <div>     
-        <button>로그인</button>
-      </div>
-      
-      <div>
-        <input type="checkbox" id="chkRememberId">
-        <label for="chkRememberId">아이디 기억</label>
-        <input type="checkbox" name="chkAutologin" id="chkAutologin">
-        <label for="chkAutologin">자동 로그인</label>
-      </div>
-    
-    </form>
-      
-    <div>
-      <a th:href="@{/users/findEmail.html}">아이디 찾기</a> | 
-      <a th:href="@{/users/findPw.html}">비밀번호 찾기</a> |
-      <a th:href="@{/users/agree.html}">회원가입</a>
-    </div>
-  
-  </div>
+<div class="logo-top">
+    <img th:src="@{/photo/OCEAN2.png}">
+</div>
+<div class="logo-btm">
+    <img th:src="@{/photo/OCEAN2.png}">
+</div>
+
+	<div id="container">
+ 		<form id="frmLogin" method="post" th:action="@{/users/login.do}">
+ 		<!-- 로그인 이후에 이동할 주소 -->
+      	<input type="hidden" name="url" th:value="${url}">
+		    <div id="box">
+		
+		        <div class="intro" style="margin-bottom: 30px;">
+		            <div>당신이 찾던 음악,</div>
+		            <div>모두 오션에서</div>
+		        </div>
+		        <div class="form-row">
+		            <label for="email">이메일</label>
+		            <input type="text" name="email" id="email" placeholder="example@naver.com">
+		        </div>
+		        <div class="form-row">
+		            <label for="pw">비밀번호</label>
+		            <input type="password" name="pw" id="pw">
+		        </div>
+		        <div class="radio">
+		            <input type="radio" name="autoLogin" id="autoLogin" value="autoLogin">자동 로그인
+		            <input type="radio" name="chkRememberEmail" id="chkRememberEmail" value="chkRememberEmail">이메일 저장
+		      
+		        </div>
+		            
+		         <div class="login">
+		            <button>로그인</button>
+		        </div>
+		        <div>
+	
+		      </div>
+		        <div class="simpleLogin">
+		            <input type="button" name="n-login" id="n-login" value="네이버로그인">
+		            <input type="button" name="k-login" id="k-login" value="카카오로그인">
+		        </div>
+		        <div class="link">
+			        <a th:href="@{/users/findEmail.html}">아이디 / 비밀번호가 기억나지 않으신가요?</a><br>
+			        <a th:href="@{/users/agree.html}">가입으로 음악의 오션을 누려보기</a>
+		        </div>
+		    </div>
+	 </form>
+	</div>
+
 </body>
 </html>

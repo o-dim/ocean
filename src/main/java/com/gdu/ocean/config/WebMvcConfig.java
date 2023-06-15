@@ -17,9 +17,10 @@ public class WebMvcConfig implements WebMvcConfigurer{
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(loginCheckInterceptor)
-			.addPathPatterns("/bbs/write.html", "/upload/write.html")			.addPathPatterns("/user/logout.do");
-	registry.addInterceptor(loginCheckInterceptor)
-			.addPathPatterns("/**") // 모든 요청
-		.excludePathPatterns("/user/leave.do"); // 제외할 요청
+			    .addPathPatterns("/bbs/write.html", "/upload/write.html")			
+			    .addPathPatterns("/user/logout.do");
+     	registry.addInterceptor(loginCheckInterceptor)
+			    .addPathPatterns("/**") // 모든 요청
+		        .excludePathPatterns("/users/out.do"); // 제외할 요청
 	}
 }

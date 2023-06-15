@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -62,10 +63,14 @@ public class UsersController {
 	
 	@GetMapping("/login.html")
 	public String loginForm(HttpServletRequest request, Model model) {
-		// 요청 헤더 referer : 로그인 화면으로 이동하기 직전의 주소를 저장하는 헤더 값
-		String url = request.getHeader("referer");
-	    model.addAttribute("url", url == null ? request.getContextPath() : url);
-		return "users/login";
+	    // 요청 헤더 referer: 로그인 화면으로 이동하기 직전의 주소를 저장하는 헤더 값
+	    String url = request.getHeader("referer");
+
+	    // 컨텍스트 경로를 가져오기 위해 HttpServletRequestWrapper를 사용합니다.
+	    String contextPath = new HttpServletRequestWrapper(request).getContextPath();
+
+	    model.addAttribute("url", url == null ? contextPath : url);
+	    return "users/login";
 	}
 	
 	@PostMapping("/login.do")

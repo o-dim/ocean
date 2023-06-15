@@ -1,6 +1,8 @@
 package com.gdu.ocean.util;
 
+import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Component;
@@ -29,20 +31,26 @@ public class SecurityUtil {
     5. 32바이트 -> 16진수로 변환하면 64글자가 생성된다. (DB 칼럼의 크기를 VARCHAR2(64 BYTE)로 설정한다.)
     6. java.security 패키지를 이용한다.
   */
-  public String getSha256(String str) {
-    MessageDigest messageDigest = null;
-    try {
-      messageDigest = MessageDigest.getInstance("SHA-256");
-      messageDigest.update(str.getBytes());
-    } catch(Exception e) {
-      e.printStackTrace();
-    }
-    byte[] b = messageDigest.digest();  // 암호화된 32바이트 크기의 byte 배열 b가 생성된다.
-    StringBuilder sb = new StringBuilder();
-    for(int i = 0; i < b.length; i++) {
-      sb.append( String.format("%2X", b[i]) );  // %X : 16진수를 의미, %2X : 2자리의 16진수를 의미
-    }
-    return sb.toString();
-  }
+  public String getSha256(String plainText) {
+	  
+	    StringBuffer hexSHA256hash = new StringBuffer();
+
+	    try {
+	        MessageDigest mdSHA256 = MessageDigest.getInstance("SHA-256");
+	        mdSHA256.update(plainText.getBytes("UTF-8"));
+	        byte[] sha256Hash = mdSHA256.digest();
+	        for (byte b : sha256Hash) {
+	            String hexString = String.format("%02x", b);
+	            hexSHA256hash.append(hexString);
+	        }
+	    } catch (NoSuchAlgorithmException e) {
+	        e.printStackTrace();
+	    } catch (UnsupportedEncodingException e) {
+	        e.printStackTrace();
+	    }
+	    	
+	    return hexSHA256hash.toString();
+	    
+	}
   
 }
