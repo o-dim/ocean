@@ -5,90 +5,91 @@
 <link rel="stylesheet" th:href="@{/summernote-0.8.18-dist/summernote-lite.min.css}">
 <script>
 
-	
-	$(function(){
+   
+   $(function(){
 		$('#content').summernote({
 			width: 800,
 			height: 600,
 			lang: 'ko-KR',
 			toolbar: [
-				['insert', ['link', 'picture']]
+				['insert', ['link', 'picture', 'video']],
+				['view', ['fullscreen', 'codeview', 'help']]
 			]
 		})
 	})
-	
-		$(function(){
-		$('#hashtag1').on('click', function(){
-			$('#hashtagtext1').toggleClass('checked');
-		})
-	})
-		$(function(){
-		$('#hashtag2').on('click', function(){
-			$('#hashtagtext2').toggleClass('checked');
-		})
-	})
-		$(function(){
-		$('#hashtag3').on('click', function(){
-			$('#hashtagtext3').toggleClass('checked');
-		})
-	})
-		$(function(){
-		$('#hashtag4').on('click', function(){
-			$('#hashtagtext4').toggleClass('checked');
-		})
-	})
-		$(function(){
-		$('#hashtag5').on('click', function(){
-			$('#hashtagtext5').toggleClass('checked');
-		})
-	})
-	
-	
-	
-	
-	
+   
+      $(function(){
+      $('#hashtag1').on('click', function(){
+         $('#hashtagtext1').toggleClass('checked');
+      })
+   })
+      $(function(){
+      $('#hashtag2').on('click', function(){
+         $('#hashtagtext2').toggleClass('checked');
+      })
+   })
+      $(function(){
+      $('#hashtag3').on('click', function(){
+         $('#hashtagtext3').toggleClass('checked');
+      })
+   })
+      $(function(){
+      $('#hashtag4').on('click', function(){
+         $('#hashtagtext4').toggleClass('checked');
+      })
+   })
+      $(function(){
+      $('#hashtag5').on('click', function(){
+         $('#hashtagtext5').toggleClass('checked');
+      })
+   })
+   
+   
+   
+   
+   
 </script>
 
 <body>
 
-	<div th:replace="~{/layout/managerheader::gnbFrag}"></div>
-	
-	<div class="all">
-		<form method="post" th:action="@{/manager/add.do}">
-			<div class="add">
-				<div>
-					<label for="title">CD이름</label>
-					<input type="text" id="title" name="title">
-				</div>
-				<div>
-					<label for="singer">아티스트</label>
-					<input type="text" id="singer" name="singer">				
-				</div>
-				<div>
-					<div class="hashtag"><span>해시태그&nbsp;&nbsp;&nbsp;</span>
-					<div class="hashtag_1" th:each="ht:${hashtagList}">
-						<span>
-						<input type="checkbox" name="hashtagNoList" th:value="${ht.htNo}" th:id="|hashtag${ht.htNo}|">
-						<label th:for="|hashtag${ht.htNo}|" th:id="|hashtagtext${ht.htNo}|" th:text="${ht.name}"></label>
-						</span>
-					</div>
-					</div>
-				</div>
-				<div>
-					<label for="price">CD가격</label>
-					<input type="text" id="price" name="price">
-				</div>
-				<div>
-					<label for="files">이미지 업로드</label>
-					<div id="fileList">
-						<textarea id="content" name="content"></textarea>
-					</div>
-				</div>
-			</div>
-			<div class="btn">
-				<button>상품 등록하기</button>
-			</div>
-		</form>
-	</div>		
+   <div th:replace="~{/layout/managerheader::gnbFrag}"></div>
+   
+   <div class="all">
+      <form method="post" th:action="@{/manager/add.do}">
+         <div class="add">
+            <div>
+               <label for="title">CD이름</label>
+               <input type="text" id="title" name="title">
+            </div>
+            <div>
+               <label for="singer">아티스트</label>
+               <input type="text" id="singer" name="singer">   
+            </div>
+            <div>
+               <div class="hashtag"><span>해시태그&nbsp;&nbsp;&nbsp;</span>
+               <div class="hashtag_1" th:each="ht:${hashtagList}">
+                  <span>
+                  <input type="checkbox" name="hashtagNoList" th:value="${ht.htNo}" th:id="|hashtag${ht.htNo}|">
+                  <label th:for="|hashtag${ht.htNo}|" th:id="|hashtagtext${ht.htNo}|" th:text="${ht.name}"></label>
+                  </span>
+               </div>
+               </div>
+            </div>
+            <div>
+               <label for="price">CD가격</label>
+               <input type="text" id="price" name="price">
+            </div>
+            <div>
+               <label for="files">이미지 업로드</label>
+               <div id="fileList">
+                  <textarea id="content" name="content"></textarea>
+               </div>
+            </div>
+         </div>
+         <div class="btn">
+            <button>상품 등록하기</button>
+         </div>
+      </form>
+   </div>      
 </body>
 </html>
