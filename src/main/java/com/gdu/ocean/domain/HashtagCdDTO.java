@@ -12,4 +12,5 @@ public class HashtagCdDTO {
 	private int htcdNo;
 	private CdDTO cdNo;
 	private HashtagDTO htNo;
+	private HashtagDTO hashtagDTO;
 }

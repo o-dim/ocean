@@ -8,7 +8,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class HashtagDTO {
+	
 	private int htNo;
 	private String name;
+	private int cdNo;
 
 }

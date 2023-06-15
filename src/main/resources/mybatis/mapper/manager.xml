@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace는 @Mapper를 지정한다. -->
+<mapper namespace="com.gdu.ocean.mapper.ManagerMapper">
+
+	<!-- CdDTO에서 HashtagDTO에있는 htNo를 가져오기위해 -->
+	<resultMap type="CdDTO" id="CdMap">
+		<id column="CD_NO" property="cdNo"/>
+		<result column="TITLE" property="title"/>
+		<result column="SINGER" property="singer"/>
+		<result column="MAIN_IMG" property="mainImg"/>
+		<result column="DETAIL_IMG" property="detailImg"/>
+		<result column="PRICE" property="price"/>
+		<result column="STOCK" property="stock"/>
+		<result column="RECOMMEND_COUNT" property="recommendCount"/>
+		<result column="WRITED_AT" property="writedAt"/>
+		<association javaType="HashtagCdDTO" property="hashtagCdDTO">
+			<id column="HTCD_NO" property="htcdNo"/>
+			<association javaType="HashtagDTO" property="hashtagDTO">
+				<id column="HT_NO" property="htNo"/>
+				<result column="NAME" property="name" />
+			</association>
+		</association>
+	</resultMap>
+
+
+	<select id="getUserCount" resultType="int">
+		SELECT COUNT(*)
+		  FROM USERS
+	</select>
+	
+	<select id="getCdCount" resultType="int">
+		SELECT COUNT(*)
+		  FROM CD
+	</select>
+	
+	<!-- SaleList, Pagination, Search -->
+	<select id="getSaleList" parameterType="Map" resultMap="CdMap">
+		SELECT A.CD_NO, A.TITLE, A.SINGER, A.MAIN_IMG, A.DETAIL_IMG, A.PRICE, A.STOCK, A.RECOMMEND_COUNT, A.WRITED_AT, A.HT_NO,A.NAME
+		  FROM (SELECT C.CD_NO, C.TITLE, C.SINGER, C.MAIN_IMG, C.DETAIL_IMG, C.PRICE, C.STOCK, C.RECOMMEND_COUNT, C.WRITED_AT, H.HT_NO,H.NAME
+		  		  FROM CD C LEFT OUTER JOIN HASHTAG_CD TC
+		  		    ON C.CD_NO = TC.CD_NO LEFT OUTER JOIN HASHTAG H
+		  		    ON TC.HT_NO = H.HT_NO
+		  		 <where>
+		  		 	<if test="query != ''">
+		  		 		TITLE LIKE CONCAT('%', #{query}, '%')
+		  		 	</if>
+		  		 </where>
+		  		 ) A
+		 ORDER BY CD_NO ASC
+		 LIMIT #{begin}, #{recordPerPage}
+	</select>
+	
+	<!-- SaleList에서 삭제 -->
+	<delete id="removeCd" parameterType="int">
+		DELETE
+		  FROM CD
+		 WHERE CD_NO = #{cdNo}
+	</delete>
+	
+	<!-- SaleList에서 cdNo를 불러왔을 때 htNo를 가져오기 -->
+	<select id="getHashtagByNo" parameterType="String" resultType="HashtagDTO">
+		SELECT H.HT_NO, H.NAME, C.CD_NO
+		  FROM HASHTAG_CD TC LEFT OUTER JOIN  HASHTAG H 
+		    ON H.HT_NO = TC.HT_NO LEFT OUTER JOIN CD C
+		    ON TC.CD_NO = C.CD_NO
+		 WHERE C.CD_NO IN 
+		 	   <foreach item="cdn" collection="cdNo" open="(" separator="," close=")">
+		 	    #{cdn}
+		 	   </foreach>
+	</select>
+	
+	<!-- cdadd에서 htNo가져오기 -->
+	<select id="getHashtagList" resultType="HashtagDTO">
+		SELECT HT_NO, NAME
+		  FROM HASHTAG
+		 ORDER BY HT_NO ASC
+	</select>
+	
+	<!-- member.html에서 회원목록 조회 및 Pagination -->
+	<select id="getUserListPagination" parameterType="Map" resultType="UsersDTO">
+		SELECT A.USER_NO, A.NAME, A.EMAIL, A.PW, A.PHONENO, A.POSTCODE, A.ROAD_ADDRESS, A.JIBUN_ADDRESS, A.DETAIL_ADDRESS, A.JOINED_AT 
+		  FROM (SELECT USER_NO, NAME, EMAIL, PW, PHONENO, POSTCODE, ROAD_ADDRESS, JIBUN_ADDRESS, DETAIL_ADDRESS, JOINED_AT
+		  		  FROM USERS) A
+		 ORDER BY USER_NO DESC
+		 LIMIT #{begin}, #{recordPerPage}
+	</select>
+	
+<!-- 	<insert id="addCd" useGeneratedKeys="true" keyProperty="cdNo" parameterType="CdDTO">
+		INSERT INTO CD(
+			TITLE
+		  , SINGER
+		  , MAIN_IMG
+		  , DETAIL_IMG
+		  , PRICE
+		  , STOCK
+		  , RECOMMEND_COUNT
+		  , WRITED_AT
+		) VALUES (
+			#{title}
+		  , #{singer}
+		  , #{mainImg}
+		  , #{detailImg}
+		  , #{price}
+		  , #{stock}
+		  , 0
+		  , NOW()
+		)
+	</insert> -->
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+</mapper>

@@ -20,4 +20,5 @@ public class CdDTO {
 	private int stock;
 	private int recommendCount;
 	private Date writedAt;
+	private HashtagCdDTO hashtagCdDTO; 
 }

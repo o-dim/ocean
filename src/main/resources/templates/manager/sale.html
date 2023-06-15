@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{/layout/managerheader::headFrag('매출')}">
+</head>
+<link rel="stylesheet" th:href="@{/css/sale.css(ver=1.0)}">
+<script>
+	
+	$(document).ready(function(){
+		setDateBox();
+	});
+	
+	function setDateBox(){
+		var dt = new Date();
+		var year = dt.getFullYear();
+
+		for(var y = (year); y >=(year-10); y--){
+			if(year == y) {
+				$("#year1").append("<option selected value='"+ y +"'>"+ y + " 년  " +"</option>");
+			}else{
+				$("#year1").append("<option value='"+ y +"'>"+ y + " 년  " +"</option>");
+			}
+		}
+	}
+
+	
+</script>
+
+<body>
+
+	<div th:replace="~{/layout/managerheader::gnbFrag}"></div>
+
+	<div class="all">
+		<div>
+			<select id="year1" name="year1">
+			
+			</select>
+		</div>
+		<div class="wrap">
+			<table>
+				<tr>
+					<td>1월</td>
+					<td>----- 총매출액</td>
+				</tr>
+				<tr>
+					<td>2월</td>
+					<td>----- 총매출액</td>
+				</tr>
+				<tr>
+					<td>3월</td>
+					<td>----- 총매출액</td>
+				</tr>
+				<tr>
+					<td>4월</td>
+					<td>----- 총매출액</td>
+				</tr>
+				<tr>
+					<td>5월</td>
+					<td>----- 총매출액</td>
+				</tr>
+				<tr>
+					<td>6월</td>
+					<td>----- 총매출액</td>
+				</tr>
+				<tr>
+					<td>7월</td>
+					<td>----- 총매출액</td>
+				</tr>
+				<tr>
+					<td>8월</td>
+					<td>----- 총매출액</td>
+				</tr>
+				<tr>
+					<td>9월</td>
+					<td>----- 총매출액</td>
+				</tr>
+				<tr>
+					<td>10월</td>
+					<td>----- 총매출액</td>
+				</tr>
+				<tr>
+					<td>11월</td>
+					<td>----- 총매출액</td>
+				</tr>
+				<tr>
+					<td>12월</td>
+					<td>----- 총매출액</td>
+				</tr>
+			</table>
+			<span style="font-size:32px;">총 매출</span>
+		</div>
+	</div>
+	
+	
+	
+</body>
+</html>

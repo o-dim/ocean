@@ -1,0 +1,135 @@
+@charset "UTF-8";
+
+
+	body {
+		background-color: #e9e9e9;
+	}
+
+	.header {
+		width: 800px;
+		display: flex;
+		justify-content: space-between;
+		font-size: 25px;
+		margin-left: 350px;
+		margin-bottom: 50px;
+		margin-top: 50px;
+	}
+	
+	.header > a {
+		text-decoration: none;
+		color: white;
+		border-radius: 10px; 
+	}
+	
+	.header > a:hover {
+		background-color: black;
+	}
+
+	.all {
+		width: 1000px;
+		height: 930px;
+		margin: 0 auto;
+	}
+	
+	.add {
+		margin: 0 auto;
+		background-color: #d9d9d9;
+		width: 950px;
+		height: 950px;
+		padding-top: 60px;
+		padding-right: 50px;
+
+	}
+	
+	.add > div {
+		margin-left: 100px;
+		margin-top:20px;
+	}
+	
+	#fileList {
+		margin-top:50px;
+		width: 800px;
+		height: 600px;
+		background-color: white;
+	}
+	
+	.btn {
+		width: 1000px;		
+		text-align: center;
+		margin-top: 30px;
+		
+	}
+	
+	button {
+		font-size: 40px;
+		border:1px solid black;
+		background-color: #e9e9e9;
+		border-radius: 15px;
+	}
+	
+	button:hover {
+	cursor: pointer;
+}
+	
+	.hashtag{
+		width: 800px;
+		display: flex;
+		justify-content: space-between;
+		text-align: center;
+		line-height: 30px;
+	}
+	
+	#hashtag1{
+		display: none;
+	}
+	
+	#hashtag2{
+		display: none;
+	}
+	
+	#hashtag3{
+		display: none;
+	}
+	
+	#hashtag4{
+		display: none;
+	}
+	
+	#hashtag5{
+		display: none;
+	}
+	
+	#hashtagtext1{
+		display: inline-block;
+		width:  120px;
+		height: 40px;
+	}
+	#hashtagtext2{
+		display: inline-block;
+		width:  120px;
+		height: 40px;
+	}
+	#hashtagtext3{
+		display: inline-block;
+		width:  120px;
+		height: 40px;
+	}
+	#hashtagtext4{
+		display: inline-block;
+		width:  120px;
+		height: 40px;
+	}
+	#hashtagtext5{
+		display: inline-block;
+		width:  120px;
+		height: 40px;
+	}
+	
+	.checked {
+		background-color: white;
+		border-radius: 15px;
+	}
+	
+
+	
+	
