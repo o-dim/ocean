@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{/layout/shopHeader::shopHead('welcome')}"></head>
+<body>
+
+	<header th:replace="~{layout/shopHeader::shopHeader}"></header>
+	<!-- 빠진거 : 해시태그, 앨범 설명, 로그인 세션 유무(장바구니, 구매하기 로그인여부에따라) -->
+	<form>
+		<div>
+			<table>
+				<tr>
+					<td id="detailImg"><img th:src="${cd.mainImg}"></td>
+					<td th:text="${cd.title}"></td>
+				</tr>
+				<tr>
+					<td><span id="price"></span></td>
+					<td><h3>수량</h3></td>
+			    </tr>
+			    <tr>
+				    <td></td>
+				    <td></td>
+				</tr>
+				<tr>
+					<td>
+						<button type="button" class="btnBuyCount" onclick="btnPlus()">+</button>
+				        <input type="text" name="buyCount" id="buyCount" readonly="readonly"/>
+				        <button type="button" class="btnBuyCount" onclick="btnMinus()">-</button>
+						<input type="button" value="장바구니" class="detailCart" onclick="btnCart()">
+					</td>
+					<td><input type="button" value="구매하기" class="detailBuy" ></td>
+				</tr>
+			</table>
+		</div>
+	</form>
+	
+
+	<script th:inline="javascript">
+		var buyCount = 0;
+	    $('#buyCount').val(buyCount);
+
+	    var stock = /*[[${cd.stock}]]*/ null;
+	    var price = /*[[${cd.price}]]*/ null;
+	    
+	    function btnPlus() {
+	    	buyCount++;
+	    	buyCount = (buyCount <= stock) ? buyCount : stock
+	    	$('#buyCount').val(buyCount);
+	   	}
+	    
+	    function btnMinus() {
+	    	buyCount--;
+	    	buyCount = (buyCount >= 0) ? buyCount : 0;
+	    	$('#buyCount').val(buyCount);
+	    }
+	
+	    $('.btnBuyCount').on('click', function(){
+	    	$('#price').text(buyCount * price);
+	    })
+	   	   
+	    
+	    function btnCart() {
+	    	var cartNo = /*[[cartCdNo.cartNo]]*/ null;
+	    	var cdNo = /*[[cartCdNo.cdNo]]*/ null;
+	    	location.href = '/shop/cart.do?cartNo=' + cartNo + '&cdNo=' + cdNo;
+	   }
+	    
+	</script>
+	
+</body>
+</html>

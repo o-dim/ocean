@@ -37,12 +37,12 @@
 				<tbody>
 					<th:block th:each="cd,vs:${cdList}">
 						<tr class="cdList">
-							<td id="listMainImg"><a th:href="@{/shop/listDetail.do(cdNo=${cd.cdNo})}"><img th:src="@{${cd.mainImg}}"/></a></td>
-							<td><a th:href="@{/shop/listDetail.do(cdNo=${cd.cdNo})}" th:text="${cd.cdNo}"></a></td>
-							<td><a th:href="@{/shop/listDetail.do(cdNo=${cd.cdNo})}" th:text="${cd.title}"></a></td>
-							<td th:text="${cd.singer}"></td>
-							<td th:text="${cd.price}"></td>
-							<td th:text="${cd.stock}"></td>
+							<td id="listMainImg"><a th:href="@{/shop/detail.do(cdNo=${cd.cdNo})}"><img th:src="@{${cd.mainImg}}" width=200px></a></td>
+							<td class="listContent"><a th:href="@{/shop/detail.do(cdNo=${cd.cdNo})}" th:text="${cd.cdNo}"></a></td>
+							<td class="listContent"><a th:href="@{/shop/detail.do(cdNo=${cd.cdNo})}" th:text="${cd.title}"></a></td>
+							<td class="listContent" th:text="${cd.singer}"></td>
+							<td class="listContent" th:text="${cd.price}"></td>
+							<td class="listContent"th:text="${cd.stock}"></td>
 						</tr>
 					</th:block>
 				</tbody>

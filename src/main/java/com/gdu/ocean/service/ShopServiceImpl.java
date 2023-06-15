@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import com.gdu.ocean.domain.CartDTO;
+import com.gdu.ocean.domain.CartDetailDTO;
 import com.gdu.ocean.domain.CdDTO;
 import com.gdu.ocean.mapper.ShopMapper;
 import com.gdu.ocean.util.PageUtil;
@@ -24,12 +26,12 @@ public class ShopServiceImpl implements ShopService {
 	private final PageUtil pageUtil;
 	
 	@Override
-	public void newList(HttpServletRequest request, Model model) {
+	public void getCdList(HttpServletRequest request, Model model) {
 	
 		Optional<String> opt = Optional.ofNullable(request.getParameter("page"));
 		int page = Integer.parseInt(opt.orElse("1"));
 		
-		int totalRecord = shopMapper.getShopCount();
+		int totalRecord = shopMapper.getCdCount();
 		
 		int recordPerPage = 20;
 		
@@ -39,24 +41,31 @@ public class ShopServiceImpl implements ShopService {
 		map.put("begin", pageUtil.getBegin());
 		map.put("recordPerPage", recordPerPage);
 		
-		List<CdDTO> cdList = shopMapper.getShopList(map);
-		
+		List<CdDTO> cdList = shopMapper.getCdList(map);
 		model.addAttribute("cdList", cdList);
 		model.addAttribute("beginNo", totalRecord - (page - 1) * recordPerPage);
 		model.addAttribute("pagination", pageUtil.getPagination(request.getContextPath() + "/shop/list.do"));
 	
-}
+	}
 	
 	@Override
 	public void getCdByNo(int cdNo, Model model) {
-		model.addAttribute("cdDetail", shopMapper.getCdByNo(cdNo));
-		//model.addAttribute(null, model)
+		model.addAttribute("cd", shopMapper.getCdByNo(cdNo));
+		
 	}
 	
-	//@Override
-	//public void getCartCount(int cdNo) {
-		
-		
+	@Override
+	public void getCartListFK(int cartNo, int cdNo, Model model) {
+		model.addAttribute("cartCdNo", shopMapper.getCartListFK(cartNo, cdNo));
 	}
+	
+	@Override
+	public void getcartList(HttpServletRequest request, Model model) {
+		List<CartDetailDTO> cartList = shopMapper.getCartList();
+		model.addAttribute("cartList", cartList);
+	}
+	
+	
+}
 	
 

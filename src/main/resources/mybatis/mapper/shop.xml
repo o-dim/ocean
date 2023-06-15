@@ -3,59 +3,81 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-
-<mapper namespace="com.gdu.ocean.mapper.ShopMapper">
 <!-- namespace는 @Mapper를 지정한다. -->
 
-<!-- 
-<resultMap type="CartDetailDTO" id="CartDetailMap">
-		<id column="CART_DETAIL_NO" property="cartDetailNo" />
-			<result column="COUNT" property="count" />
-			<result column="CART_NO" property="cartNo" />
-		<association javaType="CdDTO" property="cdNo">
-			<id column="CD_NO" property="cdNo" />
-			<result column="TITLE" property="title" />
-			<result column="SINGER" property="singer" />
-			<result column="MAIN_IMG" property="mainImg" />
-			<result column="DETAIL_IMG" property="detailImg" />
-			<result column="PRICE" property="price" />
-			<result column="STOCK" property="stock" />
-			<result column="RECOMMEND_COUNT" property="recommendCount" />
-			<result column="WRITED_AT" property="writedAt" />
+<mapper namespace="com.gdu.ocean.mapper.ShopMapper">
+
+	<resultMap id="CartDetailMap" type="CartDetailDTO">
+	    <id column="CART_DETAIL_NO" property="cartDetailNo" />
+	    <result column="COUNT" property="count" />
+	    <association property="cartNo" javaType="CartDTO">
+        	<id column="CART_NO" property="cartNo" />
+        	<result column="MADE_AT" property="madeAt" />
+  		</association>
+	    <association property="cdNo" javaType="CdDTO">
+	        <id column="CD_NO" property="cdNo" />
+	        <result column="SINGER" property="singer" />
+   	    </association>
+	</resultMap>
+
+	<resultMap id="CartMap" type="CartDTO">
+		<id column="CART_NO" property="cartNo" />
+		<result column="MADE_AT" property="madeAt" />
+		<association property="usersNo" javaType="UsersDTO">
+			<id column="USER_NO" property="userNo"/>
+			<id column="EMAIL" property="email"/>
+			<id column="PW" property="pw"/>
+			<id column="PHONENO" property="phoneNo"/>
+			<id column="POSTCODE" property="postcode"/>
+			<id column="ROAD_ADDRESS" property="roadAddress"/>
+			<id column="JIBUN_ADDRESS" property="jibunAddress"/>
+			<id column="DETAIL_ADDRESS" property="detailAddress"/>
+			<id column="NAME" property="name"/>
+			<id column="JOINED_AT" property="joinedAt"/>
+			<id column="AGREECODE" property="agreecode"/>
+			<id column="AUTOLOGIN_ID" property="autologinEmail"/>
+			<id column="AUTOLOGIN_EXPIRED_AT" property="autologinExpiredAt"/>
 		</association>
 	</resultMap>
- -->
-	
-
-
-
-	<select id="getShopCount" resultType="int">
+ 
+	<select id="getCdCount" resultType="int">
 		SELECT COUNT(*)
 		 FROM CD
 	</select>
 	
-	<select id="getShopList" parameterType="Map" resultType="CdDTO">
+	<select id="getCdList" parameterType="Map" resultType="CdDTO">
 	SELECT C.CD_NO, C.TITLE, C.SINGER, C.MAIN_IMG, C.DETAIL_IMG, C.PRICE, C.STOCK, C.RECOMMEND_COUNT, C.WRITED_AT
 		FROM (SELECT CD_NO, TITLE, SINGER, MAIN_IMG, DETAIL_IMG, PRICE, STOCK, RECOMMEND_COUNT, WRITED_AT
-			FROM CD) C
-		  ORDER BY WRITED_AT DESC
-		 LIMIT #{begin}, #{recordPerPage}
+			    FROM CD) C
+		       ORDER BY WRITED_AT DESC
+	   LIMIT #{begin}, #{recordPerPage}
 	</select>
 	
-	<select id="getCdByNo">
+	<select id="getCdByNo" resultType="CdDTO" parameterType="int">
 		SELECT CD_NO, TITLE, SINGER, MAIN_IMG, DETAIL_IMG, PRICE, STOCK, RECOMMEND_COUNT, WRITED_AT
-			FROM CD
-		WHERE CD_NO = #{cdNo}
+		  FROM CD
+		 WHERE CD_NO = #{cdNo}
 	</select>
 	
-	<!-- 
-	
-	<select id="getCartCount" parameterType="Map" resultMap="CartDetailMap">
-		SELECT CART_DETAIL_NO, COUNT, CART_NO, CD_NO
+	<select id="getCartList" resultMap="CartDetailMap">
+	SELECT CART_DETAIL_NO, COUNT, CART_NO, CD_NO
 			FROM CART_DETAIL
-		WHERE CD_NO = #{cdNo}
 	</select>
-	 -->
+	
+	<select id="getCartListFK" resultMap="CartDetailMap">
+	 SELECT CART_DETAIL_NO, COUNT, CART_NO, CD_NO
+	   FROM CART_DETAIL
+	  WHERE CD_NO = #{cdNo}
+		AND CART_NO = #{cartNo}
+	</select>
+	 
+	<select id="selectCartByNo" resultMap="CartMap" parameterType="int">
+		SELECT CART_NO, MADE_AT, USER_NO  
+		  FROM CART 
+		WHERE CART_NO = #{cartNo}
+	</select>
+	
+	
 	
 
 </mapper>
