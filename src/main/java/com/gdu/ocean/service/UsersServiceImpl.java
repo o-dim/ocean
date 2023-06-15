@@ -117,7 +117,7 @@ public class UsersServiceImpl implements UsersService {
 			out.println("<script>");
 			if(joinResult == 1) {
 				out.println("alert('회원 가입되었습니다.');");
-				out.println("location.href='" + request.getContextPath() + "/index.do';");
+				out.println("location.href='/index.html';");
 			} else { 
 				out.println("alert('회원 가입에 실패했습니다.');");
 				out.println("history.go(-2);");
@@ -183,7 +183,7 @@ public class UsersServiceImpl implements UsersService {
 				PrintWriter out = response.getWriter();
 				out.println("<script>");
 				out.println("alert('일치하는 회원 정보가 없습니다.');");
-				out.println("location.href='" + request.getContextPath() + "index.do';");
+				out.println("location.href='/index.html';");
 				out.println("</script>");
 				out.flush();
 				out.close();
@@ -283,7 +283,7 @@ public class UsersServiceImpl implements UsersService {
 				session.invalidate();
 				
 				out.println("alert('다음에 또 뵐 수 있겠죠? 회원 탈퇴 되었습니다.')");
-				out.println("location.href='" + request.getContextPath() + "/index.do';");
+				out.println("location.href='/index.html';");
 				
 		} else {
 			out.println("alert('회원 탈퇴에 실패했습니다.');");
@@ -329,7 +329,7 @@ public class UsersServiceImpl implements UsersService {
 	    	 if(insertResult == 0 && deleteResult == 0) {
 	    		 session.removeAttribute("sleepUsersEmail");
 	    		 out.println("alert('다시 Ocean을 찾아 주셔서 감사합니다. 휴면 계정 활성화를 위해서 곧바로 로그인 해 주세요.');");
-	    		 out.println("location.href='" + request.getContextPath() + "/index.do';");
+	    		 out.println("location.href='/index.html';");
 		     } else { 
 		    	 out.println("alert('휴면 계정이 복구되지 않았습니다. 다시 시도해 주세요.');");
 		    	 out.println("history.back();");
@@ -346,7 +346,7 @@ public class UsersServiceImpl implements UsersService {
 	public boolean checkPw(HttpServletRequest request) {
 		// 로그인한 사용자의 Email
 		HttpSession session = request.getSession();
-		String email = (String)session.getAttribute("loginId");
+		String email = (String)session.getAttribute("loginEmail");
 		
 		// 로그인한 사용자의 정보를 가져옴 (비밀번호를 확인하기 위해서) 
 		UsersDTO usersDTO = usersMapper.selectUsersByEmail(email);
