@@ -22,8 +22,8 @@ public interface UsersMapper {
 	public int updateUsersAccess(String email);
 	public int insertAutologin(UsersDTO usersDTO);
 	public int deleteAutologin(String email);
-	public UsersDTO selectAutologin(UsersDTO usersDTO);
-	public int insertOutUsers(OutUsersDTO leaveUserDTO);
+	public UsersDTO selectAutologin(String autologinEmail);
+	public int insertOutUsers(OutUsersDTO outUsersDTO);
 	public int deleteUsers(String email);
     public int insertSleepUsers();
     public int deleteUsersForSleep();

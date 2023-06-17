@@ -158,24 +158,21 @@ public class UsersServiceImpl implements UsersService {
 	    // 3. 이전 페이지로 이동하기
 		
 		if(loginUsersDTO != null) {
-			// 자동 로그인 처리를 위한 autologin 메소드 호출하기
-			autologin(request, response);
 			
-			HttpSession session = request.getSession();
-			session.setAttribute("loginEmail", email);
-			
-			int updateResult = usersMapper.updateUsersAccess(email);
-			if(updateResult == 0) {
-				usersMapper.insertUsersAccess(email);
-			}
-			
-			try {
-				response.sendRedirect(url);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			/*
+			 * // 자동 로그인 처리를 위한 autologin 메소드 호출하기 autologin(request, response);
+			 * 
+			 * HttpSession session = request.getSession();
+			 * session.setAttribute("loginEmail", email);
+			 * 
+			 * int updateResult = usersMapper.updateUsersAccess(email); if(updateResult ==
+			 * 0) { usersMapper.insertUsersAccess(email); }
+			 * 
+			 * try { response.sendRedirect(url); } catch (Exception e) {
+			 * e.printStackTrace(); }
+			 */
 		}
-		 // ID, PW가 일치하는 회원이 없으면 로그인 실패
+		 // EMAIL, PW가 일치하는 회원이 없으면 로그인 실패
 		else {
 			// 응답 
 			try {
@@ -183,7 +180,7 @@ public class UsersServiceImpl implements UsersService {
 				PrintWriter out = response.getWriter();
 				out.println("<script>");
 				out.println("alert('일치하는 회원 정보가 없습니다.');");
-				out.println("location.href='/index.html';");
+				out.println("location.href='/users/login.html';");
 				out.println("</script>");
 				out.flush();
 				out.close();
@@ -202,7 +199,6 @@ public class UsersServiceImpl implements UsersService {
 		   
 		   // 자동 로그인을 체크한 경우 
 		   if(chkAutologin != null) {
-			   
 			   
 			   HttpSession session = request.getSession();
 			   String sessionEmail = session.getId();
