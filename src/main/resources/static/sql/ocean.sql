@@ -1,7 +1,7 @@
 -- 스키마
-USE quddls6; 
+USE ocean;
 
-DROP TABLE IF EXISTS USERS_ACCESS;
+
 DROP TABLE IF EXISTS OUT_USERS;
 DROP TABLE IF EXISTS SLEEP_USERS;
 DROP TABLE IF EXISTS REPLY;
@@ -30,9 +30,6 @@ CREATE TABLE USERS (
    DETAIL_ADDRESS       VARCHAR(100)   		NULL,							-- 회원 상세주소
    NAME                 VARCHAR(20)    		NULL,							-- 회원 이름
    JOINED_AT            DATETIME	        NULL,							-- 회원 가입일자
-   AGREECODE      	    INT                 NOT NULL,   					-- 동의여부(0:필수, 1:위치, 2:이벤트, 3:위치+이벤트)
-   AUTOLOGIN_ID        VARCHAR(100),                   						-- 자동로그인할 때 사용하는 ID(SESSION_ID를 사용함)
-   AUTOLOGIN_EXPIRED_AT DATETIME,                        					-- 자동로그인 만료일
    CONSTRAINT PK_USERS PRIMARY KEY(USER_NO)
 );
 
@@ -46,7 +43,7 @@ CREATE TABLE CD (
     PRICE				INT					NULL,							-- CD 가격
     STOCK				INT					NULL,							-- CD 수량
     RECOMMEND_COUNT		INT					NULL,							-- 추천 갯수
-    WRITED_AT			DATETIME 				NULL,							-- 등록 날짜 (최신순 보기위해)
+    WRITED_AT			DATETIME 			NULL,							-- 등록 날짜 (최신순 보기위해)
     CONSTRAINT PK_CD PRIMARY KEY(CD_NO)
 );
 
@@ -196,16 +193,6 @@ CREATE TABLE REPLY (
     CONSTRAINT FK_USER_NO3 FOREIGN KEY(USER_NO) REFERENCES USERS(USER_NO) ON DELETE CASCADE
 );
 
--- 회원 접속 기록(회원마다 마지막 로그인 날짜 1개만 기록)
-CREATE TABLE USERS_ACCESS (
-    EMAIL                VARCHAR(100)    NOT NULL UNIQUE, -- 회원 이메일
-    LAST_LOGIN_AT DATETIME,                                -- 마지막 로그인 날짜
-	CONSTRAINT FK_USER_ACCESS FOREIGN KEY(EMAIL) REFERENCES USERS(EMAIL) ON DELETE CASCADE
-);
-
-
-
-
 -- USERS 데이터 삽입
 INSERT INTO USERS
 				(
@@ -218,9 +205,6 @@ INSERT INTO USERS
 			   , DETAIL_ADDRESS
 			   , NAME
 			   , JOINED_AT
-               , AGREECODE
-			   , AUTOLOGIN_ID 
-			   , AUTOLOGIN_EXPIRED_AT
 				) VALUES (
 				 'james@naver.com'
 				, 'mango123!'
@@ -231,9 +215,6 @@ INSERT INTO USERS
 				, '101호'
 				, 'james'
 				, NOW()
-                ,0
-                ,NULL
-                ,NULL
 );
 
 INSERT INTO USERS
@@ -247,9 +228,6 @@ INSERT INTO USERS
 			   , DETAIL_ADDRESS
 			   , NAME
 			   , JOINED_AT
-               , AGREECODE
-               , AUTOLOGIN_ID 
-			   , AUTOLOGIN_EXPIRED_AT
 				) VALUES (
                   'john@gmail.com'
 				, 'mango123!'
@@ -259,10 +237,7 @@ INSERT INTO USERS
 				, '경기도 안산시 대부도동 123'
 				, '203호'
 				, 'john'
-				, '20220101'
-                , 0
-                ,NULL
-                ,NULL
+				, NOW()
 
 );
 INSERT INTO USERS
@@ -276,9 +251,6 @@ INSERT INTO USERS
 			   , DETAIL_ADDRESS
 			   , NAME
 			   , JOINED_AT
-               , AGREECODE
-               , AUTOLOGIN_ID 
-			   , AUTOLOGIN_EXPIRED_AT
 				) VALUES (
                   'wendy@kakao.com'
 				, 'mango123!'
@@ -289,9 +261,6 @@ INSERT INTO USERS
 				, '512호'
 				, 'wendy'
 				, NOW()
-                , 0
-                ,NULL
-                ,NULL
 );
 INSERT INTO USERS
 				(
@@ -304,9 +273,6 @@ INSERT INTO USERS
 			   , DETAIL_ADDRESS
 			   , NAME
 			   , JOINED_AT
-               , AGREECODE
-               , AUTOLOGIN_ID 
-			   , AUTOLOGIN_EXPIRED_AT
 				) VALUES (
 				  'winter@naver.com'
 				, 'mango123!'
@@ -317,9 +283,6 @@ INSERT INTO USERS
 				, '608호'
 				, 'winter'
 				, NOW()
-                , 0
-                ,NULL
-                ,NULL
 );
 
 INSERT INTO USERS
@@ -333,9 +296,6 @@ INSERT INTO USERS
 			   , DETAIL_ADDRESS
 			   , NAME
 			   , JOINED_AT
-               , AGREECODE
-               , AUTOLOGIN_ID 
-			   , AUTOLOGIN_EXPIRED_AT
 				) VALUES (
 				  'joy@gmail.com'
 				, 'mango123!'
@@ -346,9 +306,6 @@ INSERT INTO USERS
 				, '1102호'
 				, 'joy'
 				, NOW()
-                , 0
-                ,NULL
-                ,NULL
 );
 INSERT INTO USERS
 				(
@@ -361,9 +318,6 @@ INSERT INTO USERS
 			   , DETAIL_ADDRESS
 			   , NAME
 			   , JOINED_AT
-               , AGREECODE
-               , AUTOLOGIN_ID 
-			   , AUTOLOGIN_EXPIRED_AT
 				) VALUES (
 				 'eric@kakao.com'
 				, 'mango123!'
@@ -374,9 +328,6 @@ INSERT INTO USERS
 				, '304호'
 				, 'eric'
 				, NOW()
-                , 0
-                ,NULL
-                ,NULL
 );
 INSERT INTO USERS
 				(
@@ -389,9 +340,6 @@ INSERT INTO USERS
 			   , DETAIL_ADDRESS
 			   , NAME
 			   , JOINED_AT
-               , AGREECODE
-               , AUTOLOGIN_ID 
-			   , AUTOLOGIN_EXPIRED_AT
 				) VALUES (
                   'harry@naver.com'
 				, 'mango123!'
@@ -402,9 +350,6 @@ INSERT INTO USERS
 				, '510호'
 				, 'harry'
 				, NOW()
-                , 0
-                ,NULL
-                ,NULL
 
 );
 INSERT INTO USERS
@@ -418,9 +363,6 @@ INSERT INTO USERS
 			   , DETAIL_ADDRESS
 			   , NAME
 			   , JOINED_AT
-               , AGREECODE
-               , AUTOLOGIN_ID 
-			   , AUTOLOGIN_EXPIRED_AT
 				) VALUES (
 				  'som@gmail.com'
 				, 'mango123!'
@@ -431,9 +373,6 @@ INSERT INTO USERS
 				, '409호'
 				, 'som'
 				, NOW()
-                , 0
-                ,NULL
-                ,NULL
 
 );
 INSERT INTO USERS
@@ -447,9 +386,6 @@ INSERT INTO USERS
 			   , DETAIL_ADDRESS
 			   , NAME
 			   , JOINED_AT
-               , AGREECODE
-               , AUTOLOGIN_ID 
-			   , AUTOLOGIN_EXPIRED_AT
 				) VALUES (
 				  'zico@kakao.com'
 				, 'mango123!'
@@ -460,9 +396,6 @@ INSERT INTO USERS
 				, '807호'
 				, 'zico'
 				, NOW()
-                , 0
-                ,NULL
-                ,NULL
 );
 
 INSERT INTO USERS
@@ -476,9 +409,6 @@ INSERT INTO USERS
 			   , DETAIL_ADDRESS
 			   , NAME
 			   , JOINED_AT
-               , AGREECODE
-               , AUTOLOGIN_ID 
-			   , AUTOLOGIN_EXPIRED_AT
 				) VALUES (
 				 'felix@naver.com'
 				,'mango123!'
@@ -489,9 +419,6 @@ INSERT INTO USERS
 				,'101호'
 				,'felix'
 				, NOW()
-                , 0
-                ,NULL
-                ,NULL
 );
 
 INSERT INTO USERS
@@ -505,9 +432,6 @@ INSERT INTO USERS
 			   , DETAIL_ADDRESS
 			   , NAME
 			   , JOINED_AT
-               , AGREECODE
-               , AUTOLOGIN_ID 
-			   , AUTOLOGIN_EXPIRED_AT
 				) VALUES (
 				 'merry@nate.com'
 				,'mango123!'
@@ -518,9 +442,6 @@ INSERT INTO USERS
 				,'102호'
 				,'merry'
 				, NOW()
-                , 0
-                ,NULL
-                ,NULL
 );
 INSERT INTO USERS
 				(
@@ -533,9 +454,6 @@ INSERT INTO USERS
 			   , DETAIL_ADDRESS
 			   , NAME
 			   , JOINED_AT
-               , AGREECODE
-               , AUTOLOGIN_ID 
-			   , AUTOLOGIN_EXPIRED_AT
 				) VALUES (
 				 'bella@naver.com'
 				,'mango123!'
@@ -546,9 +464,6 @@ INSERT INTO USERS
 				,'2103호'
 				,'bella'
 				, NOW()
-                , 0
-                ,NULL
-                ,NULL
 );
 INSERT INTO USERS
 				(
@@ -561,9 +476,6 @@ INSERT INTO USERS
 			   , DETAIL_ADDRESS
 			   , NAME
 			   , JOINED_AT
-               , AGREECODE
-               , AUTOLOGIN_ID 
-			   , AUTOLOGIN_EXPIRED_AT
 				) VALUES (
 				 'miny@daum.net'
 				,'mango123!'
@@ -574,9 +486,6 @@ INSERT INTO USERS
 				,'1204호'
 				,'miny'
 				, NOW()
-                , 0
-                ,NULL
-                ,NULL
 );
 INSERT INTO USERS
 				(
@@ -589,9 +498,6 @@ INSERT INTO USERS
 			   , DETAIL_ADDRESS
 			   , NAME
 			   , JOINED_AT
-               , AGREECODE
-               , AUTOLOGIN_ID 
-			   , AUTOLOGIN_EXPIRED_AT
 				) VALUES (
 				 'bell@kakao.com'
 				,'mango123!'
@@ -602,9 +508,6 @@ INSERT INTO USERS
 				,'506호'
 				,'bell'
 				, NOW()
-                , 0
-                ,NULL
-                ,NULL
 );
 INSERT INTO USERS
 				(
@@ -617,9 +520,6 @@ INSERT INTO USERS
 			   , DETAIL_ADDRESS
 			   , NAME
 			   , JOINED_AT
-               , AGREECODE
-               , AUTOLOGIN_ID 
-			   , AUTOLOGIN_EXPIRED_AT
 				) VALUES (
 				'peter@gmail.com'
 				,'mango123!'
@@ -630,9 +530,6 @@ INSERT INTO USERS
 				,'801호'
 				,'peter'
 				, NOW()
-                , 0
-                ,NULL
-                ,NULL
 );
 INSERT INTO USERS
 				(
@@ -645,9 +542,6 @@ INSERT INTO USERS
 			   , DETAIL_ADDRESS
 			   , NAME
 			   , JOINED_AT
-               , AGREECODE
-               , AUTOLOGIN_ID 
-			   , AUTOLOGIN_EXPIRED_AT
 				) VALUES (
 				 'pan@naver.com'
 				,'mango123!'
@@ -658,9 +552,6 @@ INSERT INTO USERS
 				,'302호'
 				,'pan'
 				, NOW()
-                , 0
-                ,NULL
-                ,NULL
 );
 
 INSERT INTO USERS
@@ -674,9 +565,6 @@ INSERT INTO USERS
 			   , DETAIL_ADDRESS
 			   , NAME
 			   , JOINED_AT
-               , AGREECODE
-               , AUTOLOGIN_ID 
-			   , AUTOLOGIN_EXPIRED_AT
 				) VALUES (
 				 'jobs@naver.com'
 				,'mango123!'
@@ -687,9 +575,6 @@ INSERT INTO USERS
 				,'604호'
 				,'jobs'
 				, NOW()
-                , 0
-                ,NULL
-                ,NULL
 );
 INSERT INTO USERS
 				(
@@ -702,9 +587,6 @@ INSERT INTO USERS
 			   , DETAIL_ADDRESS
 			   , NAME
 			   , JOINED_AT
-               , AGREECODE
-               , AUTOLOGIN_ID 
-			   , AUTOLOGIN_EXPIRED_AT
 				) VALUES (
 				 'nick@naver.com'
 				,'mango123!'
@@ -715,9 +597,6 @@ INSERT INTO USERS
 				,'805호'
 				,'nick'
 				, NOW()
-				, 0
-                ,NULL
-                ,NULL
 );
 INSERT INTO USERS
 				(
@@ -730,9 +609,6 @@ INSERT INTO USERS
 			   , DETAIL_ADDRESS
 			   , NAME
 			   , JOINED_AT
-               , AGREECODE
-               , AUTOLOGIN_ID 
-			   , AUTOLOGIN_EXPIRED_AT
 				) VALUES (
 				 'kate@nate.com'
 				,'mango123!'
@@ -743,9 +619,6 @@ INSERT INTO USERS
 				,'708호'
 				,'kate'
 				, NOW()
-				, 0
-                ,NULL
-                ,NULL
 );
 INSERT INTO USERS
 				(
@@ -758,9 +631,6 @@ INSERT INTO USERS
 			   , DETAIL_ADDRESS
 			   , NAME
 			   , JOINED_AT
-               , AGREECODE
-               , AUTOLOGIN_ID 
-			   , AUTOLOGIN_EXPIRED_AT
 				) VALUES (
 				 'kathy@daum.net'
 				,'mango123!'
@@ -771,9 +641,6 @@ INSERT INTO USERS
 				,'904호'
 				,'kathy'
 				, NOW()
-                , 0
-                ,NULL
-                ,NULL
 );
 
 
@@ -1776,7 +1643,7 @@ INSERT INTO CD (
          ,'https://cdn.shopify.com/s/files/1/0558/0429/7407/products/2_ce3e13c5-e640-4faf-8472-12658204ba94_1512x.jpg?v=1674693755'
          ,17000
          ,100
-	 ,0
+				 ,0
          ,NOW()          
 );
 INSERT INTO CD (
@@ -1795,7 +1662,7 @@ INSERT INTO CD (
          ,'https://cdn.shopify.com/s/files/1/0558/0429/7407/products/3_26a3a4d4-3e61-42c9-a5ab-e4a083c1e753_1512x.jpg?v=1671158489'
          ,16900
          ,100
-	 ,0
+				 ,0
          ,NOW()          
 );
 INSERT INTO CD (
@@ -2100,7 +1967,7 @@ INSERT INTO CD (
          ,'https://cdn.shopify.com/s/files/1/0558/0429/7407/products/2_851e5657-1cf4-4f3f-986b-6f24ebe40c96_1512x.jpg?v=1664933290'
          ,'18600'
          ,100
-		 ,0
+				 ,0
          ,NOW()
 );     
 
@@ -2259,7 +2126,6 @@ INSERT INTO HASHTAG_CD (CD_NO, HT_NO) VALUES (68, 1);
 INSERT INTO HASHTAG_CD (CD_NO, HT_NO) VALUES (68, 2);
 INSERT INTO HASHTAG_CD (CD_NO, HT_NO) VALUES (68, 5); 
 
--- USERS_ACCESS 데이터 삽입
 
-INSERT INTO USERS_ACCESS VALUES('james@naver.com', '20230501');  -- user1 정상 회원
-INSERT INTO USERS_ACCESS VALUES('john@gmail.com', '20220501');  -- user2 휴면 대상(12개월 이상 로그인 이력 없음)
+
+
