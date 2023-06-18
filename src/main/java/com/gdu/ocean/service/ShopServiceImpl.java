@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import com.gdu.ocean.domain.CartDTO;
 import com.gdu.ocean.domain.CartDetailDTO;
 import com.gdu.ocean.domain.CdDTO;
+import com.gdu.ocean.domain.HashtagDTO;
 import com.gdu.ocean.mapper.ShopMapper;
 import com.gdu.ocean.util.PageUtil;
 
@@ -51,19 +52,27 @@ public class ShopServiceImpl implements ShopService {
 	@Override
 	public void getCdByNo(int cdNo, Model model) {
 		model.addAttribute("cd", shopMapper.getCdByNo(cdNo));
-		
 	}
 	
 	@Override
-	public void getCartListFK(int cartNo, int cdNo, Model model) {
-		model.addAttribute("cartCdNo", shopMapper.getCartListFK(cartNo, cdNo));
+	public List<HashtagDTO> getHashtagName(int cdNo) {
+		return shopMapper.getHashtagName(cdNo);
 	}
 	
 	@Override
-	public void getcartList(HttpServletRequest request, Model model) {
-		List<CartDetailDTO> cartList = shopMapper.getCartList();
-		model.addAttribute("cartList", cartList);
+	public List<CartDTO> getCartNo(int cartNo) {
+		return shopMapper.getCartNo(cartNo);
 	}
+	
+	/*	@Override
+	public List<CartDetailDTO> getCartDetailNo(int cartDetailNo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	 */
+	
+	  
+	
 	
 	
 }
