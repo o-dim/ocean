@@ -218,26 +218,7 @@
 
 	}
 	
-	h1 {
-	  position: relative;
-	  font-family: cardo, serif;
-	  font-size: 2.6em;
-	  font-weight: 700;
-	  color: #333333;
-	  line-height: 1.2em;
-	  letter-spacing: 0.03em;
-	  margin-bottom: 1.66em;
-	  margin-right: 3em;
-	}
 	
-	h1:after {
-	  content: '†';
-	  display: block;
-	  position: absolute;
-	  left: 50%;
-	  top: 100%;
-	  transform: rotateZ(180deg);
-	}
 	
 	p {
 	  font-size: 1.2em;
@@ -304,7 +285,7 @@ body {
 .container {
   position: relative;
   width: 320px;
-  margin: 100px auto 0 auto;
+  margin: 50px auto 0 auto;
   perspective: 1000px;
 }
 
@@ -317,13 +298,13 @@ body {
 }
 .carousel__face { 
   position: absolute;
-  width: 300px;
+  width: 310px;
   height: 187px;
-  top: 20px;
+  top: 35px;
   left: 10px;
   right: 10px;
   background-size: cover;
-  box-shadow:inset 0 0 0 2000px rgba(0,0,0,0.5);
+  box-shadow:inset 0 0 0 2000px rgba(0,0,0,0.3);
   display: flex;
 }
 
@@ -335,39 +316,39 @@ span {
  /*에스파*/
 .carousel__face:nth-child(1) {
   background-image: url("https://img-lb.inews24.com/image_joy/202011/1605227075785_1_150430.jpg");
-  transform: rotateY(  0deg) translateZ(430px); }
+  transform: rotateY(0deg) translateZ(450px); }
   /*블랙핑크*/
 .carousel__face:nth-child(2) { 
   background-image: url("https://cdn.shown.co.kr/news/photo/202304/714_621_5150.jpg");
- transform: rotateY(240deg) translateZ(430px); } 
+ transform: rotateY(40deg) translateZ(450px); } 
  /*뉴진스*/
 .carousel__face:nth-child(3) {
   background-image: url("https://cdn.ablenews.co.kr/news/photo/202212/200606_100636_547.jpg");
-  transform: rotateY( 80deg) translateZ(430px); }
+  transform: rotateY(80deg) translateZ(450px); }
  /*nct*/ 
 .carousel__face:nth-child(4) { 
   background-image: url("https://cdn.bhdw.net/im/nct-dream-members-in-glitch-mode-album-shoot-wallpaper-114220_w635.webp");
-    transform: rotateY( 40deg) translateZ(430px); }
+    transform: rotateY(120deg) translateZ(450px); }
  /*방탄*/
-.carousel__face:nth-child(5) {
-  background-image: url("http://file3.instiz.net/data/cached_img/upload/2018/11/23/15/de1e21aa8b79caab44bcb22ebf5ecd18.jpg");
-  transform: rotateY(120deg) translateZ(430px); }
+.carousel__face:nth-child(5) { 
+  background-image: url("https://mblogthumb-phinf.pstatic.net/MjAxODAxMDlfMTAy/MDAxNTE1NDI5MjM1OTYz.gbyoDB61hw-5Vso6HebyEidtl7gUHHGHedwPcbwIxXkg.mhPJPDa3G_IS1f4CQwqYTkELeXY-h1fIZ7ITmpldWD0g.PNG.dudckd1596/%25EC%25BA%25A1%25EC%25B2%2598_2018_01_09_00_01_38_87.png?type=w800");
+    transform: rotateY(160deg) translateZ(450px); }
 /*아이브*/
 .carousel__face:nth-child(6) { 
   background-image: url("https://images.khan.co.kr/article/2023/04/05/news-p.v1.20230405.e87012caa367497b896a6532281ff179_P1.png");
- transform: rotateY(160deg) translateZ(430px); }
+ transform: rotateY(200deg) translateZ(450px); }
 /*txt*/ 
 .carousel__face:nth-child(7) { 
   background-image: url("https://img.marieclairekorea.com/2021/12/mck_61a86c28e21a5.jpg");
- transform: rotateY(200deg) translateZ(430px); }
+ transform: rotateY(240deg) translateZ(450px); }
 /*더보이즈*/
 .carousel__face:nth-child(8) {
   background-image: url("http://image.genie.co.kr/Y/IMAGE/IMG_MUZICAT/IV2/Genie_Magazine/8019/Mgz_Sub_IMG_20200210172654.jpg");
-  transform: rotateY(320deg) translateZ(430px); }
+  transform: rotateY(280deg) translateZ(450px); }
+/**/
 .carousel__face:nth-child(9) {
   background-image: url("https://img3.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202208/31/newsis/20220831095830293lsfx.jpg");
-  transform: rotateY(320deg) translateZ(430px); }
-
+  transform: rotateY(320deg) translateZ(450px); }
 
 @keyframes rotate360 {
   from {
@@ -378,6 +359,29 @@ span {
   }
 }
 
+h1 {
+  position: relative;
+  font-family: cardo, serif;
+  font-size: 4em;
+  font-weight: 500;
+  color: #333333;
+  background-color: rgba(255, 255, 255, 0);
+  line-height: 1.2em;
+  letter-spacing: 0.03em;
+  margin-bottom: 0.3em;
+  margin-left: 10em;
+  margin-right: 10em;
+  box-shadow: none;
+  animation: rotate360 5s infinite linear;
+}
 
+h1:after {
+  content: '†';
+  display: block;
+  position: absolute;
+  left: 32%;
+  top: 100%;
+  transform: rotateZ(180deg);
+}
 
 

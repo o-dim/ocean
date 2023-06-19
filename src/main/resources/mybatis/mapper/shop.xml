@@ -13,12 +13,36 @@
 	    <association property="cartNo" javaType="CartDTO">
         	<id column="CART_NO" property="cartNo" />
         	<result column="MADE_AT" property="madeAt" />
+        	<association property="usersNo" javaType="UsersDTO">
+				<id column="USER_NO" property="userNo"/>
+				<id column="EMAIL" property="email"/>
+				<id column="PW" property="pw"/>
+				<id column="PHONENO" property="phoneNo"/>
+				<id column="POSTCODE" property="postcode"/>
+				<id column="ROAD_ADDRESS" property="roadAddress"/>
+				<id column="JIBUN_ADDRESS" property="jibunAddress"/>
+				<id column="DETAIL_ADDRESS" property="detailAddress"/>
+				<id column="NAME" property="name"/>
+				<id column="JOINED_AT" property="joinedAt"/>
+				<id column="AGREECODE" property="agreecode"/>
+				<id column="AUTOLOGIN_ID" property="autologinEmail"/>
+				<id column="AUTOLOGIN_EXPIRED_AT" property="autologinExpiredAt"/>
+			</association>
   		</association>
 	    <association property="cdNo" javaType="CdDTO">
 	        <id column="CD_NO" property="cdNo" />
+	        <result column="TITLE" property="title" />
 	        <result column="SINGER" property="singer" />
+	        <result column="MAIN_IMG" property="mainImg" />
+	        <result column="DETAIL_IMG" property="detailImg" />
+	        <result column="PRICE" property="price" />
+	        <result column="STOCK" property="stock" />
+	        <result column="RECOMMEND_COUNT" property="recommendCount" />
+	        <result column="WRITED_AT" property="writedAt" />
    	    </association>
 	</resultMap>
+
+
 
 	<resultMap id="CartMap" type="CartDTO">
 		<id column="CART_NO" property="cartNo" />
@@ -39,6 +63,26 @@
 			<id column="AUTOLOGIN_EXPIRED_AT" property="autologinExpiredAt"/>
 		</association>
 	</resultMap>
+	
+	<resultMap type="HashtagCdDTO" id="HashtagCdMap">
+		<id column="HTCD_NO" property="htcdNo" />
+		<association property="cdNo" javaType="CdDTO">
+			<id column="CD_NO" property="cdNo" />
+		    <result column="TITLE" property="title" />
+	        <result column="SINGER" property="singer" />
+	        <result column="MAIN_IMG" property="mainImg" />
+	        <result column="DETAIL_IMG" property="detailImg" />
+	        <result column="PRICE" property="price" />
+	        <result column="STOCK" property="stock" />
+	        <result column="RECOMMEND_COUNT" property="recommendCount" />
+	        <result column="WRITED_AT" property="writedAt" />
+		</association>
+		<association property="htNo" javaType="HashtagDTO">
+			<id column="HT_NO" property="htNo" />
+			<result column="NAME" property="name" />
+		</association>
+	</resultMap>
+	
  
 	<select id="getCdCount" resultType="int">
 		SELECT COUNT(*)
@@ -53,29 +97,64 @@
 	   LIMIT #{begin}, #{recordPerPage}
 	</select>
 	
-	<select id="getCdByNo" resultType="CdDTO" parameterType="int">
-		SELECT CD_NO, TITLE, SINGER, MAIN_IMG, DETAIL_IMG, PRICE, STOCK, RECOMMEND_COUNT, WRITED_AT
-		  FROM CD
-		 WHERE CD_NO = #{cdNo}
+	<select id="getCdByNo" parameterType="int" resultType="CdDTO">
+	SELECT CD_NO, TITLE, SINGER, MAIN_IMG, DETAIL_IMG, PRICE, STOCK, RECOMMEND_COUNT, WRITED_AT
+	  FROM CD
+	 WHERE CD_NO = #{cdNo}
+ 	</select>
+ 	
+ 	<select id="getCount" parameterType="int" resultType="CartDetailDTO">
+ 	SELECT CD.COUNT
+ 	 FROM CART CT INNER JOIN CART_DETAIL CD
+ 	   ON CT.CART_NO = CD.CART_NO INNER JOIN CD C
+ 	   ON C.CD_NO = CD.CD_NO
+ 	 WHERE C.CD_NO = #{cdNo}
+ 	</select>
+	
+	<select id="getHashtagName" parameterType="int" resultType="HashtagDTO">
+	SELECT HT.NAME
+	  FROM CD C INNER JOIN HASHTAG_CD HTCD
+	    ON C.CD_NO = HTCD.CD_NO INNER JOIN HASHTAG HT
+	    ON HTCD.HT_NO = HT.HT_NO
+	 WHERE C.CD_NO = #{cdNo}
 	</select>
 	
-	<select id="getCartList" resultMap="CartDetailMap">
-	SELECT CART_DETAIL_NO, COUNT, CART_NO, CD_NO
-			FROM CART_DETAIL
+	<select id="getCartNo" parameterType="int" resultType="CartDTO">
+	SELECT CT.CART_NO
+	  FROM CD C INNER JOIN CART_DETAIL CD
+	  	ON C.CD_NO = CD.CD_NO INNER JOIN CART CT
+	  	ON CD.CART_NO = CT.CART_NO
+  	   WHERE CD.CART_NO = #{cartNo}
 	</select>
 	
-	<select id="getCartListFK" resultMap="CartDetailMap">
-	 SELECT CART_DETAIL_NO, COUNT, CART_NO, CD_NO
-	   FROM CART_DETAIL
-	  WHERE CD_NO = #{cdNo}
-		AND CART_NO = #{cartNo}
+	<insert id="">
+	
+	
+	</insert>
+	
+	
+	<!-- 
+	
+	<select id="getCartDetailNo" parameterType="int" resultType="CartDetailDTO">
+	SELECT CD.CART_DETAIL_NO
+	  FROM CART_DETAIL CD INNER JOIN CART CT
+	   ON CD.CART_NO = CT.CART_NO INNER JOIN CD C
+	   ON CT.CD_NO = C.CD_NO
+	WHERE CD.CART_DETAIL_NO = #{cartDetailNo}
 	</select>
+	
+	
+	 -->
+
+	
+	
+	
+
+	
+	
 	 
-	<select id="selectCartByNo" resultMap="CartMap" parameterType="int">
-		SELECT CART_NO, MADE_AT, USER_NO  
-		  FROM CART 
-		WHERE CART_NO = #{cartNo}
-	</select>
+	
+	
 	
 	
 	

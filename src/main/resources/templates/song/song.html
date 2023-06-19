@@ -2,56 +2,118 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{/layout/header::oceanHead('song')}"></head>
 <script th:src="@{/js/lib/jquery-3.6.4.min.js}"></script>
+<link rel="stylesheet" type="text/css" th:href="@{/slick/slick.css}"/>
+<script type="text/javascript" th:src="@{/slick/slick.min.js}"></script>
 <style>
+	@font-face {
+	    font-family: 'GmarketSansMedium';
+	    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+	    font-weight: normal;
+	    font-style: normal;
+	}
+	body {
+	    font-family: 'GmarketSansMedium';
+	}
+	/* slick slider 부분*/
+	.wrapper {
+		width: 50%;
+		display: block;
+		margin: auto;		
+	}
+	.center-slider .slick-slide{
+	    height: auto;
+	    align-items: center;
+	    justify-content: center;
+	    transform: scale(0.8, 0.8);
+	}
+	
+	
+	.center-slider .slick-slide,
+	.center-slider .slick-slide[aria-hidden="true"]:not(.slick-cloned) ~ .slick-cloned[aria-hidden="true"] {
+	    transform: scale(0.8, 0.8);
+	}
+	
+	/* Active center slide (You can change anything here for center slide)*/
+	.center-slider .slick-center,
+	.center-slider .slick-current.slick-active,
+	.center-slider .slick-slide[aria-hidden="true"]:not([tabindex="-1"]) + .slick-cloned[aria-hidden="true"] {
+	    transform: scale(1.0, 1.0);
+	}
+	
+	.slick-next, .slick-prev{
+	    z-index: 5;
+	}
+	.slick-next{
+	    right: 15px;
+	}
+	.slick-prev{
+	    left: 15px;
+	}
+	
+	img {
+	    width: 100%;
+	    height: 100%;
+	}
+	
+	.bg {
+		position: relative;
+		width: 1000px;
+		height : 110vh;
+		margin : auto;
+		background: #D9D9D9;
+		box-shadow: 2px 6px 10px rgba(0, 0, 0, 0.25);
+		border-radius: 25px;
+	}
+	
+    .mood-ment {
+	   	width: 300px;
+	   	padding : 40px 0 0 15%;
+   }
+	.search_query {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 10px;
+	    
+	}
+	body * {
+		font-family: 'GmarketSansMedium';
+	}
+	
+	#q {
+	  padding: 0 1em; 
+	  border: 0;
+	  height: 38px;
+	  width: 60%;
+	  border-radius: 30px;
+	  background-color: white;
+	}
+	
     table {
-        font-size: 20px;
         border-collapse: collapse;
-        margin: 0 auto;
-    }
-    
-    tr, th, td {
-        text-align: center;
-        border: transparent;
-        padding: 8px;
+        margin: 10px auto;
+        width: 70%;
     }
     
     td {
-        font-size: 20px;
-        vertical-align: middle;
-        text-align: center;
+        font-size: 14px;
     }
     
-    .title {
-        margin-bottom: 5px;
+    .imgUrl{
+    	width: 60px;
+    	height: 60px;
+    }
+    
+    .title-singer {
+    	padding-left: 10px;
+    }
+    .singer {
+    	font-size: 12px;
     }
 
-    .singer {
-        margin-top: 5px;
-    }
-    
-    .search_query {
-    	display: flex;
-   	 	align-items: center;
-    	justify-content: center;
-    	gap: 10px;
-    	margin-top: 20px;
-	}
-    
-    #q {
-		width: 200px;
-		font-size: 18px;
-	}
-	
-	#searchBtn {
-		width: 80px;
-		font-size: 18px;
-	}
-    
-    
 </style>
 </head>
 <script>
-
     function fnSportifySearch() {
         $('#searchBtn').click(function() {	    	
             $.ajax({
@@ -61,23 +123,37 @@
                 dataType: 'json',
                 success: function(resData) {
                     $('#result').empty();
-                    $('#result').append('검색결과 : ' + resData.total);
-                    var table = $('<table>');
-                    var tableHeader = '<tr><th></th><th>title</th><th>preview</th></tr>';
-                    table.append(tableHeader);
+                    // $('#result').append('검색결과 : ' + resData.total);
                     $.each(resData.songList, function(i, song) {
-                        var row = $('<tr>');
-                        var img_td = $('<td>').append('<img src="' + song.imgUrl + '" width="240" height="180">');
-                        var title_td = $('<td>').append('<div class="title">' + song.title + '</div><div class="singer">' + song.singer + '</div>');
-                        var preview_td = $('<td>').append('<a href="' + song.preview + '">미리듣기</a>');
-                        row.append(img_td, title_td, preview_td);
-                        table.append(row);
+                    	var str = '<tr class="song-line">'
+                        str += '<td><img src="'  + song.imgUrl + '" class="imgUrl">';
+                        str += '<td class="title-singer"><div class="title">' + song.title + '</div><div class="singer">' + song.singer + '</div>';
+                        str += '<td><audio src="' + song.preview + '" controls></audio>';
+	                    $('#result').append(str);
                     });
-                    $('#result').empty().append(table);
                 }
             });
         });
     }
+    
+    $(function(){
+    	$.ajax({
+            url: '/song/recommendsong.do',
+            type: 'GET',
+            dataType: 'json',
+            success: function(resData) {
+                $('#randomResult').empty();
+                $.each(resData, function(i, song) {
+                    var row = $('<tr>');
+                    var title_td = $('<td>').append('<div class="title">' + song.title + '</div><div class="singer">' + song.singer + '</div>');
+                    var preview_td = $('<td>').append('<audio src="' + song.preview + '" controls></audio>');
+                    row.append(title_td, preview_td);
+                    table.append(row);
+                });
+                $('#randomResult').append(table);
+            }
+        });
+    })
     
     function fnRecommendsong() {
 		$('#recommendBtn').click(function(){
@@ -103,7 +179,38 @@
 	        });
 		})
     }
-    
+    $(function(){
+    	$('.center-slider').slick({
+    		  centerMode: true,
+    		  centerPadding: '30px',
+    		  slidesToShow: 3,
+    		  arrows : false,
+    		  speed : 300,
+    		  infinite : true,
+    		  autoplaySpeed: 4000,
+    		  autoplay : true,
+    		  responsive: [
+    		    {
+    		      breakpoint: 768,
+    		      settings: {
+    		        arrows: false,
+    		        centerMode: true,
+    		        centerPadding: '20px',
+    		        slidesToShow: 3
+    		      }
+    		    },
+    		    {
+    		      breakpoint: 480,
+    		      settings: {
+    		        arrows: false,
+    		        centerMode: true,
+    		        centerPadding: '20px',
+    		        slidesToShow: 1
+    		      }
+    		    }
+    		  ]
+    		});
+        })
     $(function() {
         fnSportifySearch();
         fnRecommendsong();
@@ -112,31 +219,52 @@
 </script>
 
 <body>
-    <h1>Spotify Search</h1>
-    <div class="search_query">
-    	<input type="text" id="q">
-    	<button id="searchBtn">Search</button>
-    </div>
-    <div id="result">
-    </div>
-    
-    <h1>recommendSong</h1>
-    <form>
-	    <select id="mood">
-	    	<option value="">선택하세요</option>
-	    	<option value="sad">sad</option>
-	    	<option value="happy">happy</option>
-	    	<option value="chill">chill</option>
-	    	<option value="groove">groove</option>
-	    	<option value="summer">summer</option>
-	    	<option value="romance">romance</option>
-	    	<option value="r-n-b">r-n-b</option>
-	    	<option value="dance">dance</option>
-		</select>
-		<input type="button" value="조회" id="recommendBtn">
-    </form>
-    <div id="recommendResult">
-    </div>
-	
+	<h2>ocean's pick</h2>
+	<div class="wrapper" data-aos="fade-up" data-aos-delay="800">
+        <div class="center-slider">
+	            <div><img class="slick-slide" th:src="@{/photo/unnamed-2.jpg}" ></div>
+	            <div><img class="slick-slide" th:src="@{/photo/unnamed-3.jpg}" ></div>
+	            <div><img class="slick-slide" th:src="@{/photo/unnamed-4.jpg}" ></div>
+	            <div><img class="slick-slide" th:src="@{/photo/unnamed-5.jpg}" ></div>
+	            <div><img class="slick-slide" th:src="@{/photo/unnamed-6.jpg}" ></div>
+	            <div><img class="slick-slide" th:src="@{/photo/unnamed.jpg}" ></div>
+	            <div><img class="slick-slide" th:src="@{/photo/unnamed-2.jpg}" ></div>
+	            <div><img class="slick-slide" th:src="@{/photo/unnamed-3.jpg}" ></div>
+	            <div><img class="slick-slide" th:src="@{/photo/unnamed-4.jpg}" ></div>
+	            <div><img class="slick-slide" th:src="@{/photo/unnamed-5.jpg}" ></div>
+	            <div><img class="slick-slide" th:src="@{/photo/unnamed-6.jpg}" ></div>
+	            <div><img class="slick-slide" th:src="@{/photo/unnamed.jpg}" ></div>
+        </div>
+    </div>    
+	<div class="bg">
+		<div><img th:src="@{/photo/mood.svg}" class="mood-ment"></div>
+	    <div class="search_query">
+	    	<input type="text" id="q" placeholder="오늘은 르세라핌의 UNFORGIVEN 어떤가요?">
+	    	<button id="searchBtn">Search</button>
+	    </div>
+	    <div>
+	    	<table>
+	    		<tbody id="result">
+	    		</tbody>
+	    	</table>
+	    </div>
+	    
+	    <form>
+		    <select id="mood">
+		    	<option value="">선택하세요</option>
+		    	<option value="sad">sad</option>
+		    	<option value="happy">happy</option>
+		    	<option value="chill">chill</option>
+		    	<option value="groove">groove</option>
+		    	<option value="summer">summer</option>
+		    	<option value="romance">romance</option>
+		    	<option value="r-n-b">r-n-b</option>
+		    	<option value="dance">dance</option>
+			</select>
+			<input type="button" value="조회" id="recommendBtn">
+	    </form>
+	    <div id="recommendResult">
+	    </div>
+	</div>
 </body>
 </html>
