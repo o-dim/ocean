@@ -15,7 +15,7 @@
 	    font-style: normal;
 	}
 	
-
+	/* 첫번째 */
 	.blackon{
 		left: 0;
 		top: 0;
@@ -39,9 +39,9 @@
 	    left : calc(50vw - 150px);
 	
 	}
-
+	/* 두 번쨰 */
 	.whiteon {
-	    height: 120vh;
+	    height: 100vh;
 	    width: 100vw;
 	    background-size: cover;
 		background-color : #202020;
@@ -119,14 +119,49 @@
 		width: 400px;
 		margin-left: 50vw;
 	}
-/* 	
-	.floBanPc1 {
-	  position: fixed;
-	  top: 160px; /* 윗쪽 끝에서부터의 거리 */
-	  right: 40px;
-	  z-index: 99;
-	} */
 	
+	/* 세번쨰 */
+	.third {
+		width: 100vw;
+		height : 2000px;
+		background-color : #202020;
+	}
+	.third-group1 {
+		display: felx;
+		position: relative;
+	
+	}
+	.third-iphone {
+		width: 60%;
+		left: 167px;
+		height: auto;
+	}
+	
+	.third-ment1 {
+		width: 30%;
+		margin-bottom: 30%;
+	}
+	.third-group {
+		display: flex;
+		position: relative;
+	}
+	.third-album {
+		width: 60%;
+		margin-top: 15%;		
+	
+	}
+	.third-ment2 {
+		width: 25%;
+		margin-left: 10%;
+		margin-bottom: 15%;
+	}
+	.forth {
+		background-image: url("/photo/fourth-main.svg");
+		width: 100vw;
+		height: 100vh;
+		position: scroll;
+		
+	}
 </style>
 </head>
 <body>
@@ -159,6 +194,17 @@
 	          </div>
 	    </div>    
     </div>
+    <div class="third">
+    	<div class="third-group1">
+	    	<img th:src="@{photo/third-iphone.svg}" class="third-iphone" data-aos="fade-up" data-aos-once="false">
+	    	<img th:src="@{photo/third-ment1.svg}" class="third-ment1" data-aos="fade-up" data-aos-delay="600" data-aos-once="false">    	
+    	</div>
+    	<div class="third-group2" data-aos-easing="ease-in-sine">
+	    	<img th:src="@{photo/third-ment2.svg}" class="third-ment2" data-aos="fade-up">    	
+	    	<img th:src="@{photo/third-album.svg}" class="third-album" data-aos="fade-up">
+    	</div>
+    </div>
+    <div class="forth"></div>
 <script>
 $(document).ready(function(){
 	$('.center-slider').slick({
