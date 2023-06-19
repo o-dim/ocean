@@ -1,9 +1,7 @@
 -- 스키마
-<<<<<<< HEAD
-USE ocean; 
-=======
-USE ocean;
->>>>>>> 3f7e117b66922d62f8f91986e947f996cda0086d
+
+USE quddls6;
+
 
 DROP TABLE IF EXISTS CHAT_MESSAGE;
 DROP TABLE IF EXISTS CHAT_ROOM;
