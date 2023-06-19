@@ -26,6 +26,8 @@
 		<typeAlias alias="SleepUsersDTO" type="com.gdu.ocean.domain.SleepUsersDTO" />
 		<typeAlias alias="SongDTO" type="com.gdu.ocean.domain.SongDTO" />
 		<typeAlias alias="UsersDTO" type="com.gdu.ocean.domain.UsersDTO" />
+		<typeAlias alias="ChatRoomDTO" type="com.gdu.ocean.domain.ChatRoomDTO" />
+		<typeAlias alias="ChatMessageDTO" type="com.gdu.ocean.domain.ChatMessageDTO" />
 	</typeAliases>
 
 </configuration>
