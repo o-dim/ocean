@@ -16,7 +16,7 @@ public interface UsersMapper {
 	public UsersDTO selectUsersByPhoneNo(String phoneNo);
 	public UsersDTO selectSleepUsersByPhoneNo(String phoneNo);
 	public UsersDTO selectOutUsersByPhoneNo(String phoneNo);
-	public int insertUsers(UsersDTO userDTO);
+	public int insertUsers(UsersDTO usersDTO);
 	public UsersDTO selectUsersByUsersDTO(UsersDTO usersDTO);
 	public UsersDTO insertUsersAccess(String email);
 	public int updateUsersAccess(String email);
@@ -30,4 +30,5 @@ public interface UsersMapper {
     public int insertRestoreUsers(String email);
     public int deleteSleepUsers(String email);
     public int updateUsersPassword(UsersDTO usersDTO);
+    public int updateUsersInfo(UsersDTO usersDTO);
 }

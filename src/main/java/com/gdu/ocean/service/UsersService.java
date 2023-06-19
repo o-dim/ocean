@@ -20,8 +20,9 @@ public interface UsersService {
 	public void sleepUsersHandle();
 	public void restore(HttpServletRequest request, HttpServletResponse response);
 	public boolean checkPw(HttpServletRequest request);
-	public UsersDTO getUserByEmail(String email);
 	public Map<String, Object> modifyPw(HttpServletRequest request);
+	public UsersDTO getUserByEmail(String email);
+	public Map<String, Object> modifyInfo(HttpServletRequest request);
 	public Map<String, Object> findEmail(UsersDTO usersDTO);
 	public Map<String, Object> findPw(UsersDTO usersDTO);
 	public Map<String, Object> sendTempPw(UsersDTO usersDTO);

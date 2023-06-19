@@ -17,14 +17,22 @@ function fnLogin(){
       event.preventDefault();
       return;
     }
-   
   });
-  
+}
+// 쿠키에 기억된 아이디 보여주기(아이디 기억)
+function fnDisplayRememberEmail(){
+    
+    // 아이디 기억을 체크하면 rememberEmail 쿠키에 입력된 아이디를 저장
+    if($('#chkRememberEmail').is(':checked')){
+      $.cookie('rememberEmail', $('#email').val());
+    } else {
+      $.cookie('rememberEmail', '');
+    }
 }
 
 $(function(){
     fnLogin();
-    //fnDisplayRememberId();
+    fnDisplayRememberEmail();
   });
 </script>
     <style>
@@ -68,6 +76,7 @@ $(function(){
         }
 
         input {
+        
             width: 380px;
             border: none;
             border-bottom: 1px solid white;
@@ -131,8 +140,8 @@ $(function(){
      	  cursor:pointer
      }
      
-     .radio input {
-     	width: 10px;
+     .checkbox input {
+     	width: 15px;
      	cursor:pointer
      }
      
@@ -168,10 +177,11 @@ $(function(){
 		            <label for="pw">비밀번호</label>
 		            <input type="password" name="pw" id="pw">
 		        </div>
-		        <div class="radio">
-		            <input type="radio" name="autoLogin" id="autoLogin" value="autoLogin">자동 로그인
-		            <input type="radio" name="chkRememberEmail" id="chkRememberEmail" value="chkRememberEmail">이메일 저장
-		      
+	            <div class="checkbox">
+			        <input type="checkbox" id="chkRememberEmail">
+			        <label for="chkRememberEmail">아이디 기억</label>
+			        <input type="checkbox" name="chkAutologin" id="chkAutologin">
+			        <label for="chkAutologin">자동 로그인</label>
 		        </div>
 		            
 		         <div class="login">
