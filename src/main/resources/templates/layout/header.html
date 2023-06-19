@@ -2,16 +2,144 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
 <head th:fragment="oceanHead(title)">
-  <meta charset="UTF-8">
-  <title th:text="${title}"></title>
-  <script th:src="@{/js/lib/jquery-3.6.4.min.js}"></script>
-  <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css}" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<meta charset="UTF-8">
+	<title th:text="${title}"></title>
+	<script th:src="@{/js/lib/jquery-3.6.4.min.js}"></script>
+	<link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css}" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
 	<header class="header" id="header" th:fragment="oceanHeader">
-	<div id="wrapper">
+		<style>
+
+		ul, li {
+			margin: 0;
+			padding: 0;
+			list-style: none;
+		}
+		
+		a {
+			color: inherit;
+			text-decoration: none;
+		}
+		/* 2차 이상의 메뉴를 숨기기 */
+		.side-bar > ul ul {
+		  display: none;
+		}
+		
+		/* 사이드바의 너비와 높이를 변수를 통해 통제 */
+		:root {
+		  --side-bar-width: 270px;
+		  --side-bar-height: 90vh;
+		  float: right;
+		  
+		}
+		
+		.side-bar {
+		  position: fixed;    /* 스크롤을 따라오도록 지정 */
+		  background-color: rgba(0, 0, 0, 0.5);
+		  width: var(--side-bar-width);
+		  min-height: var(--side-bar-height);   /* 사이드바의 높이를 전체 화면 높이의 90%로 지정 */
+		  margin-top: calc((100vh - var(--side-bar-height)) / 2);    /* 사이드바 위와 아래의 마진을 동일하게 지정 */
+			right : 0;
+		}
+		
+		/* 모든 메뉴의 a에 속성값 부여 */
+		.side-bar ul > li > a {
+		  display: block;
+		  color: white;
+		  font-size: 14px;
+		  font-family : 'GmarketSansMedium';
+		  padding-top: 20px;
+		  padding-bottom: 20px;
+		  padding-left: 80px;
+		}
+		/* 사이드바 너비의 80%만큼 오른쪽으로 이동 */
+		.side-bar {
+		 	float: right;
+			border-radius: 20px;
+			transform: translateX(calc(var(--side-bar-width) * 0.8)); /* X축 이동, Y축 고정 */
+		  	transition: .5s;
+		  	z-index: 9;
+		}
+
+	/* 마우스 인식 시 원래의 위치로 이동 */
+	.side-bar:hover {
+	  transform: translate(-15px, 0);   /* 둥근 모서리의 너비만큼 X축 이동, Y축 고정 */
+	}
+		
+		/* 자식의 position이 absolute일 때 자식을 영역 안에 가두어 준다 */
+	.side-bar > ul > li {
+	  position: relative;
+	}
+
+/* 모든 메뉴가 마우스 인식 시 반응 */
+.side-bar ul > li:hover > a {
+  background-color: rgba(0, 0, 0, 0.7);
+  border-bottom: 1px solid #999;
+}
+
+/* 1차 메뉴의 항목이 마우스 인식 시에 2차 메뉴 등장 */
+.side-bar > ul > li:hover > ul {
+  display: block;
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.7);
+  top: 0;         /* 2차 메뉴의 상단을 1차 메뉴의 상단에 고정 */
+  right: 100%;     /* 2차 메뉴를 1차 메뉴의 너비만큼 이동 */
+  width: 100%;    /* 1차 메뉴의 너비를 상속 */
+  
+}
+		</style>
+
+		<div class="side-bar">
+			<section class="side-bar__icon-box"></section>
+			<ul>
+				<li>
+					<a href="#">HOME</a>
+					<ul>
+						<li></li>
+						<li></li>
+						<li></li>
+					</ul>
+				</li>
+				<li>
+					<a href="#">SHOP</a>
+					<ul>
+						<li><a th:href="@{/shop/list.do}">new</a></li>
+						<li></li>
+						<li></li>
+					</ul>
+				</li>
+				<li>
+					<a href="#">SONG</a>
+					<ul>
+						<li><a th:href="@{/song.html}">search</a></li>
+						<li><a th:href="@{/song/myplaylist.html}">mood</a></li>
+						<li></li>
+					</ul>
+				</li>
+				<li>
+					<a href="#">MYPAGE</a>
+					<ul>
+						<li><a th:href="@{/users/login.html}">로그인</a></li>
+						<li><a th:href="@{/users/agree.html}">회원가입</a></li>
+						<li><a th:href="@{/users/mypage.html}">마이페이지</a></li>
+					</ul>
+				</li>
+				<li>
+					<a href="#">ADMIN</a>
+					<ul>
+						<li><a th:href="@{/manager/salelist.do}">판매목록 및 관리</a></li>
+                        <li><a th:href="@{/manager/sale.html}">매출</a></li>
+                        <li><a th:href="@{/manager/member.html}">회원관리</a></li>
+                        <li><a th:href="@{/manager/board.html}">게시판관리</a></li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+		
+	<!-- <div id="wrapper">
         <div class="topbar" style="position: absolute; top:0;">
-            <!-- 왼쪽 메뉴 -->
+            왼쪽 메뉴
             <div class="left side-menu">
                 <div class="sidebar-inner">
                     <div id="sidebar-menu">
@@ -23,7 +151,7 @@
                     </div>
                 </div>
             </div>
-            <!-- 왼쪽 서브 메뉴 -->
+            왼쪽 서브 메뉴
             <div class="left_sub_menu">
                 <div class="sub_menu">
                     <ul class="big_menu" id="quitMenu">
@@ -69,7 +197,7 @@
                     <ul class="big_menu">
                         <li>MANAGER</li>
                         <ul class="small_menu">
-                             <li><a th:href="@{/manager/salelist.do}">판매목록 및 관리</a></li>
+                            <li><a th:href="@{/manager/salelist.do}">판매목록 및 관리</a></li>
                             <li><a th:href="@{/manager/sale.html}">매출</a></li>
                             <li><a th:href="@{/manager/member.html}">회원관리</a></li>
                             <li><a th:href="@{/manager/board.html}">게시판관리</a></li>
@@ -79,162 +207,7 @@
             </div>
             <div class="overlay"></div>
         </div>
-	</div>
-	<style>
-		.side-menu {
-            width: 30px;
-            z-index: 10;
-            background: rgba(0, 0, 0, 0.07);
-            bottom: 50px;
-            height: 100%;
-            margin-bottom: -70px;
-            margin-top: 0px;
-            padding-bottom: 70px;
-            position: fixed;
-        }
-
-        .sidebar-inner {
-            height: 100%;
-            padding-top: 30px;
-        }
-
-        #sidebar-menu,
-        #sidebar-menu ul,
-        #sidebar-menu li,
-        #sidebar-menu a {
-            border: 0;
-            font-weight: normal;
-            line-height: 1;
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            position: relative;
-            text-decoration: none;
-        }
-
-        #sidebar-menu>ul>li a {
-            color: #fff;
-            font-size: 20px;
-            display: block;
-            padding: 14px 0px;
-            margin: 0px 0px 0px 8px;
-            border-top: 1px solid rgba(0, 0, 0, 0.1);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            width: 28px;
-            cursor: pointer;
-            z-index: 9;
-        }
-
-        #sidebar-menu .fas {
-            padding-left: 6px;
-        }
-
-        /* 사이드 메뉴 */
-        .left_sub_menu {
-            position: fixed;
-            width: 300px;
-            z-index: 10;
-            background: rgba(0, 0, 0, 0.7);
-            height: 100%;
-            padding-bottom: 0px;
-        }
-
-        .sub_menu {
-            margin-top: 50px;
-        }
-        .left_sub_menu>.sub_menu li {
-            color: white;
-            font-size: 17px;
-            font-weight: 600;
-            padding: 20px 0px 8px 14px;
-            border-bottom: 1px solid #e1e1e1;
-        }
-
-        .left_sub_menu>.sub_menu li:hover {
-            color: black;
-            background-color: #e1e1e1;
-        }
-
-
-        .sub_menu>h2 {
-            padding-bottom: 4px;
-            border-bottom: 3px solid #797979;
-            margin-top: 30px;
-            font-size: 21px;
-            font-weight: 600;
-            color: #333;
-            margin-left: 10px;
-            margin-right: 10px;
-            line-height: 35px;
-        }
-
-        .sub_menu .fas {
-            color: #ff5858;
-            font-size: 20px;
-            line-height: 20px;
-            float: right;
-            margin-right: 20px;
-        }
-
-        .sub_menu>.big_menu>.small_menu li {
-            color: #333;
-            font-size: 14px;
-            font-weight: 600;
-            border-bottom: 0px solid #e1e1e1;
-            margin-left: 14px;
-            padding-top: 8px;
-        }
-
-        .big_menu {
-            cursor: pointer;
-        }
-
-        ul {
-            padding-inline-start: 0px;
-        }
-
-        a {
-            color: #797979;
-            text-decoration: none;
-            background-color: transparent;
-        }
-
-        ul {
-            list-style: none;
-        }
-
-        ol,
-        ul {
-            margin-top: 0;
-            margin-bottom: 10px;
-        }
-
-        .has_sub {
-            width: 100%;
-        }
-
-        .hide_sidemenu {
-            display: none;
-        }
-	</style>
-	<script>
-	    $(function () {
-	        $(".left_sub_menu").hide();
-	        $(".has_sub").click(function () {
-	            $(".left_sub_menu").fadeToggle(300);
-	        });
-	        // 왼쪽메뉴 드롭다운
-	        $(".sub_menu ul.small_menu").hide();
-	        $(".sub_menu ul.big_menu").click(function () {
-	            $("ul", this).slideToggle(300);
-	        });
-	        // 외부 클릭 시 좌측 사이드 메뉴 숨기기
-	        $('#quitMenu').on('click', function () {
-	            $('.left_sub_menu').fadeOut();
-	            $('.hide_sidemenu').fadeIn();
-	        });
-	    });
-</script>
+	</div> -->
 </header>
 </body>
 </html>

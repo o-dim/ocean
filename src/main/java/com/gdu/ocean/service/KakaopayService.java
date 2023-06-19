@@ -96,5 +96,16 @@ public class KakaopayService {
 
 	}
 	
+	/*
+	 * header
+	 */
+	
+	private HttpHeaders getHeader() {
+		HttpHeaders headers = new HttpHeaders();
+		headers.set("Authorization", "KakaoAK f3b60dfea5b4d33dc619ccd3cd4b3b73");
+		headers.set("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+		
+		return headers;
+	}
 
 }
