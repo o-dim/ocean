@@ -1,6 +1,12 @@
 -- 스키마
-USE quddls6; 
 
+USE quddls6;
+
+
+DROP TABLE IF EXISTS CHAT_MESSAGE;
+DROP TABLE IF EXISTS CHAT_ROOM;
+DROP TABLE IF EXISTS KAKAO_APPROVE_RESPONSE;
+DROP TABLE IF EXISTS AMOUNT;
 DROP TABLE IF EXISTS USERS_ACCESS;
 DROP TABLE IF EXISTS OUT_USERS;
 DROP TABLE IF EXISTS SLEEP_USERS;
@@ -31,7 +37,8 @@ CREATE TABLE USERS (
    NAME                 VARCHAR(20)    		NULL,							-- 회원 이름
    JOINED_AT            DATETIME	        NULL,							-- 회원 가입일자
    AGREECODE      	    INT                 NOT NULL,   					-- 동의여부(0:필수, 1:위치, 2:이벤트, 3:위치+이벤트)
-   AUTOLOGIN_ID        VARCHAR(100),                   						-- 자동로그인할 때 사용하는 ID(SESSION_ID를 사용함)
+   PW_MODIFIED_AT    	DATETIME       	    NULL, 							-- 비밀번호변경일
+   AUTOLOGIN_EMAIL      VARCHAR(100),                   					-- 자동로그인할 때 사용하는 ID(SESSION_ID를 사용함)
    AUTOLOGIN_EXPIRED_AT DATETIME,                        					-- 자동로그인 만료일
    CONSTRAINT PK_USERS PRIMARY KEY(USER_NO)
 );
@@ -166,8 +173,9 @@ CREATE TABLE SLEEP_USERS (
     JIBUN_ADDRESS		VARCHAR(100)			NULL,					-- 회원지번
     DETAIL_ADDRESS		VARCHAR(100)			NULL,					-- 회원 상세주소
     NAME				VARCHAR(30)				NULL,					-- 회원이름
-    JOINED_AT			DATETIME					NULL,					-- 회원가입날짜
-    SLEPT_AT			DATETIME					NULL,					-- 회원휴면날짜
+    JOINED_AT			DATETIME				NULL,					-- 회원가입날짜
+    PW_MODIFIED_AT  	DATETIME       	        NULL, 					-- 비밀번호변경일
+    SLEPT_AT			DATETIME				NULL,					-- 회원휴면날짜
     CONSTRAINT PK_SLEEP_USERS PRIMARY KEY(SLEEP_USER_NO)
 );
 
@@ -203,8 +211,48 @@ CREATE TABLE USERS_ACCESS (
 	CONSTRAINT FK_USER_ACCESS FOREIGN KEY(EMAIL) REFERENCES USERS(EMAIL) ON DELETE CASCADE
 );
 
+CREATE TABLE AMOUNT (
+	TOTAL		INT		NOT NULL UNIQUE,
+    TAX_FREE	int		NULL,
+    VAT			INT		NULL,
+    POINT		INT		NULL,
+    DISCOUNT	INT		NULL,
+    CONSTRAINT PK_TOTAL PRIMARY KEY (TOTAL)
+);
 
 
+CREATE TABLE KAKAO_APPROVE_RESPONSE(
+	AID					VARCHAR(100)	NOT NULL UNIQUE,
+    TID					LONGTEXT,
+    CID					LONGTEXT,
+    SID					LONGTEXT,
+    PARTNER_ORDER_ID	LONGTEXT,
+    PARTNER_USER_ID		LONGTEXT,
+    PAYMENT_METHOD_TYPE	LONGTEXT,
+    ITEM_NAME			LONGTEXT,
+	ITEM_CODE			LONGTEXT,
+    QUANTITY			INT,
+	CREATED_AT			DATETIME,
+    APPROVED_AT			DATETIME,
+    CONSTRAINT PK_AID PRIMARY KEY(AID)
+);
+
+
+CREATE TABLE CHAT_ROOM(
+	ROOM_ID		VARCHAR(100),
+    NAME		VARCHAR(50),
+    CONSTRAINT PK_ROOM_ID PRIMARY KEY(ROOM_ID)
+);
+
+CREATE TABLE CHAT_MESSAGE(
+	ROOM_ID		VARCHAR(100),
+    WRITER		VARCHAR(50),
+	MESSAGE 	LONGTEXT,
+    CONSTRAINT PK_ROOM_ID PRIMARY KEY(ROOM_ID)
+);
+
+INSERT INTO CHAT_ROOM (ROOM_ID, NAME) VALUES('첫번째채팅', 'why');
+COMMIT;
 
 -- USERS 데이터 삽입
 INSERT INTO USERS
@@ -219,11 +267,12 @@ INSERT INTO USERS
 			   , NAME
 			   , JOINED_AT
                , AGREECODE
-			   , AUTOLOGIN_ID 
+               , PW_MODIFIED_AT 
+			   , AUTOLOGIN_EMAIL 
 			   , AUTOLOGIN_EXPIRED_AT
 				) VALUES (
 				 'james@naver.com'
-				, 'mango123!'
+				, SHA2('mango123!',256)
 				, '010-1111-0000'
 				, '15226'
 				, '경기도 시흥시 꽃게로 353'
@@ -234,6 +283,7 @@ INSERT INTO USERS
                 ,0
                 ,NULL
                 ,NULL
+                ,NULL
 );
 
 INSERT INTO USERS
@@ -248,11 +298,12 @@ INSERT INTO USERS
 			   , NAME
 			   , JOINED_AT
                , AGREECODE
-               , AUTOLOGIN_ID 
+               , PW_MODIFIED_AT 
+               , AUTOLOGIN_EMAIL 
 			   , AUTOLOGIN_EXPIRED_AT
 				) VALUES (
                   'john@gmail.com'
-				, 'mango123!'
+				, SHA2('mango123!',256)
 				, '010-1111-1111'
 				, '17425'
 				, '경기도 안산시 대부도로 123'
@@ -263,7 +314,7 @@ INSERT INTO USERS
                 , 0
                 ,NULL
                 ,NULL
-
+				,NULL
 );
 INSERT INTO USERS
 				(
@@ -277,11 +328,12 @@ INSERT INTO USERS
 			   , NAME
 			   , JOINED_AT
                , AGREECODE
-               , AUTOLOGIN_ID 
+               , PW_MODIFIED_AT 
+               , AUTOLOGIN_EMAIL 
 			   , AUTOLOGIN_EXPIRED_AT
 				) VALUES (
                   'wendy@kakao.com'
-				, 'mango123!'
+				, SHA2('mango123!',256)
 				, '010-1111-2222'
 				, '15861'
 				, '경기도 군포시 산본로 353'
@@ -292,6 +344,7 @@ INSERT INTO USERS
                 , 0
                 ,NULL
                 ,NULL
+                ,NULL
 );
 INSERT INTO USERS
 				(
@@ -305,11 +358,12 @@ INSERT INTO USERS
 			   , NAME
 			   , JOINED_AT
                , AGREECODE
-               , AUTOLOGIN_ID 
+               , PW_MODIFIED_AT 
+               , AUTOLOGIN_EMAIL 
 			   , AUTOLOGIN_EXPIRED_AT
 				) VALUES (
 				  'winter@naver.com'
-				, 'mango123!'
+				, SHA2('mango123!',256)
 				, '010-1111-3333'
 				, '16880'
 				, '경기도 안양시 평촌로 211'
@@ -320,6 +374,7 @@ INSERT INTO USERS
                 , 0
                 ,NULL
                 ,NULL
+                ,NULL
 );
 
 INSERT INTO USERS
@@ -334,11 +389,12 @@ INSERT INTO USERS
 			   , NAME
 			   , JOINED_AT
                , AGREECODE
-               , AUTOLOGIN_ID 
+               , PW_MODIFIED_AT 
+               , AUTOLOGIN_EMAIL 
 			   , AUTOLOGIN_EXPIRED_AT
 				) VALUES (
 				  'joy@gmail.com'
-				, 'mango123!'
+				, SHA2('mango123!',256)
 				, '010-1111-4444'
 				, '16271'
 				, '수원특례시 수원화성로 142'
@@ -349,6 +405,7 @@ INSERT INTO USERS
                 , 0
                 ,NULL
                 ,NULL
+                ,NULL
 );
 INSERT INTO USERS
 				(
@@ -362,11 +419,12 @@ INSERT INTO USERS
 			   , NAME
 			   , JOINED_AT
                , AGREECODE
-               , AUTOLOGIN_ID 
+               , PW_MODIFIED_AT 
+               , AUTOLOGIN_EMAIL 
 			   , AUTOLOGIN_EXPIRED_AT
 				) VALUES (
 				 'eric@kakao.com'
-				, 'mango123!'
+				, SHA2('mango123!',256)
 				, '010-1111-5555'
 				, '52414'
 				, '경상남도 남해군 시금치로 525'
@@ -377,6 +435,7 @@ INSERT INTO USERS
                 , 0
                 ,NULL
                 ,NULL
+                ,NULL
 );
 INSERT INTO USERS
 				(
@@ -390,11 +449,12 @@ INSERT INTO USERS
 			   , NAME
 			   , JOINED_AT
                , AGREECODE
-               , AUTOLOGIN_ID 
+               , PW_MODIFIED_AT 
+               , AUTOLOGIN_EMAIL 
 			   , AUTOLOGIN_EXPIRED_AT
 				) VALUES (
                   'harry@naver.com'
-				, 'mango123!'
+				, SHA2('mango123!',256)
 				, '010-1111-6666'
 				, '17959'
 				, '경기도 평택시 송탄로 651'
@@ -405,6 +465,7 @@ INSERT INTO USERS
                 , 0
                 ,NULL
                 ,NULL
+                ,NULL
 
 );
 INSERT INTO USERS
@@ -419,11 +480,12 @@ INSERT INTO USERS
 			   , NAME
 			   , JOINED_AT
                , AGREECODE
-               , AUTOLOGIN_ID 
+               , PW_MODIFIED_AT 
+               , AUTOLOGIN_EMAIL 
 			   , AUTOLOGIN_EXPIRED_AT
 				) VALUES (
 				  'som@gmail.com'
-				, 'mango123!'
+				, SHA2('mango123!',256)
 				, '010-1111-7777'
 				, '41962'
 				, '대구광역시 막창로 122'
@@ -434,6 +496,7 @@ INSERT INTO USERS
                 , 0
                 ,NULL
                 ,NULL
+                ,NULL
 
 );
 INSERT INTO USERS
@@ -448,11 +511,12 @@ INSERT INTO USERS
 			   , NAME
 			   , JOINED_AT
                , AGREECODE
-               , AUTOLOGIN_ID 
+               , PW_MODIFIED_AT 
+               , AUTOLOGIN_EMAIL 
 			   , AUTOLOGIN_EXPIRED_AT
 				) VALUES (
 				  'zico@kakao.com'
-				, 'mango123!'
+				, SHA2('mango123!',256)
 				, '010-1111-8888'
 				, '16103'
 				, '경기도 의왕시 철도박물관로 65'
@@ -463,6 +527,7 @@ INSERT INTO USERS
                 , 0
                 ,NULL
                 ,NULL
+                ,NULL
 );
 
 INSERT INTO USERS
@@ -477,11 +542,12 @@ INSERT INTO USERS
 			   , NAME
 			   , JOINED_AT
                , AGREECODE
-               , AUTOLOGIN_ID 
+               , PW_MODIFIED_AT 
+               , AUTOLOGIN_EMAIL 
 			   , AUTOLOGIN_EXPIRED_AT
 				) VALUES (
 				 'felix@naver.com'
-				,'mango123!'
+				, SHA2('mango123!',256)
 				,'010-1111-9999'
 				,'10868'
 				,'경기도 파주시 북스테이로 155'
@@ -492,6 +558,7 @@ INSERT INTO USERS
                 , 0
                 ,NULL
                 ,NULL
+                ,NULL
 );
 
 INSERT INTO USERS
@@ -506,11 +573,12 @@ INSERT INTO USERS
 			   , NAME
 			   , JOINED_AT
                , AGREECODE
-               , AUTOLOGIN_ID 
+               , PW_MODIFIED_AT 
+               , AUTOLOGIN_EMAIL 
 			   , AUTOLOGIN_EXPIRED_AT
 				) VALUES (
 				 'merry@nate.com'
-				,'mango123!'
+				, SHA2('mango123!',256)
 				,'010-2222-0000'
 				,'57305'
 				,'전라남도 담양군 떡갈비로 85'
@@ -521,6 +589,7 @@ INSERT INTO USERS
                 , 0
                 ,NULL
                 ,NULL
+                ,NULL
 );
 INSERT INTO USERS
 				(
@@ -534,11 +603,12 @@ INSERT INTO USERS
 			   , NAME
 			   , JOINED_AT
                , AGREECODE
-               , AUTOLOGIN_ID 
+               , PW_MODIFIED_AT 
+               , AUTOLOGIN_EMAIL 
 			   , AUTOLOGIN_EXPIRED_AT
 				) VALUES (
 				 'bella@naver.com'
-				,'mango123!'
+				, SHA2('mango123!',256)
 				,'010-2222-1111'
 				,'54878'
 				,'전라북도 전주시 비빔밥로 74'
@@ -549,6 +619,7 @@ INSERT INTO USERS
                 , 0
                 ,NULL
                 ,NULL
+                ,NULL
 );
 INSERT INTO USERS
 				(
@@ -562,11 +633,12 @@ INSERT INTO USERS
 			   , NAME
 			   , JOINED_AT
                , AGREECODE
-               , AUTOLOGIN_ID 
+               , PW_MODIFIED_AT 
+               , AUTOLOGIN_EMAIL 
 			   , AUTOLOGIN_EXPIRED_AT
 				) VALUES (
 				 'miny@daum.net'
-				,'mango123!'
+				, SHA2('mango123!',256)
 				,'010-2222-2222'
 				,'16271'
 				,'수원특례시 행궁로 111'
@@ -577,6 +649,7 @@ INSERT INTO USERS
                 , 0
                 ,NULL
                 ,NULL
+                ,NULL
 );
 INSERT INTO USERS
 				(
@@ -590,11 +663,12 @@ INSERT INTO USERS
 			   , NAME
 			   , JOINED_AT
                , AGREECODE
-               , AUTOLOGIN_ID 
+               , PW_MODIFIED_AT 
+               , AUTOLOGIN_EMAIL 
 			   , AUTOLOGIN_EXPIRED_AT
 				) VALUES (
 				 'bell@kakao.com'
-				,'mango123!'
+				, SHA2('mango123!',256)
 				,'010-2222-3333'
 				,'15856'
 				,'강원도 양구군 금강산로 454'
@@ -605,6 +679,7 @@ INSERT INTO USERS
                 , 0
                 ,NULL
                 ,NULL
+                ,NULL
 );
 INSERT INTO USERS
 				(
@@ -618,11 +693,12 @@ INSERT INTO USERS
 			   , NAME
 			   , JOINED_AT
                , AGREECODE
-               , AUTOLOGIN_ID 
+               , PW_MODIFIED_AT 
+               , AUTOLOGIN_EMAIL 
 			   , AUTOLOGIN_EXPIRED_AT
 				) VALUES (
 				'peter@gmail.com'
-				,'mango123!'
+				, SHA2('mango123!',256)
 				,'010-2222-4444'
 				,'21530'
 				,'인천광역시 차이나타운로 744'
@@ -633,6 +709,7 @@ INSERT INTO USERS
                 , 0
                 ,NULL
                 ,NULL
+                ,NULL
 );
 INSERT INTO USERS
 				(
@@ -646,11 +723,12 @@ INSERT INTO USERS
 			   , NAME
 			   , JOINED_AT
                , AGREECODE
-               , AUTOLOGIN_ID 
+               , PW_MODIFIED_AT 
+               , AUTOLOGIN_EMAIL 
 			   , AUTOLOGIN_EXPIRED_AT
 				) VALUES (
 				 'pan@naver.com'
-				,'mango123!'
+				, SHA2('mango123!',256)
 				,'010-2222-5555'
 				,'44412'
 				,'울산광역시 쫀드기로 333'
@@ -659,6 +737,7 @@ INSERT INTO USERS
 				,'pan'
 				, NOW()
                 , 0
+                ,NULL
                 ,NULL
                 ,NULL
 );
@@ -675,11 +754,12 @@ INSERT INTO USERS
 			   , NAME
 			   , JOINED_AT
                , AGREECODE
-               , AUTOLOGIN_ID 
+               , PW_MODIFIED_AT 
+               , AUTOLOGIN_EMAIL 
 			   , AUTOLOGIN_EXPIRED_AT
 				) VALUES (
 				 'jobs@naver.com'
-				,'mango123!'
+				, SHA2('mango123!',256)
 				,'010-2222-6666'
 				,'46978'
 				,'부산광역시 해운대로 233'
@@ -690,6 +770,7 @@ INSERT INTO USERS
                 , 0
                 ,NULL
                 ,NULL
+                ,NULL
 );
 INSERT INTO USERS
 				(
@@ -703,11 +784,12 @@ INSERT INTO USERS
 			   , NAME
 			   , JOINED_AT
                , AGREECODE
-               , AUTOLOGIN_ID 
+               , PW_MODIFIED_AT 
+               , AUTOLOGIN_EMAIL 
 			   , AUTOLOGIN_EXPIRED_AT
 				) VALUES (
 				 'nick@naver.com'
-				,'mango123!'
+				, SHA2('mango123!',256)
 				,'010-2222-7777'
 				,'17585'
 				,'경기도 안성시 탕면로 522'
@@ -718,6 +800,7 @@ INSERT INTO USERS
 				, 0
                 ,NULL
                 ,NULL
+                ,NULL
 );
 INSERT INTO USERS
 				(
@@ -731,11 +814,12 @@ INSERT INTO USERS
 			   , NAME
 			   , JOINED_AT
                , AGREECODE
-               , AUTOLOGIN_ID 
+               , PW_MODIFIED_AT 
+               , AUTOLOGIN_EMAIL 
 			   , AUTOLOGIN_EXPIRED_AT
 				) VALUES (
 				 'kate@nate.com'
-				,'mango123!'
+				, SHA2('mango123!',256)
 				,'010-2222-8888'
 				,'34194'
 				,'대전광역시 두루치기로 242'
@@ -746,6 +830,7 @@ INSERT INTO USERS
 				, 0
                 ,NULL
                 ,NULL
+                ,NULL
 );
 INSERT INTO USERS
 				(
@@ -759,11 +844,12 @@ INSERT INTO USERS
 			   , NAME
 			   , JOINED_AT
                , AGREECODE
-               , AUTOLOGIN_ID 
+               , PW_MODIFIED_AT 
+               , AUTOLOGIN_EMAIL 
 			   , AUTOLOGIN_EXPIRED_AT
 				) VALUES (
 				 'kathy@daum.net'
-				,'mango123!'
+				, SHA2('mango123!',256)
 				,'010-2222-9999'
 				,'24535'
 				,'강원도 양구군 옥수수로 456'
@@ -772,6 +858,7 @@ INSERT INTO USERS
 				,'kathy'
 				, NOW()
                 , 0
+                ,NULL
                 ,NULL
                 ,NULL
 );

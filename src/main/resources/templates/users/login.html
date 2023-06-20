@@ -6,6 +6,8 @@
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js" integrity="sha512-3j3VU6WC5rPQB4Ld1jnLV7Kd5xr+cq9avvhwqzbH/taCRNURoeEpoPBK9pDyeukwSxwRPJ8fDgvYXd6SkaZ2TA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script th:inline="javascript">
+//$.cookie() : jquery-cookie 라이브러리가 필요함
+
 // 로그인하기
 function fnLogin(){
   
@@ -13,18 +15,40 @@ function fnLogin(){
     
     // 아이디, 비밀번호 공백 검사
     if($('#email').val() == '' || $('#pw').val() == ''){
-      alert('아이디와 비밀번호를 모두 입력하세요.');
+      alert('이메일과 비밀번호를 모두 입력하세요.');
       event.preventDefault();
       return;
     }
-   
+    
+    // 이메일 기억을 체크하면 rememberEmail 쿠키에 입력된 아이디를 저장
+    if($('#chkRememberEmail').is(':checked')){
+      $.cookie('rememberEmail', $('#email').val());
+    } else {
+      $.cookie('rememberEmail', '');
+    }
+    
   });
   
 }
 
+// 쿠키에 기억된 이메일 보여주기(이메일 기억)
+function fnDisplayRememberEmail(){
+  
+  // rememberEmail 쿠키에 저장된 이메일을 가져와서 표시
+  
+  let rememberEmail = $.cookie('rememberEmail');
+  if(rememberEmail == ''){
+    $('#email').val('');
+    $('#chkRememberEmail').prop('checked', false);
+  } else {
+    $('#email').val(rememberEmail);
+    $('#chkRememberEmail').prop('checked', true);
+  }
+  
+}
 $(function(){
     fnLogin();
-    //fnDisplayRememberId();
+    fnDisplayRememberEmail();
   });
 </script>
     <style>
@@ -68,6 +92,7 @@ $(function(){
         }
 
         input {
+        
             width: 380px;
             border: none;
             border-bottom: 1px solid white;
@@ -131,8 +156,8 @@ $(function(){
      	  cursor:pointer
      }
      
-     .radio input {
-     	width: 10px;
+     .checkbox input {
+     	width: 15px;
      	cursor:pointer
      }
      
@@ -168,10 +193,11 @@ $(function(){
 		            <label for="pw">비밀번호</label>
 		            <input type="password" name="pw" id="pw">
 		        </div>
-		        <div class="radio">
-		            <input type="radio" name="autoLogin" id="autoLogin" value="autoLogin">자동 로그인
-		            <input type="radio" name="chkRememberEmail" id="chkRememberEmail" value="chkRememberEmail">이메일 저장
-		      
+	            <div class="checkbox">
+			        <input type="checkbox" id="chkRememberEmail">
+			        <label for="chkRememberEmail">이메일 기억</label>
+			        <input type="checkbox" name="chkAutologin" id="chkAutologin">
+			        <label for="chkAutologin">자동 로그인</label>
 		        </div>
 		            
 		         <div class="login">

@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<script th:src="@{/js/lib/jquery-3.6.4.min.js}"></script>
+<script th:inline="javascript">
+
+
+// 전역 변수 (각종 검사 통과 유무를 저장하는 변수)
+  var verifyPw = false;
+  var verifyRePw = false;
+  var verifyPhoneNo = false;
+
+
+// 함수 정의
+
+function fnInitEditPwArea(){
+	  $('#pw').val('');
+	  $('#rePw').val('');
+	  $('#msgPw').val('');
+	  $('#msgRePw').val('');
+}
+
+function fnToggleEditPwArea(){
+    $('#editPwArea').hide();
+    $('#btnOpenEditPwArea').on('click', function(){
+      fnInitEditPwArea();
+      $('#btnOpenEditPwArea').hide();
+      $('#editPwArea').show();
+    });
+    $('#btnCloseEditPwArea').on('click', function(){
+      fnInitEditPwArea();
+      $('#btnOpenEditPwArea').show();
+      $('#editPwArea').hide();
+    });
+  }
+
+
+function fnCheckPw(){
+	  $('#pw').on('keyup', function(){
+		  let pw = $(this).val();
+		  let pwLength = pw.length;
+		  let validCount = /[a-z]/.test(pw)         //   소문자를 가지고 있으면 true(1), 없으면 false(0)
+				         + /[A-Z]/.test(pw)         //   대문자를 가지고 있으면 true(1), 없으면 false(0)
+		                 + /[0-9]/.test(pw)         //     숫자를 가지고 있으면 true(1), 없으면 false(0)
+		                 + /[^a-zA-Z0-9]/.test(pw); // 특수문자를 가지고 있으면 true(1), 없으면 false(0)
+		  verifyPw = (pwLength >= 4) && (pwLength <= 20) && (validCount >= 3);
+		  if(verifyPw){
+			  $('#msgPw').text('사용 가능한 비밀번호입니다.');
+		  } else {
+			  $('#msgPw').text('4~20자, 소문자+대문자+숫자+특수문자 사용 가능, 3개 이상 조합');
+		  }
+	  })
+}
+
+function fnCheckPwAgain(){
+  $('#rePw').on('keyup', function(){
+  	let pw = $('#pw').val();
+    let rePw = $(this).val();
+    verifyRePw = (rePw != '') && (rePw == pw);
+    if(verifyRePw){
+      $('#msgRePw').text('');
+    } else {
+      $('#msgRePw').text('비밀번호 입력을 확인하세요.');
+    }
+  })
+}
+
+
+function fnModifyPw(){
+    $('#btnModifyPw').on('click', function(){
+      if(verifyPw == false || verifyRePw == false) {
+        alert('비밀번호를 확인하세요.');
+        return;
+      }
+      $.ajax({
+        type: 'post',
+        url: '/users/modifyPw.do',
+        data: 'pw=' + $('#pw').val(),
+        dataType: 'json',
+        success: function(resData){  // resData = {"updateUserPasswordResult": 1}
+          if(resData.updateUsersPasswordResult == 1){
+            alert('비밀번호가 변경되었습니다.');
+            fnInitEditPwArea();
+            $('#btnOpenEditPwArea').show();
+            $('#editPwArea').hide();
+          } else {
+            alert('비밀번호 변경이 실패했습니다.');
+          }
+        }
+      })
+    })
+  }
+
+
+function fnCheckPhoneNo(){
+	  $('#phoneNo').on('keyup', function(){
+		  let phoneNo = $(this).val();
+		  let regPhoneNo = /^010-?[0-9]{4}-?[0-9]{4}$/;
+		  verifyPhoneNo = regPhoneNo.test(mobile);
+		  if(verifyPhoneNo){
+			  $('#phoneNo').text('');
+		  } else {
+			  $('#msgPhoneNo').text('휴대전화 입력을 확인하세요.');			  
+		  }
+	  })
+}
+
+function fnModifyInfo(){
+	  
+    $('#btnModifyInfo').on('click', function(){
+      
+      if($('#name').val() == ''){
+        alert('이름을 확인하세요.');
+        return;
+      } else if( /^010-?[0-9]{4}-?[0-9]{4}$/.test($('#phoneNo').val()) == false){
+        alert('휴대전화번호를 확인하세요.');
+        return;
+      } 
+      
+      $.ajax({
+    	  type: 'post',
+    	  url: '/users/modifyInfo.do',
+    	  data: $('#frmEdit').serialize(),
+    	  dataType: 'json',
+    	  success: function(resData){  // resData = {"updateUserInfoResult": 1}
+    		  if(resData.updateUserInfoResult == 1){
+    			  alert('개인정보가 수정되었습니다.');
+    		  } else {
+    			  alert('개인정보가 수정되지 않았습니다.');    			  
+    		  }
+    	  }
+      })
+      
+    })
+    
+  }
+  
+  function fnOut(){
+	  $('#btnOut').on('click', function(){
+		  if(confirm('동일한 아이디로 재가입이 불가능합니다. 회원 탈퇴하시겠습니까?')){
+	      location.href = '@{/users/out.do}';
+	    }
+	  })
+  }
+
+// 함수 호출
+$(function(){
+	  
+	  fnInitEditPwArea();
+
+	  fnCheckPw();
+	  fnCheckPwAgain();
+	  fnModifyPw();
+/*	  
+	  fnCheckPhoneNo();
+
+	  fnModifyInfo()
+	  
+	  fnOut(); */
+})
+
+
+</script>
+   <style>
+     body {
+     	background-color : #E9E9E9;
+   
+    }
+	
+	.logo-top {
+	    position: absolute;
+	    left: -85px;
+	    top: 25px;
+	    width: 40%;
+	}
+	.logo-btm {
+		position: absolute;
+		bottom: 0;
+		right : 160px;
+		width: 40%;
+	}
+	
+	#box {
+    margin-top: 30px;
+    position: absolute;
+    width: 450px;
+    height: 730px;
+    left: 40%;
+    margin-left: -25px;
+    margin-top: -25px;
+    top: 10%;
+    background-color: #000; 
+    opacity:0.7; 
+    border-radius: 20px;
+    box-shadow: 8px 8px 8px #585858;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-left: 70px;
+   }
+   
+  
+   	input {
+		width : 320px;
+		border: none;
+		border-bottom: 1px solid white;
+		outline: none;
+		background-color: transparent;
+		margin-bottom: 10px;
+		color: white;
+	}
+	
+	input[type="button"]
+	{
+		border: 1px solid white;
+		color: white;
+		width : 100px;
+		margin-left : 20px;
+		border-radius: 20px;
+		cursor: pointer;
+	}
+	
+	input[type="radio"]
+	{
+		color: white;
+		width : 20px;
+	}
+	
+	.button-group {
+		display: flex;
+		align-items: center;
+		margin: 0px 10px 0px 0px;
+	
+	}
+	
+
+	#email, #postcode, #pw, #rePw  {
+		width : 210px; 
+	}
+	
+ 	
+	div {
+		color : white;
+		font-size : 13px;
+		margin: 15px;
+	}
+	
+	 .form-row {
+	    display: flex;
+	    flex-direction: column;
+    }
+    
+	#msgEmail {
+	  display: flex;
+	  margin-top: 5px;
+	  margin-bottom: 10px;
+	}
+	
+	#btnOut { 
+		border: 1px solid white; 
+		background-color:transparent; 
+		color: white; 
+		border-radius: 20px; 
+		width:350px; 
+		height: 40px;
+		text-align: center;
+        cursor:pointer
+	}
+     
+</style>
+</head>
+<body>
+	
+	<div class="logo-top">
+    	<img th:src="@{/photo/OCEAN2.png}">
+	</div>
+	
+	<div class="logo-btm">
+	    <img th:src="@{/photo/OCEAN2.png}">
+	</div>
+	<div id="container">
+	   <div id="box">
+		    <form id="frmEdit" method="post" th:action="@{/users/modifyInfo.do}">
+
+		    	<div>마이페이지</div>
+		    
+				    <div class="form-row">
+					    <label for="email">이메일</label>
+					    <input type="text" th:name="email" id="email" th:value="${loginUsers.email}" readonly>
+				    </div>
+				     
+				      <!-- 비밀번호 -->
+				      <div class="form-row">
+				        <label for="pw">새 비밀번호</label>
+				        <input type="password" name="pw" id="pw">
+				        <span id="msgPw"></span>
+				      </div>
+				      <!-- 비밀번호 재확인 -->
+				      <div class="form-row">
+				        <label for="rePw">비밀번호 확인</label>
+				        <input type="password" id="rePw">
+				        <span id="msgRePw"></span>
+					</div>
+					
+					<div class="form-row">
+						<label for="name">이름</label>
+						<input type="text" th:name="name" id="name">
+					</div>
+		
+				      <div class="form-row">
+				        <label for="phoneNo">휴대전화</label>
+				        <input type="text" th:name="phoneNo" id="phoneNo" th:value="${loginUsers.phoneNo}">
+				        <span id="msgPhoneNo"></span>
+				      </div>
+				    
+				      
+				     	<div class="form-row">
+							<label for="postcode">우편번호</label>
+							<div class="button-group">
+								<input type="text" onclick="execDaumPostcode()" th:name="postcode" id="postcode"  readonly="readonly">
+								<input type="button" onclick="execDaumPostcode()" value="우편번호 검색">
+							</div>
+							<input type="text" th:name="roadAddress" id="roadAddress" placeholder="도로명주소">
+							<span id="guide" style="color:#999; display:none"></span>
+							<input type="text" th:name="detailAddress" id="detailAddress" placeholder="상세주소">
+							<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+							<script>
+								function execDaumPostcode() {
+									new daum.Postcode({
+										oncomplete: function(data) {
+											var roadAddr = data.roadAddress; // 도로명 주소 변수
+		
+											document.getElementById('postcode').value = data.zonecode;
+											document.getElementById("roadAddress").value = roadAddr;
+		
+											var guideTextBox = document.getElementById("guide");
+											if(data.autoRoadAddress) {
+												var expRoadAddr = data.autoRoadAddress + extraRoadAddr;
+												guideTextBox.innerHTML = '(예상 도로명 주소 : ' + expRoadAddr + ')';
+												guideTextBox.style.display = 'block';
+											} else {
+												guideTextBox.innerHTML = '';
+												guideTextBox.style.display= 'none';
+										}
+									}
+								}).open();
+							}
+				        </script>
+				  
+				      
+				      <div>
+				        <div>위치정보 동의여부</div>
+				        <input type="radio" name="location" id="locationOn" value="on"><label for="locationOn">동의함</label>
+				        <input type="radio" name="location" id="locationOff" value="off"><label for="locationOff">동의 안함</label>
+				        <div>프로모션 동의여부</div>
+				        <input type="radio" name="event" id="eventOn" value="on"><label for="eventOn">동의함</label>
+				        <input type="radio" name="event" id="eventOff" value="off"><label for="eventOff">동의 안함</label>
+				        <script>
+				          if('${loginUsers.agreecode}' == '1' || '${loginUsers.agreecode}' == '3'){
+				            $(':radio[name="location"][value="on"]').prop('checked', true);       
+				          } else {
+				            $(':radio[name="location"][value="off"]').prop('checked', true);
+				          }
+				          if('${loginUsers.agreecode}' == '2' || '${loginUsers.agreecode}' == '3'){
+				            $(':radio[name="event"][value="on"]').prop('checked', true);        
+				          } else {
+				            $(':radio[name="event"][value="off"]').prop('checked', true);
+				          }
+				        </script>
+				      </div>
+				      </div>
+				      
+		    
+		      <hr>
+		      
+		      <div>
+		        <input type="button" value="비밀번호수정" id="btnModifyPw">
+		        <input type="button" value="수정완료" id="btnModifyInfo">
+		        <input type="button" value="취소하기" id="btnCancel">
+		        <input type="button" value="회원탈퇴" id="btnOut">
+		      </div>
+		    </form>		
+		</div>
+  </div>
+</body>
+</html>

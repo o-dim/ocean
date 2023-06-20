@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace는 @Mapper를 지정한다. -->
+<mapper namespace="com.gdu.ocean.mapper.ReplyMapper">
+	<resultMap type="ReplyDTO" id="ReplyMap">
+		<id column="REPLY_NO" property="replyNo"/>
+		<result column="CONTENT" property="content"/>
+		<result column="GROUP_NO" property="groupNo"/>
+		<result column="GROUP_ORDER" property="groupOrder"/>
+		<result column="DEPTH" property="depth"/>
+		<result column="WRITE_AT" property="writeAt"/>
+		<association javaType="UsersDTO" property="usersDTO">
+			<id column="USER_NO" property="userNo"/>
+			<result column="EMAIL" property="email"/>
+			<result column="PW" property="pw"/>
+		</association>
+	</resultMap>
+
+	<select id="getCommentCount" parameterType="int" resultType="int">
+		SELECT COUNT(*)
+		  FROM REPLY
+		 WHERE IDOL_NO = #{idolNo}
+	</select>
+	<select id="getCommentList" parameterType="Map" resultMap="ReplyMap">
+		SELECT CONTENT, STATE, DEPTH, CREATED_AT, USER_NO
+		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY GROUP_NO DESC, DEPTH ASC, COMMENT_NO DESC)AS RN, R.COMMENT_NO, R.CONTENT, R.STATE, R.DEPTH, R.GROUP_NO, R.CREATED_AT, R.IDOL_NO, U.USER_NO, U.EMAIL, U.PW
+				  FROM USERS U INNER JOIN REPLY R
+				    ON U.USER_NO = R.USER_NO
+				 WHERE R.IDOL_NO = #{idolNo}) A
+		 WEHRE A.RN BETWEEN #{begin} AND #{end}
+	</select>
+	<insert id="addComment" parameterType="ReplyDTO">
+		INSERT INTO REPLY(
+			CONTENT
+		  , STATE
+		  , DEPTH
+		  , CREATED_AT
+		  , USER_NO
+		) VALUES(
+			#{content}
+		  , 1
+		  , 0
+		  , NOW()
+		  , #{usersDTO.userNo}
+		)
+	</insert>
+	
+	<insert id="addReply" parameterType="ReplyDTO">
+		INSERT INTO REPLY(
+			CONTENT
+		  , STATE
+		  , DEPTH
+		  , GROUP_NO
+		  , CREATED_AT
+		  , USER_NO
+		) VALUES(
+			#{content}
+		  , 1
+		  , 1
+		  , #{groupNo}
+		  , NOW()
+		  , #{usersDTO.userNo}
+		)
+	</insert>
+	
+
+	<delete id="deleteComment" parameterType="int">
+		DELETE
+		  FROM REPLY
+		 WHERE REPLY_NO = #{replyNo}
+	</delete>
+	
+	
+</mapper>

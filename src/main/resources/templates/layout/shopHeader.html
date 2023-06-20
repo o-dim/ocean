@@ -5,7 +5,8 @@
   <meta charset="UTF-8">
   <title th:text="${title}"></title>
   <script th:src="@{/js/lib/jquery-3.6.4.min.js}"></script>
-  <script src="https://unpkg.com/mustache@latest/mustache.min.js"></script>
+  <script th:src="@{https://code.jquery.com/ui/1.13.0/jquery-ui.min.js}"></script>
+  <link rel="stylesheet" th:href="@{https://code.jquery.com/ui/1.13.0/themes/smoothness/jquery-ui.css}">
   <link rel="stylesheet" th:href="@{/css/shop.css(ver=1.0)}">
   <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css}" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" th:href="@{https://fonts.googleapis.com/icon?family=Material+Icons}">
@@ -20,7 +21,7 @@
 	       	</nav>
 	       	<nav class="nav_title3"> 
 	       		<div class="nav_ocean">
-			   		<a th:href="@{/shop/preOrder.do}" class="nav_ocean_link3">pre-order</a>	
+			   		<a th:href="@{/shop/preOrder.html}" class="nav_ocean_link3">pre-order</a>	
 	       		</div>
 	       	</nav>
 	       	<nav class="nav_title4"> 

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{/layout/shopHeader3::shopHead('welcome')}"></head>
+<body>
+
+<header th:replace="~{layout/shopHeader::shopHeader}"></header>
+<div class="container">
+  <a class="button" href="#popup">Open Modal</a>
+  <div class="popup" id="popup">
+    <div class="popup-inner">
+      <div class="popup__photo">
+        <!--/*
+	        <img th:src="@{/photo/oceanBlack.jpg}">
+         */-->
+      <img src="https://images.unsplash.com/photo-1515224526905-51c7d77c7bb8?ixlib=rb-0.3.5&s=9980646201037d28700d826b1bd096c4&auto=format&fit=crop&w=700&q=80" alt="">
+      </div>
+      <div class="popup__text">
+      	<div id="oceanModalTxt">
+	        <h1>Ocean</h1> 
+	        <h2>What's important is an unbreakable heart</h2>
+      	</div>
+        <p>
+			"SEA" commonly refers to the body of water surrounding a landmass, while "OCEAN" 
+			refers to the vast and deep waters covering 71% of the Earth's surface. Our "OCEAN" 
+			represents the immense and far-reaching influence of K-pop. With that concept in mind,
+			 we have planned a website.
+			The secrets of the ocean are still unknown, and we embark on a journey with Ocean, 
+			not knowing what it holds or where it leads. Join us and explore the unknown with Ocean!
+		</p>
+        
+      	<div id="modalbutton">
+	      	<input type="button" id="goCart" class="goCart" value="장바구니이동" onclick="fngoCart()">
+	      	<input type="button" id="keepShopping" class="keepShopping" value="계속쇼핑하기" onclick="fnkeeShopping()">    		
+      	</div>
+      </div>
+      <a class="popup__close" href="#">X</a>
+    </div>
+  </div>
+</div>
+
+<script th:inline="javascript">
+  /*<![CDATA[*/
+  const modal = document.getElementById('popup');
+  const openModalButton = document.querySelector('.button');
+  const closeModalButton = document.querySelector('.popup__close');
+
+  openModalButton.addEventListener('click', function() {
+    modal.style.visibility = 'visible';
+    modal.style.opacity = '1';
+ 
+  });
+
+  closeModalButton.addEventListener('click', function() {
+    modal.style.visibility = 'hidden';
+    modal.style.opacity = '0';
+  });
+  /*]]>*/
+</script>
+
+
+
+</body>
+</html>

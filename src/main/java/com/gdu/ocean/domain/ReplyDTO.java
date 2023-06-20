@@ -17,9 +17,6 @@ public class ReplyDTO {
 	private int groupOrder;
 	private int depth;
 	private Date writeAt;
-	private CdDTO cdNo;
-	private UsersDTO userNo;
-	
-	
-
+	private UsersDTO usersDTO;
+	private int idolNo;
 }
