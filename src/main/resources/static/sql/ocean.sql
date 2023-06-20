@@ -180,6 +180,7 @@ CREATE TABLE SLEEP_USERS (
 );
 
 
+
 -- 탈퇴 회원
 CREATE TABLE OUT_USERS (
 	OUT_USER_NO			INT					NOT NULL AUTO_INCREMENT,	-- 탈퇴 회원번호		/ PK			
@@ -861,7 +862,6 @@ INSERT INTO USERS
                 ,NULL
                 ,NULL
 );
-
 
 INSERT INTO HASHTAG (
 			NAME
