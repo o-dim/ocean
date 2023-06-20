@@ -1,6 +1,6 @@
 -- 스키마
 
-USE quddls6;
+USE ocean;
 
 
 DROP TABLE IF EXISTS CHAT_MESSAGE;
@@ -2309,3 +2309,5 @@ INSERT INTO HASHTAG_CD (CD_NO, HT_NO) VALUES (68, 5);
 
 INSERT INTO USERS_ACCESS VALUES('james@naver.com', '20230501');  -- user1 정상 회원
 INSERT INTO USERS_ACCESS VALUES('john@gmail.com', '20220501');  -- user2 휴면 대상(12개월 이상 로그인 이력 없음)
+
+SHOW DATABASES;
