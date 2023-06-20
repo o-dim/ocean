@@ -45,8 +45,9 @@ $(function(){
 			},
 			success : 
 				function(resData){
-				var url = resData.next_redirect_pc_url
-		        	location.href = url;
+					
+					var url = resData.next_redirect_pc_url
+					location.href = url;
 				}
 		})
 	})
@@ -63,6 +64,5 @@ $(function(){
 		
 		<button>성공기원</button>
 	</form>
-	
 </body>
 </html>

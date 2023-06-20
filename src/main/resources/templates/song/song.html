@@ -11,7 +11,7 @@
 	    font-weight: normal;
 	    font-style: normal;
 	}
-	body {
+	body * {
 	    font-family: 'GmarketSansMedium';
 	}
 	/* slick slider 부분*/
@@ -76,9 +76,6 @@
 		gap: 10px;
 	    
 	}
-	body * {
-		font-family: 'GmarketSansMedium';
-	}
 	
 	#q {
 	  padding: 0 1em; 
@@ -109,6 +106,12 @@
     }
     .singer {
     	font-size: 12px;
+    }
+    .music-bar {
+    	width: 1200px;
+    	background-color: rgba(0, 0, 0, 0.5);
+    	height: 180px;
+    	
     }
 
 </style>
@@ -266,5 +269,21 @@
 	    <div id="recommendResult">
 	    </div>
 	</div>
+	<section class="music-bar">
+		<table>
+			<tbody>
+				<tr>
+					<td rowspan="2"><!-- 앨범사진 --></td>
+					<td><!--  제목 --></td>
+					<td rowspan="2"><!-- 이전 곡 --></td>
+					<td rowspan="2"><!--  재생버튼 --></td>
+					<td rowspan="2"><!--  다음 곡 --></td>
+				</tr>
+				<tr>
+					<td><!--  가수  --></td>
+				</tr>
+			</tbody>
+		</table>
+	</section>
 </body>
 </html>

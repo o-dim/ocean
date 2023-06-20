@@ -1,34 +1,48 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{/layout/shopHeader2::shopHead('welcome')}"></head>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link rel="stylesheet" type="text/css" th:href="@{/css/idol.css}">
+<script type="text/javascript" th:src="@{/js/idol.js}"></script>
 <body>
-
+	<header th:replace="~{layout/header::oceanHeader}"></header>
+	
 	<header th:replace="~{layout/shopHeader::shopHeader}"></header>
 	<h1>Idol</h1>
-	<div class="container">
-  <div class="carousel">
-    <div class="carousel__face"><span>aespa</span></div>
-    <div class="carousel__face"><span>BlackPink</span></div>
-    <div class="carousel__face"><span>NewJeans</span></div>
-    <div class="carousel__face"><span>Nct</span></div>
-   	
-    <div class="carousel__face"><span>BTS</span></div>
-    <div class="carousel__face"><span>IvE</span></div>
-    <div class="carousel__face"><span>TxT</span></div>
-    <div class="carousel__face"><span>TheBoys</span></div>
-    <div class="carousel__face"><span>T</span></div>
-    
-  </div>
-</div>
-
-
-
-
-
-
-      
-      
-
-
+	<div th:fragment="idol-container" class="container">
+		<div class="carousel">
+			<div class="carousel__face"><span>aespa</span></div>
+			<div class="carousel__face"><span>BlackPink</span></div>
+			<div class="carousel__face"><span>NewJeans</span></div>
+			<div class="carousel__face"><span>Nct</span></div>
+			
+			<div class="carousel__face"><span>BTS</span></div>
+			<div class="carousel__face"><span>IvE</span></div>
+			<div class="carousel__face"><span>TxT</span></div>
+			<div class="carousel__face"><span>TheBoys</span></div>
+			<div class="carousel__face"><span>T</span></div>
+		</div>
+	</div>
+	<div class="container-2">
+		<div class="comment-write">
+			<form id="fmAddComment">
+				<input type="text" class="comment-line" name="content" placeholder="응원하는 아이돌에게 댓글을 남겨주세요!">
+				<input type="hidden" name="idolNo" value="}">
+				<input type="hidden" name="userNo" value="${session.loginUsersNo}">
+				<input type="button" value="작성하기" id="btnAddComment">
+			</form>
+		</div>
+		<div>
+			<div id="commentList"></div>
+			<div id="pagination"></div>
+		</div>
+	</div>
+	<div class="quick-menu" th:fragment="quick-menu">
+		<ul>
+			<li><a th:href="@{/shop/aespa}">aespa</a></li>
+			<li><a th:href="@{/shop/blackpink}">blackpink</a></li>
+			<li><a th:href="@{/shop/ive}">ive</a></li>
+		</ul>
+	</div>
 </body>
 </html>

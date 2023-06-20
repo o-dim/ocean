@@ -9,6 +9,15 @@
 
 	<div class="all">
 		<div class="wrap">
+			<form id="frm1" action="@{/manager/search.do}">
+				<select name="column" id="column">
+					<option th:value="NAME">NAME</option>
+					<option th:value="EMAIL">EMAIL</option>
+				</select>
+				<input class="search_query" type="text" th:name="query" id="query">
+				<button>조회</button>
+			</form>
+
 			<table>
 				<thead>
 					<tr>
