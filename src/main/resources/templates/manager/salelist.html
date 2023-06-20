@@ -14,7 +14,6 @@
          data : $('.cdNo').serialize(),
          dataType : 'json',
          success : function(resData) {
-            console.log(resData.hashtagList);
             for(let a = 0; a < cdNo.length; a++){
                $.each(resData.hashtagList, function(i, hashtag){
                   let currentCdNo = $(cdNo[a]).val();
@@ -41,7 +40,9 @@
 <body>
    
    <div th:replace="~{/layout/managerheader::gnbFrag}"></div>
-   
+		<div class="logo-top">
+          <img th:src="@{/photo/OCEAN2.png}">
+		</div>   
    <div class="all">
       <div class="searchbar">
          <div class="searchbar_1">

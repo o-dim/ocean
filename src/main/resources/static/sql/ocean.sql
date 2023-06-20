@@ -180,6 +180,7 @@ CREATE TABLE SLEEP_USERS (
 );
 
 
+
 -- 탈퇴 회원
 CREATE TABLE OUT_USERS (
 	OUT_USER_NO			INT					NOT NULL AUTO_INCREMENT,	-- 탈퇴 회원번호		/ PK			
@@ -196,11 +197,10 @@ CREATE TABLE REPLY (
     GROUP_NO			INT					NULL,						-- 댓글 그룹번호 (1번 댓글에 몇개 댓글을 달면 그룹넘버가 1이된다.)
     GROUP_ORDER			INT					NULL,						-- 댓글 오더 ( 대댓글에 필요함 )
     DEPTH				INT					NULL,						-- 원 댓글은 0 , 대댓글은 + 1
-    WRITE_AT			DATETIME				NULL,						-- 작성 날짜
-    CD_NO				INT				NOT NULL,						-- CD 상품번호		/ FK
+    WRITE_AT			DATETIME				NULL,					-- 작성 날짜
     USER_NO				INT				NOT NULL,						-- 회원번호			/ FK
+    IDOL_NO				INT 				NULL,						-- 게시판 번호
     CONSTRAINT PK_REPLY PRIMARY KEY(REPLY_NO),
-    CONSTRAINT FK_CD_NO5 FOREIGN KEY(CD_NO) REFERENCES CD(CD_NO) ON DELETE CASCADE,
     CONSTRAINT FK_USER_NO3 FOREIGN KEY(USER_NO) REFERENCES USERS(USER_NO) ON DELETE CASCADE
 );
 
@@ -862,7 +862,6 @@ INSERT INTO USERS
                 ,NULL
                 ,NULL
 );
-
 
 INSERT INTO HASHTAG (
 			NAME

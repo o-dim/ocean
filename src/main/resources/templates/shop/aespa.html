@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{/layout/shopHeader2::shopHead('idol::aespa')}"></head>
+<link rel="stylesheet" type="text/css" th:href="@{/css/idol.css}">
+<script type="text/javascript" th:src="@{/js/idol.js}"></script>
+<body>
+	<!--  ......... 오션 헤더 .......... -->
+	<header th:replace="~{layout/header::oceanHeader}"></header>
+	<!--  ......... 빙글뱅글이 .......... -->
+	<div th:replace="~{shop/idol::idol-container}"></div>
+	<!--  ......... 왼쪽메뉴 .......... -->
+	<div th:replace="~{shop/idol::quick-menu}"></div>
+	<!--  ......... 댓글창 .......... -->
+	<div class="container-2">
+		<div class="comment-write">
+			<form id="fmAddComment">
+				<input type="text" class="comment-line" name="content" placeholder="응원하는 아이돌에게 댓글을 남겨주세요!">
+				<input type="hidden" name="idolNo" id="idolNo" value="1">
+				<input type="hidden" name="userNo" id="userNo" value="${session.loginUsersNo}">
+				<input type="button" value="작성하기" id="btnAddComment">
+			</form>
+		</div>
+		<div>
+			<div id="commentList"></div>
+			<div id="pagination"></div>
+		</div>
+	</div>
+</body>
+</html>

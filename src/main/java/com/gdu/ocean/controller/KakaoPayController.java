@@ -1,5 +1,8 @@
 package com.gdu.ocean.controller;
 
+import java.io.PrintWriter;
+
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -46,18 +49,35 @@ public class KakaoPayController {
 		return readyResponse;
 	}
 	*/
-	
-	 @PostMapping("/semiOrder/pay")
-	 @ResponseBody
-	public KakaoReadyResponse kakaoPayReady(Model model, HttpSession session) {
+	/*
+	@PostMapping("/semiOrder/pay")
+	@ResponseBody
+	public String kakaoPayReady(Model model, HttpSession session) {
 		log.info("kakaopayReady 성공..............");
 		KakaoReadyResponse readyResponse = kakaoPayService.kakaoPayReady();
 		session.setAttribute("tid", readyResponse.getTid());
 		log.info("kakaopayReady tid : " + readyResponse.getTid());
 		//log.info(".........주문가격 : "+totalAmount);
-		return readyResponse;
+		return readyResponse.getNext_redirect_pc_url();
 	}
-
+	*/
+	
+	@PostMapping("/semiOrder/pay")
+	@ResponseBody
+	public String kakaoPayReady(Model model, HttpSession session, HttpServletResponse response) {
+		log.info("kakaopayReady 성공..............");
+		KakaoReadyResponse readyResponse = kakaoPayService.kakaoPayReady();
+		session.setAttribute("tid", readyResponse.getTid());
+		log.info("kakaopayReady tid : " + readyResponse.getTid());
+		try {
+			PrintWriter out = response.getWriter();
+			out.println("<a href='" + readyResponse.getNext_redirect_pc_url() + "'>go for pay</a>");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		//log.info(".........주문가격 : "+totalAmount);
+		return null;
+	}
 	 
 	/*
 	 * 결제 승인 요청
@@ -81,10 +101,10 @@ public class KakaoPayController {
 	/*
 	 * 	결제 취소
 	 */
-	@GetMapping("/semiOrder/pay/cancel")
+	@GetMapping("/semiOrder/kakaopayCancel")
 	public String kakaoPayCancel() {
 		log.info("kakaopayCancel..............");
-		return "redirect:/shop/cart";
+		return "/semiOrder/kakaopayCancel";
 	}
 	
 	/*
