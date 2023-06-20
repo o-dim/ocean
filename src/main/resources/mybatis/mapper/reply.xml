@@ -12,6 +12,7 @@
 		<result column="GROUP_ORDER" property="groupOrder"/>
 		<result column="DEPTH" property="depth"/>
 		<result column="WRITE_AT" property="writeAt"/>
+		<result column="IDOL_NO" property="idolNo"/>
 		<association javaType="UsersDTO" property="usersDTO">
 			<id column="USER_NO" property="userNo"/>
 			<result column="EMAIL" property="email"/>
@@ -24,26 +25,30 @@
 		  FROM REPLY
 		 WHERE IDOL_NO = #{idolNo}
 	</select>
-	<select id="getCommentList" parameterType="Map" resultMap="ReplyMap">
-		SELECT CONTENT, STATE, DEPTH, CREATED_AT, USER_NO
-		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY GROUP_NO DESC, DEPTH ASC, COMMENT_NO DESC)AS RN, R.COMMENT_NO, R.CONTENT, R.STATE, R.DEPTH, R.GROUP_NO, R.CREATED_AT, R.IDOL_NO, U.USER_NO, U.EMAIL, U.PW
+	
+	<select id="getCommentList" parameterType="int" resultMap="ReplyMap">
+		SELECT CONTENT, DEPTH, WRITE_AT, USER_NO
+		  FROM (SELECT R.CONTENT, R.DEPTH, R.GROUP_NO, R.WRITE_AT, R.IDOL_NO, U.USER_NO, U.EMAIL, U.PW
 				  FROM USERS U INNER JOIN REPLY R
 				    ON U.USER_NO = R.USER_NO
 				 WHERE R.IDOL_NO = #{idolNo}) A
-		 WEHRE A.RN BETWEEN #{begin} AND #{end}
+		 ORDER BY GROUP_NO DESC, DEPTH ASC
+		 LIMIT #{begin}, #{recordPerPage}
 	</select>
 	<insert id="addComment" parameterType="ReplyDTO">
 		INSERT INTO REPLY(
 			CONTENT
-		  , STATE
+		  , GROUP_NO
 		  , DEPTH
-		  , CREATED_AT
+		  , WRITED_AT
+		  , IDOL_NO
 		  , USER_NO
 		) VALUES(
 			#{content}
 		  , 1
 		  , 0
 		  , NOW()
+		  , #{idolNo}
 		  , #{usersDTO.userNo}
 		)
 	</insert>
@@ -51,17 +56,17 @@
 	<insert id="addReply" parameterType="ReplyDTO">
 		INSERT INTO REPLY(
 			CONTENT
-		  , STATE
 		  , DEPTH
 		  , GROUP_NO
 		  , CREATED_AT
+		  , IDOL_NO
 		  , USER_NO
 		) VALUES(
 			#{content}
 		  , 1
-		  , 1
 		  , #{groupNo}
 		  , NOW()
+		  , #{idolNo}
 		  , #{usersDTO.userNo}
 		)
 	</insert>

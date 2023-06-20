@@ -24,6 +24,11 @@
   	border: 0;
   	border-radius: 10px;
 }
+#commentList span {
+	font-size: 12px;
+	align-items: baseline;
+	color: black;
+}
 .quick-menu {
 	position: absolute;
 	width: 90px;

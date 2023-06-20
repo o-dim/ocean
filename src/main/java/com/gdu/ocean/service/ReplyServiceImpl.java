@@ -24,15 +24,17 @@ public class ReplyServiceImpl implements ReplyService {
 	public Map<String, Object> addComment(HttpServletRequest request){
 		String content = request.getParameter("content");
 		int userNo = Integer.parseInt(request.getParameter("userNo"));
+		int idolNo = Integer.parseInt(request.getParameter("idolNo"));
 		
 		UsersDTO userDTO = new UsersDTO();
 		userDTO.setUserNo(userNo);
 		ReplyDTO replyDTO = new ReplyDTO();
 		replyDTO.setContent(content);
 		replyDTO.setUsersDTO(userDTO);
+		replyDTO.setIdolNo(idolNo);
 		
 		Map<String, Object> map = new HashMap<>();
-		map.put("isAdd", replyMapper.addComment(replyDTO));
+		map.put("isAdd", replyMapper.addComment(replyDTO) == 1);
 		
 		return map;
 	}
@@ -47,14 +49,14 @@ public class ReplyServiceImpl implements ReplyService {
 		int idolNo = Integer.parseInt(request.getParameter("idolNo"));
 		int page = Integer.parseInt(request.getParameter("page"));
 		int commentCount = replyMapper.getCommentCount(idolNo);
-		int recordPerPage = 1;
+		int recordPerPage = 5;
 		
 		pageUtil.setPageUtil(page, commentCount, recordPerPage);
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put("idolNo", idolNo);
 		map.put("begin", pageUtil.getBegin());
-		map.put("end", pageUtil.getEndPage());
+		map.put("recordPerPage", recordPerPage);
 		
 		Map<String, Object> result = new HashMap<>();
 		result.put("commentList", replyMapper.getCommentList(map));
