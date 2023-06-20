@@ -34,17 +34,7 @@
 		<result column="GROUP_ORDER" property="groupOrder"/>
 		<result column="DEPTH" property="depth"/>
 		<result column="WRITE_AT" property="writeAt"/>
-			<association javaType="CdDTO" property="cdDTO">
-				<id column="CD_NO" property="cdNo"/>
-				<result column="TITLE" property="title"/>
-				<result column="SINGER" property="singer"/>
-				<result column="MAIN_IMG" property="mainImg"/>
-				<result column="DETAIL_IMG" property="detailImg"/>
-				<result column="PRICE" property="price"/>
-				<result column="STOCK" property="stock"/>
-				<result column="RECOMMEND_COUNT" property="recommendCount"/>
-				<result column="WRITED_AT" property="writedAt"/>
-			</association>
+		<result column="IDOL_NO" property="idolNo"/>
 			<association javaType="UsersDTO" property="usersDTO">
 				<id column="USER_NO" property="userNo"/>
 				<result column="EMAIL" property="email"/>
