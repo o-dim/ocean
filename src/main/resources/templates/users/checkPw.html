@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
+<script th:src="@{/js/lib/jquery-3.6.4.min.js}"></script>
 	<script>
 		function fnCheckPwCancel(){
-			$('#btnCancel').on('click', function(){
+			$('#btnCancle').on('click', function(){
 				history.back();
 			})
 		}
@@ -31,21 +32,112 @@
 			fnCheckPw();
 		})
 	</script>
+	
+	  <style>
+        body {
+            background-color: #E9E9E9;
+            font-size: 15px;
+        }
+
+        .logo-top {
+            position: absolute;
+            left: -85px;
+            top: 25px;
+            width: 40%;
+        }
+
+        .logo-btm {
+            position: absolute;
+            bottom: 0;
+            right: 160px;
+            width: 40%;
+        }
+
+        #box {
+
+            position: absolute;
+            width: 480px;
+            height: 530px;
+            left: 35%;
+            margin-left: -25px;
+            margin-top: -25px;
+            top: 20%;
+            background-color: #000;
+            opacity: 0.7;
+            border-radius: 20px;
+            box-shadow: 8px 8px 8px #585858;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start; 
+            padding-left: 90px; 
+        }
+
+        input {
+        
+            width: 400px;
+            border: none;
+            border-bottom: 1px solid white;
+            outline: none;
+            background-color: transparent;
+            margin-bottom: 20px;
+            color: white;
+            font-size: 15px;
+        }
+        
+
+        #container {
+         	margin-top: -50px;
+            margin-bottom: 30px;
+            text-align: left;
+            color: white;
+        }
+        
+        label {
+      	margin-top: 30px;  
+      
+        }
+        .form-row {
+	    display: flex;
+	    flex-direction: column;
+    }
+    
+ 	input[type="button"]
+	{
+		border: 1px solid white;
+		color: white;
+		width : 100px;
+		margin-left : 60px;
+		border-radius: 20px;
+		cursor: pointer;
+	}
+    
+    </style>
 </head>
 <body>
+
+	<div class="logo-top">
+	    <img th:src="@{/photo/OCEAN2.png}">
+	</div>
+	<div class="logo-btm">
+	    <img th:src="@{/photo/OCEAN2.png}">
+	</div>
 	
-	<div>
-		<div>개인정보 보호를 위해서 비밀번호를 재입력하시길 바랍니다.</div>
-		
-		<div>
-			<label for="pw">비밀번호</label>
-			<input type="password" id="pw">
-		</div>
-		
-		<div>
-			<input type="button" value="취소" id="btnCancle">
-			<input type="button" value="확인" id="btnCheckPw">
-		</div>
+	<div id="container">
+	 	<div id="box">
+			<div>개인정보 보호를 위해서 비밀번호를 재입력하시길 바랍니다.</div>
+			
+			<div class="form-row">
+				<label for="pw">비밀번호</label>
+				<input type="password" id="pw">
+			</div>
+			
+			<div>
+				<input type="button" value="취소" id="btnCancle">
+				<input type="button" value="확인" id="btnCheckPw">
+			</div>
+	 	
+	 	</div>
 	</div>
 </body>
 </html>

@@ -4,6 +4,7 @@
     <script src="/js/lib/jquery-3.6.4.min.js"></script>
     <script type="text/javascript" th:src="@{/slick/slick.min.js}"></script>
     <link rel="stylesheet" type="text/css" th:href="@{/slick/slick.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/loginheader.css(ver=1.0)}"/>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     
@@ -167,6 +168,7 @@
 <body>
 	<header th:replace="~{layout/header::oceanHeader}"></header>
 	<div class="blackon" data-aos="fade-up">
+		<div th:replace="~{/layout/loginheader::loginHeadFrag}"></div>
 		<div><img th:src="@{/photo/oceanBtn.svg}" data-aos="fade-up" data-aos-delay="300" class="oceanBtn"></div>
 	</div>
 	<div class="whiteon">

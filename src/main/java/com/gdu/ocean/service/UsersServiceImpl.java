@@ -284,7 +284,7 @@ public class UsersServiceImpl implements UsersService {
 		 session.invalidate();
 	}
 	
-	@Transactional(readOnly=true)
+	@Transactional
 	@Override
 	public void out(HttpServletRequest request, HttpServletResponse response) {
 		// 탈퇴할 회원의 Email은 Session에 loginEmail 속성으로 저장되어 있음. 
@@ -296,9 +296,9 @@ public class UsersServiceImpl implements UsersService {
 		
 		// OutUsersDTO 만들기
 		OutUsersDTO outUsersDTO = new OutUsersDTO();
-		outUsersDTO.setEmail(email);
 		outUsersDTO.setEmail(usersDTO.getEmail());
 		outUsersDTO.setJoinedAt(usersDTO.getJoinedAt());
+		
 		
 		// 회원탈퇴
 		int insertResult = usersMapper.insertOutUsers(outUsersDTO);
@@ -330,7 +330,7 @@ public class UsersServiceImpl implements UsersService {
 		}
 	}
 	
-	@Transactional(readOnly=true)
+	@Transactional
 	@Override
 	public void sleepUsersHandle() {
 		int insertResult = usersMapper.insertSleepUsers();
@@ -393,7 +393,7 @@ public class UsersServiceImpl implements UsersService {
 	}
 	
 	 @Override
-	public UsersDTO getUserByEmail(String email) {
+	public UsersDTO getUsersByEmail(String email) {
 		return usersMapper.selectUsersByEmail(email);
 	}
 	 
@@ -457,7 +457,7 @@ public class UsersServiceImpl implements UsersService {
 	    
 	    // Info 수정 결과 반환
 	    Map<String, Object> map = new HashMap<String, Object>();
-	    map.put("updateUserInfoResult", usersMapper.updateUsersInfo(usersDTO));
+	    map.put("updateUsersInfoResult", usersMapper.updateUsersInfo(usersDTO));
 	    return map;
 	    
 	  }

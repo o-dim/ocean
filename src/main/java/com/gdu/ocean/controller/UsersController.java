@@ -89,7 +89,7 @@ public class UsersController {
 		usersService.restore(request, response);
 	}
 	
-	@GetMapping("/checkPw.form") // 마이페이지 직전 비밀번호 확인 화면으로 이동 
+	@GetMapping("/checkPw.html") // 마이페이지 직전 비밀번호 확인 화면으로 이동 
 	public String checkPwForm() {
 		return "users/checkPw";
 	}
@@ -105,7 +105,8 @@ public class UsersController {
 	@GetMapping("/mypage.do") // 마이페이지로 이동 
 	public String mypage(HttpSession session, Model model) {
 		String email = (String)session.getAttribute("loginEmail");
-		model.addAttribute("loginUsers", usersService.getUserByEmail(email));
+		model.addAttribute("loginUsers", usersService.getUsersByEmail(email));
+		System.out.println(model);
 		return "users/mypage";
 	}
 	
@@ -141,6 +142,12 @@ public class UsersController {
 	  @PostMapping(value="/sendTempPw.do", produces="application/json")  // 임시비밀번호 발급 및 전송
 	  public Map<String, Object> sendTempPw(@RequestBody UsersDTO usersDTO) {
 	    return usersService.sendTempPw(usersDTO);
+	  }
+	  
+	  @ResponseBody
+	  @PostMapping(value="/modifyInfo.do", produces="application/json")  // 개인정보 수정
+	  public Map<String, Object> modifyInfo(HttpServletRequest request){
+	    return usersService.modifyInfo(request);    
 	  }
 	  
 }

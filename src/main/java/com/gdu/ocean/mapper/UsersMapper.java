@@ -17,14 +17,17 @@ public interface UsersMapper {
 	public UsersDTO selectSleepUsersByPhoneNo(String phoneNo);
 	public UsersDTO selectOutUsersByPhoneNo(String phoneNo);
 	public int insertUsers(UsersDTO usersDTO);
+	
 	public UsersDTO selectUsersByUsersDTO(UsersDTO usersDTO);
-	public UsersDTO insertUsersAccess(String email);
 	public int updateUsersAccess(String email);
+	public int insertUsersAccess(String email);
 	public int insertAutologin(UsersDTO usersDTO);
 	public int deleteAutologin(String email);
 	public UsersDTO selectAutologin(String autologinEmail);
+	
 	public int insertOutUsers(OutUsersDTO outUsersDTO);
 	public int deleteUsers(String email);
+	
     public int insertSleepUsers();
     public int deleteUsersForSleep();
     public int insertRestoreUsers(String email);

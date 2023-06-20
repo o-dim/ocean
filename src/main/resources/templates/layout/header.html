@@ -2,16 +2,16 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
 <head th:fragment="oceanHead(title)">
-<<<<<<< HEAD
+
   <meta charset="UTF-8">
   <title th:text="${title}"></title>
   <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css}" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-=======
+
 	<meta charset="UTF-8">
 	<title th:text="${title}"></title>
 	<script th:src="@{/js/lib/jquery-3.6.4.min.js}"></script>
 	<link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css}" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
->>>>>>> 93b3c1aabd66836f216c6d29430a30e589074f99
+
 </head>
 <body>
 	<header class="header" id="header" th:fragment="oceanHeader">
@@ -128,7 +128,7 @@
 					<ul>
 						<li><a th:href="@{/users/login.html}">로그인</a></li>
 						<li><a th:href="@{/users/agree.html}">회원가입</a></li>
-						<li><a th:href="@{/users/mypage.html}">마이페이지</a></li>
+						 <li><a th:href="@{/users/checkPw.html}">마이페이지</a></li>
 					</ul>
 				</li>
 				<li>
