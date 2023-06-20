@@ -176,7 +176,9 @@ public class UsersServiceImpl implements UsersService {
 			
 			HttpSession session = request.getSession();
 			session.setAttribute("loginEmail", email);
+			session.setAttribute("loginUsersNo", loginUsersDTO.getUserNo());
 			
+			//session.setAttribute("loginUser", loginUsersDTO);  //  html : ${session.loginUser.email}   ${session.loginUser.name}  ... 
 			
 			int updateResult = usersMapper.updateUsersAccess(email);
 			if(updateResult == 0) {

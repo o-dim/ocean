@@ -67,10 +67,10 @@
 		)		
 	</insert>
 	<select id="selectUsersByUsersDTO" parameterType="UsersDTO" resultType="UsersDTO">
-    SELECT USER_NO, EMAIL, PW, PHONENO, POSTCODE, ROAD_ADDRESS, JIBUN_ADDRESS, DETAIL_ADDRESS, NAME, AGREECODE
-    FROM USERS
-    WHERE EMAIL = #{email}
-      AND PW = SHA2(#{pw}, 256)
+	    SELECT USER_NO, EMAIL, PHONENO, POSTCODE, ROAD_ADDRESS, JIBUN_ADDRESS, DETAIL_ADDRESS, NAME, AGREECODE
+	    FROM USERS
+	    WHERE EMAIL = #{email}
+	      AND PW = SHA2(#{pw}, 256)
 	</select>
 	
 	
