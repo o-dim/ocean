@@ -7,7 +7,7 @@
 <mapper namespace="com.gdu.ocean.mapper.UsersMapper">
 	<!-- 이메일 유효성 체크 -->
 	<select id="selectUsersByEmail" parameterType="String" resultType="UsersDTO">
-		SELECT EMAIL, JOINED_AT
+		SELECT USER_NO, EMAIL, PW, PHONENO, POSTCODE, ROAD_ADDRESS, JIBUN_ADDRESS, DETAIL_ADDRESS, NAME, AGREECODE
 	 	FROM USERS
 	   WHERE EMAIL = #{email}
 	</select>
@@ -55,7 +55,7 @@
 		   , AGREECODE
 		) VALUES (
 			  #{email}
-			, #{pw}
+			, SHA2(#{pw}, 256)
 			, #{phoneNo}
 			, #{postcode}
 			, #{roadAddress}
@@ -66,50 +66,41 @@
 			, #{agreecode}
 		)		
 	</insert>
-
 	<select id="selectUsersByUsersDTO" parameterType="UsersDTO" resultType="UsersDTO">
-		SELECT EMAIL
-		  FROM USERS
-		 WHERE EMAIL = #{email}
-		   AND PW = #{pw}
+    SELECT USER_NO, EMAIL, PW, PHONENO, POSTCODE, ROAD_ADDRESS, JIBUN_ADDRESS, DETAIL_ADDRESS, NAME, AGREECODE
+    FROM USERS
+    WHERE EMAIL = #{email}
+      AND PW = SHA2(#{pw}, 256)
 	</select>
-
-	<insert id ="insertUsersAccess" parameterType="String">
-		INSERT INTO USERS_ACCESS
-		     EMAIL
-		   , LAST_LOGIN_AT
-		) VALUES (
-			#{email}
-		    ,NOW() 
-		)
-	</insert>
 	
-	<update id="updatedUsersAccess" parameterType="String">
+	
+	<update id="updateUsersAccess" parameterType="String">
 		UPDATE USERS_ACCESS
-		   SET LAST_LOGIN_AT = SYSDATE
-		 WHERE EMAIL = #{email} 
+		   SET LAST_LOGIN_AT = NOW() 
+		 WHERE EMAIL = #{email}
 	</update>
-	
+	<insert id="insertUsersAccess" parameterType="String">
+	    INSERT INTO USERS_ACCESS (EMAIL, LAST_LOGIN_AT)
+	    VALUES (#{email}, NOW())
+	</insert>
 	<update id="insertAutologin" parameterType="UsersDTO">
 		UPDATE USERS
 		   SET AUTOLOGIN_EMAIL = #{autologinEmail}
-		    ,  AUTOLOGIN_EXPIRED_AT = #{autologinExpiredAt}
+		     , AUTOLOGIN_EXPIRED_AT = #{autologinExpiredAt}
 		 WHERE EMAIL = #{email}
 	</update>
-
 	<update id="deleteAutologin" parameterType="String">
 	    UPDATE USERS
 	       SET AUTOLOGIN_EMAIL = NULL
 	         , AUTOLOGIN_EXPIRED_AT = NULL
 	      WHERE EMAIL = #{email}
 	</update>
-	  
-	  <select id="selectAutologin" parameterType="String" resultType="UserSDTO">
-	    SELECT EMAIL
-	      FROM USERS
-	     WHERE AUTOLOGIN_EMAIL = #{autologinEmail}
-	       AND AUTOLOGIN_EXPIRED_AT > SYSDATE
-	  </select>
+	<select id="selectAutologin" parameterType="String" resultType="UsersDTO">
+	  SELECT EMAIL
+	    FROM USERS
+	   WHERE AUTOLOGIN_EMAIL = #{autologinEmail}
+	     AND AUTOLOGIN_EXPIRED_AT > NOW() 
+	</select>
 	  
 	  <insert id="insertOutUsers" parameterType="String"> 
 	  	INSERT INTO OUT_USERS (
@@ -176,21 +167,17 @@
     ) (SELECT EMAIL
             , PW
             , NAME
-            , GENDER
             , EMAIL
-            , MOBILE
-            , BIRTHYEAR
-            , BIRTHDATE
+            , PHONENO
             , POSTCODE
             , ROAD_ADDRESS
             , JIBUN_ADDRESS
             , DETAIL_ADDRESS
-            , EXTRA_ADDRESS
             , AGREECODE
             , JOINED_AT
             , PW_MODIFIED_AT
          FROM SLEEP_USERS
-        WHERE ID = #{email})
+        WHERE EMAIL = #{email})
   </insert>
   
   <!-- 휴면복원 2단계 : 복원할 회원을 SLEEP_USERS 테이블에서 삭제하기 -->
@@ -205,6 +192,19 @@
     UPDATE USERS
        SET PW = #{pw}
          , PW_MODIFIED_AT = NOW()
+     WHERE EMAIL = #{email}
+  </update>
+  
+    <!-- 개인정보 변경 -->
+  <update id="updateUsersInfo" parameterType="UsersDTO">
+    UPDATE USERS
+       SET PHONENO = #{phoneNo}
+         , POSTCODE = #{postcode}
+         , ROAD_ADDRESS = #{roadAddress}
+         , JIBUN_ADDRESS = #{jibunAddress}
+         , DETAIL_ADDRESS = #{detailAddress}
+         , NAME = #{name}
+         , AGREECODE = #{agreecode}
      WHERE EMAIL = #{email}
   </update>
 	  

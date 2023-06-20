@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -65,11 +64,7 @@ public class UsersController {
 	public String loginForm(HttpServletRequest request, Model model) {
 	    // 요청 헤더 referer: 로그인 화면으로 이동하기 직전의 주소를 저장하는 헤더 값
 	    String url = request.getHeader("referer");
-
-	    // 컨텍스트 경로를 가져오기 위해 HttpServletRequestWrapper를 사용합니다.
-	    String contextPath = new HttpServletRequestWrapper(request).getContextPath();
-
-	    model.addAttribute("url", url == null ? contextPath : url);
+	    model.addAttribute("url", url == null || url.isEmpty() ? "/index.html" : url);
 	    return "users/login";
 	}
 	
@@ -94,7 +89,7 @@ public class UsersController {
 		usersService.restore(request, response);
 	}
 	
-	@GetMapping("/checkPw.form") // 마이페이지 직전 비밀번호 확인 화면으로 이동 
+	@GetMapping("/checkPw.html") // 마이페이지 직전 비밀번호 확인 화면으로 이동 
 	public String checkPwForm() {
 		return "users/checkPw";
 	}
@@ -110,12 +105,13 @@ public class UsersController {
 	@GetMapping("/mypage.do") // 마이페이지로 이동 
 	public String mypage(HttpSession session, Model model) {
 		String email = (String)session.getAttribute("loginEmail");
-		model.addAttribute("loginUsers", usersService.getUserByEmail(email));
+		model.addAttribute("loginUsers", usersService.getUsersByEmail(email));
+		System.out.println(model);
 		return "users/mypage";
 	}
 	
 	@ResponseBody
-	@PostMapping(value="/modiftPw.do", produces="application/json") // 비밀번호 변경 
+	@PostMapping(value="/modifyPw.do", produces="application/json") // 비밀번호 변경 
 	public Map<String, Object> modifyPw(HttpServletRequest request) {
 		return usersService.modifyPw(request);
 	}
@@ -146,6 +142,12 @@ public class UsersController {
 	  @PostMapping(value="/sendTempPw.do", produces="application/json")  // 임시비밀번호 발급 및 전송
 	  public Map<String, Object> sendTempPw(@RequestBody UsersDTO usersDTO) {
 	    return usersService.sendTempPw(usersDTO);
+	  }
+	  
+	  @ResponseBody
+	  @PostMapping(value="/modifyInfo.do", produces="application/json")  // 개인정보 수정
+	  public Map<String, Object> modifyInfo(HttpServletRequest request){
+	    return usersService.modifyInfo(request);    
 	  }
 	  
 }

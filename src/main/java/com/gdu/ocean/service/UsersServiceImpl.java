@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gdu.ocean.domain.OutUsersDTO;
+import com.gdu.ocean.domain.SleepUsersDTO;
 import com.gdu.ocean.domain.UsersDTO;
 import com.gdu.ocean.mapper.UsersMapper;
 import com.gdu.ocean.util.JavaMailUtil;
@@ -84,15 +85,10 @@ public class UsersServiceImpl implements UsersService {
 		// 상세주소 XSS 처리 
 		detailAddress = securityUtil.preventXSS(detailAddress);
 		
-		// agreecode 
-		int agreecode = 0; 
-		if(location.isEmpty() == false && event.isEmpty() == false) {
-			agreecode = 3;
-		} else if(location.isEmpty() && event.isEmpty() == false) {
-			agreecode = 2;
-		} else if(location.isEmpty() == false && event.isEmpty()) {
-			agreecode = 1; 
-		}
+		 // agreecode
+	    int agreecode = 0;
+	    if(location.equals("on")) { agreecode += 1; }
+	    if(event.equals("on"))    { agreecode += 2; }
 		
 		// UsersDTO 만들기 
 		UsersDTO usersDTO = new UsersDTO();
@@ -106,8 +102,9 @@ public class UsersServiceImpl implements UsersService {
 		usersDTO.setName(name);
 		usersDTO.setAgreecode(agreecode);
 		
-		// 회원가입(UserDTO를 DB로 보내기) 
+		// 회원가입(UsersDTO를 DB로 보내기) 
 		int joinResult = usersMapper.insertUsers(usersDTO);
+		
 		
 		// 응답 
 		try { 
@@ -132,16 +129,31 @@ public class UsersServiceImpl implements UsersService {
 		}
 		
 	}
+
 	@Override
 	public void login(HttpServletRequest request, HttpServletResponse response) {
 		
 		// 요청 파라미터 
 		String url = request.getParameter("url"); // 로그인 화면의 이전 주소(로그인 후 되돌아갈 주소)
 		String email = request.getParameter("email");
+		//String name = request.getParameter("name");
 		String pw = request.getParameter("pw");
 		
-		// 비밀번호 SHA-256 암호화 
-		pw = securityUtil.getSha256(pw);
+		/**********************************************************************/
+		/****** 로그인 이전에 휴면계정(휴면 테이블에 정보가 있는지) 확인 ******/
+		/****** SleepUserCheckInterceptor 코드를 옮겨온 뒤 인터셉터 제거 ******/
+		/**********************************************************************/
+		SleepUsersDTO sleepUsersDTO = usersMapper.selectSleepUsersByEmail(email);
+		if(sleepUsersDTO != null) {                      // 휴면계정이라면(휴면 테이블에 정보가 있다면) 휴면복원페이지로 이동한다.
+			HttpSession session = request.getSession();  // session에 sleepUsersEmail을 올려 놓으면 wakeup.jsp에서 휴면회원의 아이디를 확인할 수 있다.
+			session.setAttribute("sleepUsersEmail", email);
+			try {
+				response.sendRedirect("/users/wakeup.html");  // 휴면복원페이지로 이동한다.
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		/**********************************************************************/
 		
 		// UsersDTO 만들기 
 		UsersDTO usersDTO = new UsersDTO();
@@ -151,26 +163,32 @@ public class UsersServiceImpl implements UsersService {
 		// DB에서 UsersDTO 조회하기 
 		UsersDTO loginUsersDTO = usersMapper.selectUsersByUsersDTO(usersDTO);
 		
-		// ID, PW가 일치하는 회원이 있으면 로그인 성공
+		// Email, PW가 일치하는 회원이 있으면 로그인 성공
 	    // 0. 자동 로그인 처리하기(autologin 메소드에 맡기기)
-	    // 1. session에 ID 저장하기
+	    // 1. session에 Email 저장하기
 	    // 2. 회원 접속 기록 남기기
 	    // 3. 이전 페이지로 이동하기
 		
 		if(loginUsersDTO != null) {
 			
-			/*
-			 * // 자동 로그인 처리를 위한 autologin 메소드 호출하기 autologin(request, response);
-			 * 
-			 * HttpSession session = request.getSession();
-			 * session.setAttribute("loginEmail", email);
-			 * 
-			 * int updateResult = usersMapper.updateUsersAccess(email); if(updateResult ==
-			 * 0) { usersMapper.insertUsersAccess(email); }
-			 * 
-			 * try { response.sendRedirect(url); } catch (Exception e) {
-			 * e.printStackTrace(); }
-			 */
+			// 자동 로그인 처리를 위한 autologin 메소드 호출하기
+			autologin(request, response);
+			
+			HttpSession session = request.getSession();
+			session.setAttribute("loginEmail", email);
+			
+			
+			int updateResult = usersMapper.updateUsersAccess(email);
+			if(updateResult == 0) {
+				usersMapper.insertUsersAccess(email);
+			}
+			
+			try {
+				response.sendRedirect(url);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
 		}
 		 // EMAIL, PW가 일치하는 회원이 없으면 로그인 실패
 		else {
@@ -180,7 +198,7 @@ public class UsersServiceImpl implements UsersService {
 				PrintWriter out = response.getWriter();
 				out.println("<script>");
 				out.println("alert('일치하는 회원 정보가 없습니다.');");
-				out.println("location.href='/users/login.html';");
+				out.println("location.href='/login.html';"); // 로그인 실패 후 이동하는 주소
 				out.println("</script>");
 				out.flush();
 				out.close();
@@ -190,57 +208,73 @@ public class UsersServiceImpl implements UsersService {
 		}
 	}
 	
-	   @Override
+	@Override
 	public void autologin(HttpServletRequest request, HttpServletResponse response) {
 		
-		   // 요청 파라미터 
-		   String email = request.getParameter("email");
-		   String chkAutologin = request.getParameter("chkAutologin");
-		   
-		   // 자동 로그인을 체크한 경우 
-		   if(chkAutologin != null) {
-			   
-			   HttpSession session = request.getSession();
-			   String sessionEmail = session.getId();
-			   
-			   // DB로 보낼 UsersDTO 만들기 
-			   UsersDTO usersDTO = new UsersDTO();
-			   usersDTO.setEmail(email);
-			   usersDTO.setAutologinEmail(sessionEmail);
-			   usersDTO.setAutologinExpiredAt(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 30));
-			   
-			   // DB로 UserDTO 보내기 
-			   usersMapper.insertAutologin(usersDTO);
-			   
-			   // 쿠키 저장 
-			   Cookie cookie = new Cookie("autologinEmail", sessionEmail);
-			   cookie.setMaxAge(60 * 60 * 24 * 30);
-			   cookie.setPath(request.getContextPath());
-			   response.addCookie(cookie);
-		   }
-		   // 자동 로그인을 체크하지 않은 경우 
-		   else {
-			   
-			   // DB에서 AUTOLOGIN_EMAIL 칼럼과 AUTOLOGIN_EXPIRED_AT 칼럼 정보 삭제하기
-			   usersMapper.deleteAutologin(email);
-			   
-			   Cookie cookie = new Cookie("autologinEmail", "");
-			   cookie.setMaxAge(0);
-			   cookie.setPath(request.getContextPath());
-			   response.addCookie(cookie);
-		   }
+		  /*
+	      자동 로그인 처리하기
+	      
+	      1. 자동 로그인을 체크한 경우
+	        1) session의 id를 DB의 AUTOLOGIN_EMAIL 칼럼에 저장한다. (중복이 없고, 다른 사람이 알기 어려운 정보를 이용해서 자동 로그인에서 사용할 ID를 결정한다.)
+	        2) 자동 로그인을 유지할 기간(예시 : 15일)을 DB의 AUTOLOGIN_EXPIRED_AT 칼럼에 저장한다.
+	        3) session의 id를 쿠키로 저장한다. (쿠키 : 각 사용자의 브라우저에 저장되는 정보)
+	           이 때 쿠키의 유지 시간을 자동 로그인을 유지할 기간과 동일하게 맞춘다.
+	      
+	      2. 자동 로그인을 체크하지 않은 경우
+	        1) DB에 저장된 AUTOLOGIN_EMAIL 칼럼과 AUTOLOGIN_EXPIRED_AT 칼럼의 정보를 삭제한다.
+	        2) 쿠키를 삭제한다.
+	    */
+
+	    // 요청 파라미터
+	    String email = request.getParameter("email");
+	    String chkAutologin = request.getParameter("chkAutologin");
+
+	    // 자동 로그인을 체크한 경우
+	    if (chkAutologin != null) {
+	    	
+	        HttpSession session = request.getSession();
+	        String autologinEmail = session.getId();  // session.getId() : 쿠키이름 JSESSIONID으로 저장되는 정보이다. 브라우저가 새롭게 열릴때마다 자동으로 갱신되는 임의의 값이다.
+
+	        // DB로 보낼 UsersDTO 만들기
+	        UsersDTO usersDTO = new UsersDTO();
+	        usersDTO.setEmail(email);
+	        usersDTO.setAutologinEmail(autologinEmail);
+	        usersDTO.setAutologinExpiredAt(new Date());
+
+	        // DB로 UsersDTO 보내기
+	        usersMapper.insertAutologin(usersDTO);
+
+	        // 쿠키 저장
+	        Cookie cookie = new Cookie("autologinEmail", autologinEmail);  // 쿠키이름 autologinEmail으로 session.getId()값(쿠키 JSESSIONID값) 저장하기
+	        cookie.setMaxAge(60 * 60 * 24 * 30);
+	        cookie.setPath("/");
+	        response.addCookie(cookie);
+	        
+	    }
+	    
+	    // 자동 로그인을 체크하지 않은 경우
+	    else {
+	    	
+	        // DB에서 AUTOLOGIN_EMAIL 칼럼과 AUTOLOGIN_EXPIRED_AT 칼럼 정보 삭제하기
+	        usersMapper.deleteAutologin(email);
+	        Cookie cookie = new Cookie("autologinEmail", "");
+	        cookie.setMaxAge(0);
+	        cookie.setPath("/");
+	        response.addCookie(cookie);
+	    }
+	    
 	}
 	
 	@Override
 	public void logout(HttpServletRequest request, HttpServletResponse response) {
 		
 		// 1. 자동 로그인 해제    
-		// DB에서 AUTOLOGIN_ID 칼럼과 AUTOLOGIN_EXPIRED_AT 칼럼 정보 삭제하기
+		// DB에서 AUTOLOGIN_EMAIL 칼럼과 AUTOLOGIN_EXPIRED_AT 칼럼 정보 삭제하기
 		HttpSession session = request.getSession();
 		String email = (String)session.getAttribute("loginEmail");
 		usersMapper.deleteAutologin(email);
 		
-		// autoLoginId 쿠키 삭제하기
+		// autoLoginEmail 쿠키 삭제하기
 		Cookie cookie = new Cookie("autologinEmail", "");
 		cookie.setMaxAge(0);
 		cookie.setPath(request.getContextPath());
@@ -250,7 +284,7 @@ public class UsersServiceImpl implements UsersService {
 		 session.invalidate();
 	}
 	
-	@Transactional(readOnly=true)
+	@Transactional
 	@Override
 	public void out(HttpServletRequest request, HttpServletResponse response) {
 		// 탈퇴할 회원의 Email은 Session에 loginEmail 속성으로 저장되어 있음. 
@@ -265,6 +299,7 @@ public class UsersServiceImpl implements UsersService {
 		outUsersDTO.setEmail(usersDTO.getEmail());
 		outUsersDTO.setJoinedAt(usersDTO.getJoinedAt());
 		
+		
 		// 회원탈퇴
 		int insertResult = usersMapper.insertOutUsers(outUsersDTO);
 		int deleteResult = usersMapper.deleteUsers(email);
@@ -275,6 +310,7 @@ public class UsersServiceImpl implements UsersService {
 			PrintWriter out = response.getWriter();
 			out.println("<script>");
 			if(insertResult == 1 && deleteResult == 1) {
+				
 				// session 초기화
 				session.invalidate();
 				
@@ -288,12 +324,13 @@ public class UsersServiceImpl implements UsersService {
 			out.println("</script>");
 			out.flush();
 			out.close();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
-	@Transactional(readOnly=true)
+	@Transactional
 	@Override
 	public void sleepUsersHandle() {
 		int insertResult = usersMapper.insertSleepUsers();
@@ -307,7 +344,7 @@ public class UsersServiceImpl implements UsersService {
 	@Override
 	public void restore(HttpServletRequest request, HttpServletResponse response) {
 		
-		 // 복원할 아이디는 session에 sleepUsersId로 저장되어 있다. 
+		 // 복원할 아이디는 session에 sleepUsersEmail로 저장되어 있다. 
 	     HttpSession session = request.getSession();
 	     String email = (String)session.getAttribute("sleepUsersEmail");
 	     
@@ -356,7 +393,7 @@ public class UsersServiceImpl implements UsersService {
 	}
 	
 	 @Override
-	public UsersDTO getUserByEmail(String email) {
+	public UsersDTO getUsersByEmail(String email) {
 		return usersMapper.selectUsersByEmail(email);
 	}
 	 
@@ -376,21 +413,66 @@ public class UsersServiceImpl implements UsersService {
 		
 		// PW 수정 결과 반환 
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("pwUpdateResult", usersMapper.updateUsersPassword(usersDTO));
+		map.put("updateUsersPasswordResult", usersMapper.updateUsersPassword(usersDTO));
 		return map;
 	}
+	 
+	  @Override
+	  public Map<String, Object> modifyInfo(HttpServletRequest request) {
+	    
+	    // 요청 파라미터
+	    String email = request.getParameter("email");
+	    String name = request.getParameter("name");
+	    String phoneNo = request.getParameter("phoneNo");
+	    String postcode = request.getParameter("postcode");
+	    String roadAddress = request.getParameter("roadAddress");
+	    String jibunAddress = request.getParameter("jibunAddress");
+	    String detailAddress = request.getParameter("detailAddress");
+	    String location = request.getParameter("location");  // on 또는 off
+	    String event = request.getParameter("event");        // on 또는 off
+	    
+	    // 이름 XSS 처리
+	    name = securityUtil.preventXSS(name);
+	    
+	   
+	    // 상세주소 XSS 처리
+	    detailAddress = securityUtil.preventXSS(detailAddress);
+	    
+	  
+	    // agreecode
+	    int agreecode = 0;
+	    if(location.equals("on")) { agreecode += 1; }
+	    if(event.equals("on"))    { agreecode += 2; }
+	    
+	    // UsersDTO 만들기
+	    UsersDTO usersDTO = new UsersDTO();
+	    usersDTO.setEmail(email);
+	    usersDTO.setName(name);
+	    usersDTO.setPhoneNo(phoneNo);
+	    usersDTO.setPostcode(postcode);
+	    usersDTO.setRoadAddress(roadAddress);
+	    usersDTO.setJibunAddress(jibunAddress);
+	    usersDTO.setDetailAddress(detailAddress);
+	    usersDTO.setAgreecode(agreecode);
+	    
+	    // Info 수정 결과 반환
+	    Map<String, Object> map = new HashMap<String, Object>();
+	    map.put("updateUsersInfoResult", usersMapper.updateUsersInfo(usersDTO));
+	    return map;
+	    
+	  }
 	 
 	 @Override
 	public Map<String, Object> findEmail(UsersDTO usersDTO) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("findUsers", usersMapper.selectUsersByEmail(usersDTO.getEmail()));
+		map.put("findUsers", usersMapper.selectUsersByPhoneNo(usersDTO.getPhoneNo()));
 		return null;
 	}
 	 
 	 @Override
 	public Map<String, Object> findPw(UsersDTO usersDTO) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("findUsers", usersMapper.selectUsersByPhoneNo(usersDTO.getPhoneNo()));
+		map.put("findUsers", usersMapper.selectUsersByEmail(usersDTO.getEmail()));
 		return null;
 	}
 	 

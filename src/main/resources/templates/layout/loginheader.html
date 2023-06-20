@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<!--/*
+  head 태그를 조각(fragment)으로 만든다.
+    - 조각이름 : headFrag
+    - 파라미터 : title
+*/-->
+<head th:fragment="HeadFrag(title)">
+  <meta charset="UTF-8">
+  <title th:text="${title}"></title>
+  <script th:src="@{/js/lib/jquery-3.6.4.min.js}"></script>
+</head>
+
+
+<body>
+
+<div th:fragment="loginHeadFrag">
+	<div class="loginheader">
+            <div th:if="${session.loginEmail != null}">
+                <span th:text="'안녕하세요, ' + ${session.loginEmail} + '님!'"></span>
+                <a th:href="@{/users/checkPw.html}" class="menu-link">마이페이지</a>
+                <a th:href="@{/users/logout.do}" class="menu-link">로그아웃</a>
+            </div>
+            <div th:if="${session.loginEmail == null}">
+                <a th:href="@{/users/login.html}" class="menu-link">로그인</a>
+                <a th:href="@{/users/agree.html}" class="menu-link">회원가입</a>
+            </div>
+     </div>
+</div>    
+    
+
+</body>
+</html>

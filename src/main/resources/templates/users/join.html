@@ -24,22 +24,22 @@
 	}
 	
 	#box {
-    margin-top: 30px;
-    position: absolute;
-    width: 450px;
-    height: 730px;
-    left: 40%;
-    margin-left: -25px;
-    margin-top: -25px;
-    top: 10%;
-    background-color: #000; 
-    opacity:0.7; 
-    border-radius: 20px;
-    box-shadow: 8px 8px 8px #585858;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+	    margin-top: 30px;
+	    position: absolute;
+	    width: 450px;
+	    height: 730px;
+	    left: 40%;
+	    margin-left: -25px;
+	    margin-top: -25px;
+	    top: 10%;
+	    background-color: #000; 
+	    opacity:0.7; 
+	    border-radius: 20px;
+	    box-shadow: 8px 8px 8px #585858;
+	    display: flex;
+	    flex-direction: column;
+	    justify-content: center;
+	    align-items: center;
    }
   
    	input {
@@ -256,7 +256,7 @@ $('#rePw').on('keyup', function(){
 		  let phoneNo = $(this).val();
 		  
 		  // 정규식
-		  let regPhoneNo = /^010-?[0-9]{4}-?[0-9]{4}$/;;
+		  let regPhoneNo = /^010-?[0-9]{4}-?[0-9]{4}$/;
 		  
 		  // 정규식 검사
 		  verifyPhoneNo = regPhoneNo.test(phoneNo);
@@ -333,8 +333,8 @@ $('#rePw').on('keyup', function(){
 		<div id="box">
 			<form id="frmJoin" method="post" th:action="@{/users/join.do}">
 				<!-- agree.html에서 전달된 location, event 속성 -->
-				<input type="hidden" name="location" value="${location}">
-				<input type="hidden" name="event" value="${event}">
+				<input type="hidden" name="location" th:value="${location}">
+				<input type="hidden" name="event" th:value="${event}">
 				      
 				<div style="font-size: 15px;">회원가입</div> 	 
 				<div class="form-row">
