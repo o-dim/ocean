@@ -13,6 +13,10 @@ public class MyFileUtil {
 	// 경로 구분자
 	private String sep = Matcher.quoteReplacement(File.separator);
 	
+	// CD 이미지 경로(mainImg, detailImg)
+	public String getCdImgPath() {
+		return "/storage/cdImg/";
+	}
 	// String path 만들기
 	public String getPath() {
 		LocalDate now = LocalDate.now();

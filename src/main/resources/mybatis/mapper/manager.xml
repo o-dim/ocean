@@ -21,46 +21,71 @@
 			<id column="HTCD_NO" property="htcdNo"/>
 			<association javaType="HashtagDTO" property="hashtagDTO">
 				<id column="HT_NO" property="htNo"/>
-				<result column="NAME" property="name" />
+				<result column="NAME" property="name"/>
 			</association>
 		</association>
 	</resultMap>
-
-
+	
+	<!-- 댓글테이블에서 CD테이블에있는 제목과, Users테이블에있는 name을 사용 -->
+	<resultMap type="ReplyDTO" id="ReplyMap">
+		<id column="REPLY_NO" property="replyNo"/>
+		<result column="CONTENT" property="content"/>
+		<result column="GROUP_NO" property="groupNo"/>
+		<result column="GROUP_ORDER" property="groupOrder"/>
+		<result column="DEPTH" property="depth"/>
+		<result column="WRITE_AT" property="writeAt"/>
+			<association javaType="CdDTO" property="cdDTO">
+				<id column="CD_NO" property="cdNo"/>
+				<result column="TITLE" property="title"/>
+				<result column="SINGER" property="singer"/>
+				<result column="MAIN_IMG" property="mainImg"/>
+				<result column="DETAIL_IMG" property="detailImg"/>
+				<result column="PRICE" property="price"/>
+				<result column="STOCK" property="stock"/>
+				<result column="RECOMMEND_COUNT" property="recommendCount"/>
+				<result column="WRITED_AT" property="writedAt"/>
+			</association>
+			<association javaType="UsersDTO" property="usersDTO">
+				<id column="USER_NO" property="userNo"/>
+				<result column="EMAIL" property="email"/>
+				<result column="PW" property="pw"/>
+				<result column="PHONE_NO" property="phoneNo"/>
+				<result column="POSTCODE" property="postcode"/>
+				<result column="ROAD_ADDRESS" property="roadAddress"/>
+				<result column="JIBUN_ADDRESS" property="jibunAddress"/>
+				<result column="DETAIL_ADDRESS" property="detailAddress"/>
+				<result column="NAME" property="name"/>
+				<result column="JOINED_AT" property="joinedAt"/>
+			</association>
+	</resultMap>
+	
+	
 	<select id="getUserCount" resultType="int">
 		SELECT COUNT(*)
 		  FROM USERS
 	</select>
 	
+	<!-- SaleList, Pagination, Search -->
 	<select id="getCdCount" resultType="int">
 		SELECT COUNT(*)
 		  FROM CD
 	</select>
-	
-	<!-- SaleList, Pagination, Search -->
 	<select id="getSaleList" parameterType="Map" resultMap="CdMap">
-		SELECT A.CD_NO, A.TITLE, A.SINGER, A.MAIN_IMG, A.DETAIL_IMG, A.PRICE, A.STOCK, A.RECOMMEND_COUNT, A.WRITED_AT, A.HT_NO,A.NAME
+		SELECT A.CD_NO, A.TITLE, A.SINGER, A.MAIN_IMG, A.DETAIL_IMG, A.PRICE, A.STOCK, A.RECOMMEND_COUNT, A.WRITED_AT, COUNT(A.HT_NO),COUNT(A.NAME)
 		  FROM (SELECT C.CD_NO, C.TITLE, C.SINGER, C.MAIN_IMG, C.DETAIL_IMG, C.PRICE, C.STOCK, C.RECOMMEND_COUNT, C.WRITED_AT, H.HT_NO,H.NAME
 		  		  FROM CD C LEFT OUTER JOIN HASHTAG_CD TC
 		  		    ON C.CD_NO = TC.CD_NO LEFT OUTER JOIN HASHTAG H
 		  		    ON TC.HT_NO = H.HT_NO
 		  		 <where>
 		  		 	<if test="query != ''">
-		  		 		TITLE LIKE CONCAT('%', #{query}, '%')
+		  		 		TITLE LIKE CONCAT('%', UPPER(#{query}), '%') OR TITLE LIKE CONCAT('%', LOWER(#{query}), '%')
 		  		 	</if>
 		  		 </where>
 		  		 ) A
+		 GROUP BY A.CD_NO, A.TITLE, A.SINGER, A.MAIN_IMG, A.DETAIL_IMG, A.PRICE, A.STOCK, A.RECOMMEND_COUNT, A.WRITED_AT
 		 ORDER BY CD_NO ASC
 		 LIMIT #{begin}, #{recordPerPage}
 	</select>
-	
-	<!-- SaleList에서 삭제 -->
-	<delete id="removeCd" parameterType="int">
-		DELETE
-		  FROM CD
-		 WHERE CD_NO = #{cdNo}
-	</delete>
-	
 	<!-- SaleList에서 cdNo를 불러왔을 때 htNo를 가져오기 -->
 	<select id="getHashtagByNo" parameterType="String" resultType="HashtagDTO">
 		SELECT H.HT_NO, H.NAME, C.CD_NO
@@ -73,6 +98,14 @@
 		 	   </foreach>
 	</select>
 	
+	<!-- SaleList에서 삭제 -->
+	<delete id="removeCd" parameterType="int">
+		DELETE
+		  FROM CD
+		 WHERE CD_NO = #{cdNo}
+	</delete>
+	
+	
 	<!-- cdadd에서 htNo가져오기 -->
 	<select id="getHashtagList" resultType="HashtagDTO">
 		SELECT HT_NO, NAME
@@ -80,36 +113,171 @@
 		 ORDER BY HT_NO ASC
 	</select>
 	
+	<insert id="addCd" useGeneratedKeys="true" keyProperty="cdNo" parameterType="CdDTO">
+      INSERT INTO CD(
+         TITLE
+        , SINGER
+        , MAIN_IMG
+        , DETAIL_IMG
+        , PRICE
+        , STOCK
+        , RECOMMEND_COUNT
+        , WRITED_AT
+      ) VALUES (
+          #{title}
+        , #{singer}
+        , #{mainImg}
+        , #{detailImg}
+        , #{price}
+        , #{stock}
+        , 0
+        , NOW()
+      )
+   </insert>
+   
+   <insert id="addHashtagCd" parameterType="HashtagCdDTO">
+    INSERT INTO HASHTAG_CD(
+       HT_NO
+        , CD_NO
+   ) VALUES (
+      #{hashtagDTO.htNo}
+     , #{cdDTO.cdNo}
+   )
+   </insert>
+	
 	<!-- member.html에서 회원목록 조회 및 Pagination -->
-	<select id="getUserListPagination" parameterType="Map" resultType="UsersDTO">
+	<select id="getUserList" parameterType="Map" resultType="UsersDTO">
 		SELECT A.USER_NO, A.NAME, A.EMAIL, A.PW, A.PHONENO, A.POSTCODE, A.ROAD_ADDRESS, A.JIBUN_ADDRESS, A.DETAIL_ADDRESS, A.JOINED_AT 
 		  FROM (SELECT USER_NO, NAME, EMAIL, PW, PHONENO, POSTCODE, ROAD_ADDRESS, JIBUN_ADDRESS, DETAIL_ADDRESS, JOINED_AT
-		  		  FROM USERS) A
+		  		  FROM USERS
+		  		<where>
+		  			<if test="column != '' and query != ''">
+		  				${column} LIKE CONCAT('%', UPPER(#{query}), '%') OR ${column} LIKE CONCAT('%', LOWER(#{query}), '%')
+		  			</if> 
+		  		</where>	  
+		  		  ) A
 		 ORDER BY USER_NO DESC
 		 LIMIT #{begin}, #{recordPerPage}
 	</select>
 	
-<!-- 	<insert id="addCd" useGeneratedKeys="true" keyProperty="cdNo" parameterType="CdDTO">
-		INSERT INTO CD(
-			TITLE
-		  , SINGER
-		  , MAIN_IMG
-		  , DETAIL_IMG
-		  , PRICE
-		  , STOCK
-		  , RECOMMEND_COUNT
-		  , WRITED_AT
-		) VALUES (
-			#{title}
-		  , #{singer}
-		  , #{mainImg}
-		  , #{detailImg}
-		  , #{price}
-		  , #{stock}
-		  , 0
+	<!-- member.html에 조회 했을 때 pagination -->
+	<select id="getUserSearchCount" parameterType="Map" resultType="int">
+		SELECT COUNT(NAME)
+		  FROM USERS
+			<where>
+				<if test="column != '' and query != ''">
+					${column} LIKE CONCAT('%', UPPER(#{query}), '%') OR ${column} LIKE CONCAT('%', LOWER(#{query}), '%')
+				</if> 
+			</where>
+	</select>
+	
+	<select id="getSleepUserList" parameterType="Map" resultType="SleepUsersDTO">
+		SELECT A.SLEEP_USER_NO, A.NAME, A.EMAIL, A.PW, A.PHONENO, A.POSTCODE, A.ROAD_ADDRESS, A.JIBUN_ADDRESS, A.DETAIL_ADDRESS, A.JOINED_AT, A.SLEPT_AT 
+		  FROM (SELECT SLEEP_USER_NO, NAME, EMAIL, PW, PHONENO, POSTCODE, ROAD_ADDRESS, JIBUN_ADDRESS, DETAIL_ADDRESS, JOINED_AT, SLEPT_AT
+		  		  FROM SLEEP_USERS
+		  		<where>
+		  			<if test="column != '' and query != ''">
+		  				${column} LIKE CONCAT('%', UPPER(#{query}), '%') OR ${column} LIKE CONCAT('%', LOWER(#{query}), '%')
+		  			</if> 
+		  		</where>	  
+		  		  ) A
+		 ORDER BY SLEEP_USER_NO DESC
+		 LIMIT #{begin}, #{recordPerPage}
+	</select>
+	
+	<select id="getSleepUserSearchCount" parameterType="Map" resultType="int">
+		SELECT COUNT(NAME)
+		  FROM SLEEP_USERS
+			<where>
+				<if test="column != '' and query != ''">
+					${column} LIKE CONCAT('%', UPPER(#{query}), '%') OR ${column} LIKE CONCAT('%', LOWER(#{query}), '%')
+				</if> 
+			</where>
+	</select>
+	
+	<select id="getOutUserList" parameterType="Map" resultType="OutUsersDTO">
+		SELECT A.OUT_USER_NO, A.EMAIL,A.JOINED_AT, A.OUT_AT 
+		  FROM (SELECT OUT_USER_NO, EMAIL, JOINED_AT, OUT_AT
+		  		  FROM OUT_USERS
+		  		<where>
+		  			<if test="query != ''">
+		  				EMAIL LIKE CONCAT('%', UPPER(#{query}), '%') OR EMAIL LIKE CONCAT('%', LOWER(#{query}), '%')
+		  			</if> 
+		  		</where>	  
+		  		  ) A
+		 ORDER BY OUT_USER_NO DESC
+		 LIMIT #{begin}, #{recordPerPage}
+	</select>
+	
+	<select id="getOutUserSearchCount" parameterType="Map" resultType="int">
+		SELECT COUNT(EMAIL)
+		  FROM OUT_USERS
+			<where>
+				<if test="query != ''">
+					EMAIL LIKE CONCAT('%', UPPER(#{query}), '%') OR EMAIL LIKE CONCAT('%', LOWER(#{query}), '%')
+				</if> 
+			</where>
+	</select>
+	
+	<!-- 일반회원 추방시 탈퇴회원으로 이동 -->
+	<select id="selectUserById" parameterType="String" resultType="UsersDTO">
+		SELECT USER_NO
+			 , EMAIL
+			 , PW
+			 , PHONENO
+			 , POSTCODE
+			 , ROAD_ADDRESS	
+			 , JIBUN_ADDRESS
+			 , DETAIL_ADDRESS
+			 , NAME
+			 , JOINED_AT
+			 , AGREECODE
+			 , AUTOLOGIN_ID
+			 , AUTOLOGIN_EXPIRED_AT
+		  FROM USERS
+		 WHERE EMAIL = #{email}
+	</select>
+	<insert id="insertOutUser" parameterType="UsersDTO">
+		INSERT INTO OUT_USERS (
+			EMAIL
+		  , JOINED_AT
+		  , OUT_AT
+		  ) VALUES (
+		    #{email}
+		  , #{joinedAt}
 		  , NOW()
-		)
-	</insert> -->
+		  )
+	</insert>
+	<delete id="deleteUser" parameterType="String">
+		DELETE
+		  FROM USERS
+		 WHERE EMAIL = #{email}
+	</delete>
+	
+	<select id="getBoardCount" resultType="int">
+		SELECT COUNT(*)
+		  FROM REPLY
+	</select>
+	<select id="getBoardList" parameterType="Map" resultMap="ReplyMap">
+		SELECT A.REPLY_NO, A.CONTENT, A.GROUP_NO, A.GROUP_ORDER, A.DEPTH, A.WRITE_AT, A.NAME, A.TITLE
+  	 	  FROM (SELECT R.REPLY_NO, R.CONTENT, R.GROUP_NO, R.GROUP_ORDER, R.DEPTH, R.WRITE_AT, U.NAME, C.TITLE
+		  FROM REPLY R LEFT OUTER JOIN CD C
+            ON R.CD_NO = C.CD_NO LEFT OUTER JOIN USERS U
+            ON R.USER_NO = U.USER_NO
+		 <where>
+		 	<if test="column != '' and query != ''">
+		 		${column} LIKE CONCAT('%', UPPER(#{query}), '%') OR ${column} LIKE CONCAT('%', LOWER(#{query}), '%')
+		 	</if>
+		 </where>
+         ) A
+         ORDER BY REPLY_NO ASC
+         LIMIT #{begin}, #{recordPerPage}
+	</select>
+	<delete id="removeReply" parameterType="int">
+		DELETE
+		  FROM REPLY
+		 WHERE REPLY_NO = #{replyNo}
+	</delete>
 	
 	
 	
@@ -118,10 +286,6 @@
 	
 	
 	
-	
-	
-	
-	
-	
+
 
 </mapper>
