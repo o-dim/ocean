@@ -267,7 +267,7 @@ public class ManagerServiceImpl implements ManagerService {
 		HttpSession session = request.getSession();
 		
 		/* session 저장해서 삭제 테스트 나중에 지워야함 */
-		session.setAttribute("loginEmail", "quddls6@naver.com");
+		session.setAttribute("loginEmail", "nick@naver.com");
 		
 		String email = (String) session.getAttribute("loginEmail");
 		
@@ -330,7 +330,7 @@ public class ManagerServiceImpl implements ManagerService {
 		List<ReplyDTO> replyList = managerMapper.getBoardList(map);
 		model.addAttribute("replyList", replyList);
 		model.addAttribute("pagination", pageUtil.getPagination("/manager/board.do?column=" + column + "&query=" + query));
-		model.addAttribute("replyNo", totalRecord - (page - 1) * recordPerPage);
+		model.addAttribute("idolNo", totalRecord - (page - 1) * recordPerPage);
 	}
 	
 	@Override

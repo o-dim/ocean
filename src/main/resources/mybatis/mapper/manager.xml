@@ -213,17 +213,7 @@
 	<select id="selectUserById" parameterType="String" resultType="UsersDTO">
 		SELECT USER_NO
 			 , EMAIL
-			 , PW
-			 , PHONENO
-			 , POSTCODE
-			 , ROAD_ADDRESS	
-			 , JIBUN_ADDRESS
-			 , DETAIL_ADDRESS
-			 , NAME
 			 , JOINED_AT
-			 , AGREECODE
-			 , AUTOLOGIN_ID
-			 , AUTOLOGIN_EXPIRED_AT
 		  FROM USERS
 		 WHERE EMAIL = #{email}
 	</select>
@@ -249,10 +239,9 @@
 		  FROM REPLY
 	</select>
 	<select id="getBoardList" parameterType="Map" resultMap="ReplyMap">
-		SELECT A.REPLY_NO, A.CONTENT, A.GROUP_NO, A.GROUP_ORDER, A.DEPTH, A.WRITE_AT, A.NAME, A.TITLE
-  	 	  FROM (SELECT R.REPLY_NO, R.CONTENT, R.GROUP_NO, R.GROUP_ORDER, R.DEPTH, R.WRITE_AT, U.NAME, C.TITLE
-		  FROM REPLY R LEFT OUTER JOIN CD C
-            ON R.CD_NO = C.CD_NO LEFT OUTER JOIN USERS U
+		SELECT A.REPLY_NO, A.CONTENT, A.GROUP_NO, A.GROUP_ORDER, A.DEPTH, A.WRITE_AT, A.IDOL_NO, A.EMAIL
+		  FROM (SELECT R.REPLY_NO, R.CONTENT, R.GROUP_NO, R.GROUP_ORDER, R.DEPTH, R.WRITE_AT, R.IDOL_NO, U.EMAIL
+				  FROM REPLY R LEFT OUTER JOIN USERS U
             ON R.USER_NO = U.USER_NO
 		 <where>
 		 	<if test="column != '' and query != ''">
@@ -263,6 +252,7 @@
          ORDER BY REPLY_NO ASC
          LIMIT #{begin}, #{recordPerPage}
 	</select>
+	
 	<delete id="removeReply" parameterType="int">
 		DELETE
 		  FROM REPLY

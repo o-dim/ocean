@@ -28,7 +28,7 @@
 		<div class="wrap">
 			<form id="frm" th:action="@{/manager/board.do}">
 				<select th:name="column" th:id="column">
-					<option th:value="U.NAME">NAME</option>
+					<option th:value="U.EMAIL">EMAIL</option>
 					<option th:value="CONTENT">CONTENT</option>
 				</select>
 				<input class="search_query" type="text" th:name="query" th:id="query">
@@ -37,21 +37,17 @@
 			<table>
 				<thead>
 					<tr>
-						<td>작성번호</td>
-						<td>작성자</td>
-						<td>CD이름</td>
+						<td>게시판번호</td>
+						<td>이메일</td>
 						<td>내용</td>
-						<td>작성일자</td>
 					</tr>
 				</thead>
 				<tbody>
 					<th:block th:each="reply,vs:${replyList}">
 						<tr>
-							<td th:text="${replyNo - vs.index}"></td>
-							<td th:text="${reply.usersDTO.name}"></td>
-							<td th:text="${reply.cdDTO.title}"></td>
+							<td th:text="${idolNo - vs.index}"></td>
+							<td th:text="${reply.usersDTO.email}"></td>
 							<td th:text="${reply.content}"></td>
-							<td th:text="${reply.writeAt}"></td>
 							<td>
 								<form class="frm_remove"  method="post" th:action="@{/manager/boardremove.do}">
 									<input type="hidden" th:name="replyNo" th:value="${reply.replyNo}">
