@@ -13,20 +13,20 @@
 	    <association property="cartNo" javaType="CartDTO">
         	<id column="CART_NO" property="cartNo" />
         	<result column="MADE_AT" property="madeAt" />
-        	<association property="usersNo" javaType="UsersDTO">
+        	<association property="userNo" javaType="UsersDTO">
 				<id column="USER_NO" property="userNo"/>
-				<id column="EMAIL" property="email"/>
-				<id column="PW" property="pw"/>
-				<id column="PHONENO" property="phoneNo"/>
-				<id column="POSTCODE" property="postcode"/>
-				<id column="ROAD_ADDRESS" property="roadAddress"/>
-				<id column="JIBUN_ADDRESS" property="jibunAddress"/>
-				<id column="DETAIL_ADDRESS" property="detailAddress"/>
-				<id column="NAME" property="name"/>
-				<id column="JOINED_AT" property="joinedAt"/>
-				<id column="AGREECODE" property="agreecode"/>
-				<id column="AUTOLOGIN_ID" property="autologinEmail"/>
-				<id column="AUTOLOGIN_EXPIRED_AT" property="autologinExpiredAt"/>
+				<result column="EMAIL" property="email"/>
+				<result column="PW" property="pw"/>
+				<result column="PHONENO" property="phoneNo"/>
+				<result column="POSTCODE" property="postcode"/>
+				<result column="ROAD_ADDRESS" property="roadAddress"/>
+				<result column="JIBUN_ADDRESS" property="jibunAddress"/>
+				<result column="DETAIL_ADDRESS" property="detailAddress"/>
+				<result column="NAME" property="name"/>
+				<result column="JOINED_AT" property="joinedAt"/>
+				<result column="AGREECODE" property="agreecode"/>
+				<result column="AUTOLOGIN_ID" property="autologinEmail"/>
+				<result column="AUTOLOGIN_EXPIRED_AT" property="autologinExpiredAt"/>
 			</association>
   		</association>
 	    <association property="cdNo" javaType="CdDTO">
@@ -47,20 +47,20 @@
 	<resultMap id="CartMap" type="CartDTO">
 		<id column="CART_NO" property="cartNo" />
 		<result column="MADE_AT" property="madeAt" />
-		<association property="usersNo" javaType="UsersDTO">
+		<association property="userNo" javaType="UsersDTO">
 			<id column="USER_NO" property="userNo"/>
-			<id column="EMAIL" property="email"/>
-			<id column="PW" property="pw"/>
-			<id column="PHONENO" property="phoneNo"/>
-			<id column="POSTCODE" property="postcode"/>
-			<id column="ROAD_ADDRESS" property="roadAddress"/>
-			<id column="JIBUN_ADDRESS" property="jibunAddress"/>
-			<id column="DETAIL_ADDRESS" property="detailAddress"/>
-			<id column="NAME" property="name"/>
-			<id column="JOINED_AT" property="joinedAt"/>
-			<id column="AGREECODE" property="agreecode"/>
-			<id column="AUTOLOGIN_ID" property="autologinEmail"/>
-			<id column="AUTOLOGIN_EXPIRED_AT" property="autologinExpiredAt"/>
+			<result column="EMAIL" property="email"/>
+			<result column="PW" property="pw"/>
+			<result column="PHONENO" property="phoneNo"/>
+			<result column="POSTCODE" property="postcode"/>
+			<result column="ROAD_ADDRESS" property="roadAddress"/>
+			<result column="JIBUN_ADDRESS" property="jibunAddress"/>
+			<result column="DETAIL_ADDRESS" property="detailAddress"/>
+			<result column="NAME" property="name"/>
+			<result column="JOINED_AT" property="joinedAt"/>
+			<result column="AGREECODE" property="agreecode"/>
+			<result column="AUTOLOGIN_ID" property="autologinEmail"/>
+			<result column="AUTOLOGIN_EXPIRED_AT" property="autologinExpiredAt"/>
 		</association>
 	</resultMap>
 	
@@ -84,17 +84,9 @@
 	</resultMap>
 	
  
-	<select id="getCdCount" resultType="int">
+<select id="getCdCount" resultType="int">
 		SELECT COUNT(*)
 		 FROM CD
-	</select>
-	
-	<select id="getCdList" parameterType="Map" resultType="CdDTO">
-	SELECT C.CD_NO, C.TITLE, C.SINGER, C.MAIN_IMG, C.DETAIL_IMG, C.PRICE, C.STOCK, C.RECOMMEND_COUNT, C.WRITED_AT
-		FROM (SELECT CD_NO, TITLE, SINGER, MAIN_IMG, DETAIL_IMG, PRICE, STOCK, RECOMMEND_COUNT, WRITED_AT
-			    FROM CD) C
-		       ORDER BY WRITED_AT DESC
-	   LIMIT #{begin}, #{recordPerPage}
 	</select>
 	
 	<select id="getCdByNo" parameterType="int" resultType="CdDTO">
@@ -102,6 +94,19 @@
 	  FROM CD
 	 WHERE CD_NO = #{cdNo}
  	</select>
+	
+	<select id="getCdList" parameterType="Map" resultType="CdDTO">
+    SELECT CD_NO, TITLE, SINGER, MAIN_IMG, DETAIL_IMG, PRICE, STOCK, RECOMMEND_COUNT, WRITED_AT
+    FROM CD
+	   <where>
+	        <if test="type != '' and searchText1 != ''">
+	            ${type} LIKE CONCAT('%', UPPER(#{searchText1}),'%') OR ${type} LIKE CONCAT('%', LOWER(#{searchText1}) , '%')
+	        </if>
+	    </where> 
+    ORDER BY WRITED_AT DESC
+    LIMIT #{begin}, #{recordPerPage}
+	</select>
+	
  	
  	<select id="getCount" parameterType="int" resultType="CartDetailDTO">
  	SELECT CD.COUNT
@@ -119,35 +124,49 @@
 	 WHERE C.CD_NO = #{cdNo}
 	</select>
 	
+	
 	<select id="getCartNo" parameterType="int" resultType="CartDTO">
-	SELECT CT.CART_NO
-	  FROM CD C INNER JOIN CART_DETAIL CD
-	  	ON C.CD_NO = CD.CD_NO INNER JOIN CART CT
-	  	ON CD.CART_NO = CT.CART_NO
-  	   WHERE CD.CART_NO = #{cartNo}
+	SELECT CART_NO
+	  FROM CART
+	 WHERE USER_NO = #{userNo}
 	</select>
-	
-	<insert id="">
-	
-	
-	</insert>
-	
-	
-	<!-- 
-	
-	<select id="getCartDetailNo" parameterType="int" resultType="CartDetailDTO">
-	SELECT CD.CART_DETAIL_NO
-	  FROM CART_DETAIL CD INNER JOIN CART CT
-	   ON CD.CART_NO = CT.CART_NO INNER JOIN CD C
-	   ON CT.CD_NO = C.CD_NO
-	WHERE CD.CART_DETAIL_NO = #{cartDetailNo}
-	</select>
-	
-	
-	 -->
 
+	<select id="getCartDetailNo" parameterType="int" resultType="CartDetailDTO">
+	SELECT CART_DETAIL_NO
+	  FROM CART_DETAIL
+	 WHERE USER_NO = #{userNo}
+	</select>
 	
+	<insert id="cartDetailList" parameterType="int">
+		INSERT INTO CART_DETAIL (
+			CART_DETAIL_NO
+		  , COUNT
+		  , CART_NO
+		  , CD_NO
+		) VALUES (
+			  #{cartDetailNo}
+			, #{count}
+			, #{cartNo.cartNo},
+			, #{cdNo.cdNo}
+		)
+	</insert>
+	 
+	 <!-- 
+	 <select id="getcdSearch" parameterType="Map" resultMap="CartDetailMap">
+		 SELECT CD_NO, TITLE, SINGER, MAIN_IMG, DETAIL_IMG, PRICE, STOCK, RECOMMEND_COUNT, WRITED_AT
+		    FROM CD
+		   <where>
+		   		<if test="search != '' and searchText1 != ''">
+		   			${search} LIKE CONCAT('%', UPPER(#{searchText1}) , '%') OR ${search} LIKE CONCAT('%', LOWER(#{searchText1}), '%')
+		   		</if>
+		   </where> 
+		    ORDER BY CD_NO ASC
+		    LIMIT #{begin}, #{recordPerPage}
+	</select>
 	
+	  -->
+	
+ 	
 	
 
 	

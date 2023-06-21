@@ -19,8 +19,10 @@ public interface ShopMapper {
 	public CdDTO getCdByNo(int cdNo);
 	public List<HashtagDTO> getHashtagName(int cdNo);
 	public List<CartDTO> getCartNo(int cartNo);
-	//public List<CartDetailDTO> getCartDetailNo(int cartDetailNo);
-	public CartDetailDTO getCount(int cdNo);
+	public List<CartDetailDTO> getCartDetailNo(int cartDetailNo);
+	public List<CdDTO> getcdSearch(Map<String, Object> map);
+	//public CartDetailDTO getCartDetailNo(int cdNo);
+	
 	
 
 	//public List<CartDTO> getCartList(Map<String, Object> map);	

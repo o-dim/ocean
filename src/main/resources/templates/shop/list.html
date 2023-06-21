@@ -20,13 +20,12 @@
 						</div>
 					</div>	
 					<form id="frmSearch">
-						<select name="search" id="search">
-							<option value="new">new</option> 
-							<option value="artist">artist</option> 
-							<option value="hot">hot</option> 
+						<select name="type" id="type" class="type">
+							<option value="title" id="title">title</option> 
+							<option value="singer" id="singer">singer</option> 
 						</select>
-						<input type="text" id="searchText" name="searchText">
-						<span class="material-icons" onclick="fnSearch()">search</span>
+						<input type="text" id="searchText1" name="searchText1" class="searchText1" placeholder="음악의 대서양을 항해하다.Ocean" >
+						<span class="material-icons" id="searchicons" onclick="fnSearch()">search</span>
 					</form>
 					<div id="cdTable">
 							<th:block th:each="cd,vs:${cdList}">
@@ -69,6 +68,14 @@
 		function fnOcean() {
    			location.href='/index.do';	 
  		}
+		
+		function fnSearch() {
+			var type = $('#type').val();
+		    var searchText1 = $('#searchText1').val();
+		    console.log(type + searchText1);
+			location.href='/shop/list.do?type=' + type + '&searchText1=' + searchText1;
+		}
+		
 	</script>
 
 </body>
