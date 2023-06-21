@@ -36,8 +36,6 @@
 		:root {
 		  --side-bar-width: 270px;
 		  --side-bar-height: 90vh;
-		  float: right;
-		  
 		}
 		
 		.side-bar {
@@ -100,7 +98,7 @@
 			<section class="side-bar__icon-box"></section>
 			<ul>
 				<li>
-					<a href="#">HOME</a>
+					<a th:href="@{/}">HOME</a>
 					<ul>
 						<li></li>
 						<li></li>
@@ -118,9 +116,9 @@
 				<li>
 					<a href="#">SONG</a>
 					<ul>
-						<li><a th:href="@{/song.html}">search</a></li>
+						<li><a th:href="@{/song/song.html}">search</a></li>
 						<li><a th:href="@{/song/myplaylist.html}">mood</a></li>
-						<li></li>
+						<li><a th:href="@{/song/play.html}">playback</a></li>
 					</ul>
 				</li>
 				<li>
@@ -136,8 +134,8 @@
 					<ul>
 						<li><a th:href="@{/manager/salelist.do}">판매목록 및 관리</a></li>
                         <li><a th:href="@{/manager/sale.html}">매출</a></li>
-                        <li><a th:href="@{/manager/member.html}">회원관리</a></li>
-                        <li><a th:href="@{/manager/board.html}">게시판관리</a></li>
+                        <li><a th:href="@{/manager/membersearch.do}">회원관리</a></li>
+                        <li><a th:href="@{/manager/board.do}">게시판관리</a></li>
 					</ul>
 				</li>
 			</ul>

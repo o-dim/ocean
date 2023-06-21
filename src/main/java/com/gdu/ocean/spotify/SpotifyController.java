@@ -41,4 +41,15 @@ public class SpotifyController {
     public String callback() {
     	return "/song/callback.html";
     }
+    
+    @GetMapping("/play.html")
+    public String play() {
+    	return "/song/play.html";
+    }
+    
+	@GetMapping("/song.html")
+	public String song() {
+		return "/song/song.html";
+	}
+	
 }
