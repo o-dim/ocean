@@ -5,7 +5,6 @@
 
 	<header th:replace="~{layout/shopHeader::shopHeader}"></header>
 	<!-- 빠진거 : 해시태그, 앨범 설명, 로그인 세션 유무(장바구니, 구매하기 로그인여부에따라) -->
-	<form>
 		<div>
 			<div class="cdData" border="3">
 			   <tr>
@@ -15,7 +14,7 @@
 			      </div>
 			    </td>
 			  </tr>
-	     	</table>
+	     	
 	     	<table id="cdData" border="3">
 	     		<tr>
 			    	<td id="hashtagName" rowspan="2">
@@ -28,35 +27,29 @@
 				      <button type="button" class="btnBuyCount" onclick="btnMinus()">-</button>
 				      <input type="button" value="장바구니" id="cart" class="cart" />
 				      <input type="button" value="구매하기" class="detailBuy" />
+				      <input type="button" class="keepShopping2" value="짜증" onclick="fnannoy()">
 				    </td>
-			   </tr>
-				</table>
+			   	</tr>	
+			</table>
 
 		</div>
 		
-		<div class="container">
-  <a class="button" href="#popup" id="button">장바구니</a>
-  <div class="popup" id="popup" >
-    <div class="popup-inner">
-      <div class="popup__photo">
-        <!--/*
-	        <img th:src="@{/photo/oceanBlack.jpg}">
-         */-->
-      <img src="https://images.unsplash.com/photo-1515224526905-51c7d77c7bb8?ixlib=rb-0.3.5&s=9980646201037d28700d826b1bd096c4&auto=format&fit=crop&w=700&q=80" alt="">
-      </div>
-      <div class="popup__text">
-      	<div id="oceanModalTxt">
-	        <h1>Ocean</h1> 
-	        <h2>What's important is an unbreakable heart</h2>
-      	</div>
-      	<!-- 
-       	<p>
-       	흔히 쓰이는 표현인 "SEA"는 섬이나 육지를 둘러싼 바다만을 말하지만 "ocean" 은 대양 해양을 뜻합니다 이 대양은 지구의 71% 를 차지하는데
-		저희 "OCEAN" 은 K-pop이 그만큼 막대하고 광범위한 영향력을 끼칠 것이라는 뜻으로 홈페이지를 기획하게 되었습니다
-		바다의 비밀은 아직도 밝혀지지 않았습니다 무엇이 들어있을지 어디로 가는지 모르는 항해를 Ocean과 함께해주세요 !
-       	</p>
-      	 
-      	 -->
+	<div class="modalbutton">
+	  <a class="goCart" href="#popup" id="goCart">장바구니</a>
+	  <div class="popup" id="popup" >
+	    <div class="popup-inner">
+	      <div class="popup__photo">
+	        <!--/*
+		        <img th:src="@{/photo/oceanBlack.jpg}">
+	         */-->
+	      <img src="https://images.unsplash.com/photo-1515224526905-51c7d77c7bb8?ixlib=rb-0.3.5&s=9980646201037d28700d826b1bd096c4&auto=format&fit=crop&w=700&q=80" alt="">
+	      </div>
+	      <div class="popup__text">
+	      	<div id="oceanModalTxt">
+		        <h1>Ocean</h1> 
+		        <h2>What's important is an unbreakable heart</h2>
+	      	</div>
+	      
        	
        	<p>
 			"SEA" commonly refers to the body of water surrounding a landmass, while "OCEAN" 
@@ -67,25 +60,23 @@
 			not knowing what it holds or where it leads. Join us and explore the unknown with Ocean!
 		</p>
         
-      	<div id="modalbutton">
-	      	<input type="button" id="goCart" class="goCart" value="장바구니이동" onclick="fngoCart()">
+      	<div id="container"> 
+	      	<input type="button" id="button" class="button" value="장바구니이동" onclick="fnbutton()">
 	      	<input type="button" id="keepShopping" class="keepShopping" value="계속쇼핑하기" onclick="fnkeeShopping()">    		
+	      	    		
       	</div>
       </div>
-      <a class="popup__close" href="#">X</a>
+      <a class="popup__close" href="javascript:closeModal()">X</a>
     </div>
   </div>
 </div>
-		
-	</form>
 	
-
 	<script th:inline="javascript">
 	    
 	    // 함수 호출
 	    fnGetHashtagName();
 	    fnBuyCount();
-	    
+	   
 	    
 		/********** 해시태그 이름 가져오기 **********/
 	    function fnGetHashtagName(){
@@ -134,57 +125,50 @@
 
 		
 		/*cartNo전달 성공시 모달 */
-		$(document).ready(function() {
-		  $.ajax({
-		    type: 'get',
-		    url: '/shop/getcart.do',
-		    data: 'cartNo=[[${cartNo}]]' + '&cdNo=[[${cdNo}]]', 
-		    dataType: 'json',
-		    success: function(resData) {
-		      let str = '';
-		      $.each(resData, function(i, cart) {
-		        str += '<span>' + cart.cartNo + '</span>';
-		        str += '<span>' + cart.cdNo + '</span>';
-		      });
-		      $('#button').append(str);
-		      function openModal() {
-		    	    const modal = document.getElementById('popup');
-		    	    modal.style.visibility = 'visible';
-		    	    modal.style.opacity = '1';
-		    	  }
-		      function closeModal() {
-		    	    const modal = document.getElementById('popup');
-		    	    modal.style.visibility = 'hidden';
-		    	    modal.style.opacity = '0';
-		    	  }
-			      
-      			  $(document).on('click', '.popup__close', function(e) {
-			    	    e.preventDefault();
-			    	    closeModal();
-			    	    e.stopPropagation();
-			    	  });
-			
-		    	  $(document).on('click', '#popup', function() {
-		    	    openModal();
-		    	  });
 		
-		    	  $(document).on('click', function(e) {
-		    	    if (!$(e.target).closest('#popup').length) {
-		    	      closeModal();
-		    	    }
-		    	  });
-		   		 }
-	  		});
-	
-		});
+		
 			
 		/*******************************************/
 	
 		/***************장바구니 이동 이벤트***********/
 		
-		function fngoCart(){
-			location.href ="/shop/cart.html";
+		const modal = document.getElementById('popup');
+
+		function openModal() {
+			modal.style.visibility = 'visible';
+			modal.style.opacity = '1';
+		}
+		
+		function closeModal() {
+			modal.style.visibility = 'hidden';
+			modal.style.opacity = '0';
+		}
+	
+		$('#goCart').on('click', function() {
+			openModal();
+		});
+		
+		function fnbutton(){
+			var loginEmail = /*[[${session.email}]]*/ null;
 			
+			$.ajax({
+				type: 'get',
+				url: '/shop/getCartNo.do',
+				data:'userNo=[[${session.userNo}]]',
+				dataType: 'json',
+				success: function(resData) {  
+   				
+    				if(loginEmail != null){
+    					location.href = '/shop/getCartDetail.do?cartNo=' + resData.cartNo  						
+    				}else{
+    					alert("로그인 후 이용해주세요");
+    					location.href='/login.html';
+    				}
+				},
+				error: function(jqXHR) {
+					alert('안됨');
+				}
+			});
 		}
 		
 		

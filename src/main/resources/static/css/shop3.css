@@ -172,7 +172,7 @@ html, body {
   }
 }
 
-.container {
+.modalbutton {
   background-color:  var(--main-color);
   display: flex;
   align-items: center;
@@ -182,7 +182,7 @@ html, body {
   background: rgba(0,0,0,0);
 }
 
-.button {
+.goCart {
   text-decoration: none;
   font-size: 0.875rem;
   font-weight: 300;
@@ -196,7 +196,7 @@ html, body {
 
 
 
-.goCart:hover {
+#button:hover {
 	cursor: pointer;
 }
 
@@ -282,7 +282,7 @@ html, body {
   right: 0;
   transform: rotate(0);
 }
-.modalbutton {
+.container {
   font-family: 'Raleway', sans-serif;
   font-size: 16px;
   text-decoration: none;
@@ -313,7 +313,7 @@ html, body {
   text-decoration: none;
 }
 
-#modalbutton input{
+#container input{
   font-family: 'Raleway', sans-serif;
   font-size: 16px;
   text-decoration: none;
