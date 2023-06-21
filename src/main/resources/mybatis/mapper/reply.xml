@@ -20,36 +20,37 @@
 		</association>
 	</resultMap>
 
-	<select id="getCommentCount" parameterType="int" resultType="int">
+	<select id="getCommentCount" parameterType="ReplyDTO" resultType="int">
 		SELECT COUNT(*)
 		  FROM REPLY
 		 WHERE IDOL_NO = #{idolNo}
 	</select>
 	
-	<select id="getCommentList" parameterType="int" resultMap="ReplyMap">
-		SELECT CONTENT, DEPTH, WRITE_AT, USER_NO
+	<select id="getCommentList" parameterType="map" resultMap="ReplyMap">
+		SELECT CONTENT, GROUP_NO, DEPTH, WRITE_AT, USER_NO, IDOL_NO
 		  FROM (SELECT R.CONTENT, R.DEPTH, R.GROUP_NO, R.WRITE_AT, R.IDOL_NO, U.USER_NO, U.EMAIL, U.PW
 				  FROM USERS U INNER JOIN REPLY R
 				    ON U.USER_NO = R.USER_NO
-				 WHERE R.IDOL_NO = #{idolNo}) A
-		 ORDER BY GROUP_NO DESC, DEPTH ASC
+				 WHERE R.IDOL_NO = #{idolNo})A			 
+		 ORDER BY GROUP_NO DESC, DEPTH ASC, WRITE_AT DESC
 		 LIMIT #{begin}, #{recordPerPage}
 	</select>
+	
 	<insert id="addComment" parameterType="ReplyDTO">
 		INSERT INTO REPLY(
 			CONTENT
 		  , GROUP_NO
 		  , DEPTH
-		  , WRITED_AT
-		  , IDOL_NO
+		  , WRITE_AT
 		  , USER_NO
+		  , IDOL_NO
 		) VALUES(
 			#{content}
 		  , 1
 		  , 0
 		  , NOW()
-		  , #{idolNo}
 		  , #{usersDTO.userNo}
+		  , #{idolNo}
 		)
 	</insert>
 	
@@ -58,16 +59,16 @@
 			CONTENT
 		  , DEPTH
 		  , GROUP_NO
-		  , CREATED_AT
-		  , IDOL_NO
+		  , WRITE_AT
 		  , USER_NO
+		  , IDOL_NO
 		) VALUES(
 			#{content}
 		  , 1
 		  , #{groupNo}
 		  , NOW()
-		  , #{idolNo}
 		  , #{usersDTO.userNo}
+		  , #{idolNo}
 		)
 	</insert>
 	

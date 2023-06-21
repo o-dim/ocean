@@ -1,3 +1,4 @@
+
 @charset "UTF-8";
 @font-face {
     font-family: 'GmarketSansMedium';
@@ -24,10 +25,24 @@
   	border: 0;
   	border-radius: 10px;
 }
-#commentList span {
+.blind {
+    display: none;
+}
+.invisible {
+    visibility: hidden;
+}
+#commentList {
+	width: 800px;
+	
+}
+#commentList div span {
 	font-size: 12px;
-	align-items: baseline;
 	color: black;
+}
+input[type=button] {
+	background-color: transparent;
+	border: 1px solid black;
+	
 }
 .quick-menu {
 	position: absolute;

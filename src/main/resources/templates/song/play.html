@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<script src="https://sdk.scdn.co/spotify-player.js"></script>
+
+<script>
+	window.onSpotifyWebPlaybackSDKReady = () => {
+		const token = 'BQD2TRwHZx3G5eNRzvNkFdKtsvg7fkTXGbYlns6w1soGVtYkd16AJsVUmLXBKGhH20-4LtR1wldgWkzMoSkwMAoH-n3qcFdAhBUT4vRrHXquU0aqZ4QYokL41A7hmgqRYG58XElEvp8vkmO6N5K5X482hy9cSNttE8TRIsCH8IIsEnFGZhFOhZktbGfXsUvV4uzVcS_dGvgdm02o-i6xZkejo49ruRg1';
+		const player = new Spotify.Player({
+		  name: 'OceanPlayer',
+		  getOAuthToken: cb => { cb(token); },
+		  volume: 0.5
+		});
+		
+	  // Ready
+	  player.addListener('ready', ({ device_id }) => {
+	    console.log('Ready with Device ID', device_id);
+	  });
+
+	  // Not Ready
+	  player.addListener('not_ready', ({ device_id }) => {
+	    console.log('Device ID has gone offline', device_id);
+	  });
+	  
+	  player.addListener('initialization_error', ({ message }) => {
+	      console.error(message);
+	  });
+
+	  player.addListener('authentication_error', ({ message }) => {
+	      console.error(message);
+	  });
+
+	  player.addListener('account_error', ({ message }) => {
+	      console.error(message);
+	  });
+	  player.connect();
+	
+	  
+	  $('#togglePlay').onclick = function() {
+		  player.togglePlay();
+		};
+
+</script>
+<body>
+	<header th:replace="~{layout/header::oceanHeader}"></header>
+	<button id="togglePlay">Toggle Play</button>
+	
+</body>
+</html>
