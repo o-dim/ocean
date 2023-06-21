@@ -60,12 +60,12 @@
 		font-weight: 300;
 		font-size : 18px;
 	}
-
 	
+	/* slick slider 부분 */
 	.wrapper{
 	    padding: 15% 0;
 	}
-	/* slick slider 부분*/
+	
 	/* Default slide */
 	.center-slider .slick-slide{
 	    height: auto;
@@ -74,13 +74,10 @@
 	    justify-content: center;
 	    transform: scale(0.8, 0.8);
 	}
-	
-	
 	.center-slider .slick-slide,
 	.center-slider .slick-slide[aria-hidden="true"]:not(.slick-cloned) ~ .slick-cloned[aria-hidden="true"] {
 	    transform: scale(0.8, 0.8);
 	}
-	
 	/* Active center slide (You can change anything here for center slide)*/
 	.center-slider .slick-center,
 	.center-slider .slick-current.slick-active,
@@ -90,7 +87,6 @@
 	    border-radius: 20px;
 	    background-position: center;
 	}
-	
 	.slick-next, .slick-prev{
 	    z-index: 5;
 	}
@@ -100,7 +96,6 @@
 	.slick-prev{
 	    left: 15px;
 	}
-	
 	img {
 	    width: 100%;
 	    height: 100%;
@@ -110,6 +105,7 @@
 	    top: -15px;
 	    width: 40%;
 	}
+	
 	.logo-btm {
 		position: absolute;
 		bottom: 0;
@@ -117,7 +113,7 @@
 		width: 40%;
 	}
 	.ocean-text-1 {
-		width: 400px;
+		width: 40%;
 		margin-left: 50vw;
 	}
 	
@@ -130,7 +126,6 @@
 	.third-group1 {
 		display: felx;
 		position: relative;
-	
 	}
 	.third-iphone {
 		width: 60%;
@@ -140,11 +135,13 @@
 	
 	.third-ment1 {
 		width: 30%;
-		margin-bottom: 30%;
+		margin-bottom: 40%;
 	}
+	
 	.third-group {
 		display: flex;
 		position: relative;
+		margin-top : 10%;
 	}
 	.third-album {
 		width: 60%;
@@ -156,12 +153,11 @@
 		margin-left: 10%;
 		margin-bottom: 15%;
 	}
+	
 	.forth {
 		background-image: url("/photo/fourth-main.svg");
 		width: 100vw;
-		height: 100vh;
-		position: scroll;
-		
+		height: 100vh;		
 	}
 </style>
 </head>
@@ -198,12 +194,12 @@
     </div>
     <div class="third">
     	<div class="third-group1">
-	    	<img th:src="@{photo/third-iphone.svg}" class="third-iphone" data-aos="fade-up" data-aos-once="false">
-	    	<img th:src="@{photo/third-ment1.svg}" class="third-ment1" data-aos="fade-up" data-aos-delay="600" data-aos-once="false">    	
+	    	<img th:src="@{photo/third-iphone.svg}" class="third-iphone" data-aos="fade-up">
+	    	<img th:src="@{photo/third-ment1.svg}" class="third-ment1" data-aos="fade-up" data-aos-delay="600">    	
     	</div>
     	<div class="third-group2" data-aos-easing="ease-in-sine">
-	    	<img th:src="@{photo/third-ment2.svg}" class="third-ment2" data-aos="fade-up">    	
-	    	<img th:src="@{photo/third-album.svg}" class="third-album" data-aos="fade-up">
+	    	<img th:src="@{photo/third-ment2.svg}" class="third-ment2" data-aos="fade-up" data-aos-delay="600">    	
+	    	<img th:src="@{photo/third-album.svg}" class="third-album" data-aos="fade-up" data-aos-delay="900">
     	</div>
     </div>
     <div class="forth"></div>

@@ -1,20 +1,21 @@
 package com.gdu.ocean.service;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 
 import com.gdu.ocean.spotify.AccessToken;
 import com.neovisionaries.i18n.CountryCode;
 import com.wrapper.spotify.SpotifyApi;
-import com.wrapper.spotify.model_objects.specification.ArtistSimplified;
 import com.wrapper.spotify.model_objects.specification.Paging;
-import com.wrapper.spotify.model_objects.specification.PlaylistTrack;
 import com.wrapper.spotify.model_objects.specification.Recommendations;
 import com.wrapper.spotify.model_objects.specification.Track;
 import com.wrapper.spotify.model_objects.specification.TrackSimplified;
@@ -60,6 +61,8 @@ public class SpotifyServiceImpl implements SpotifyService {
 				String singer = track.getArtists()[0].getName();            // 이 노래 가수이름
 				String imgUrl = track.getAlbum().getImages()[0].getUrl();   // 앨범이미지
 				String preview = trackPaging.getItems()[0].getPreviewUrl();	// 미리듣기
+				String music = trackPaging.getItems()[0].getUri();
+				String music2 = track.getHref();
 				track.getUri();
 				Map<String, String> song = new HashMap<>();
 				song.put("title", title);
@@ -147,5 +150,6 @@ public class SpotifyServiceImpl implements SpotifyService {
 	    return songList;
 	    
 	}
+	
 		
 }

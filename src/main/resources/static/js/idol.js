@@ -28,33 +28,28 @@ function fnAddComment(){
 	})
 }
 
-var page = 1;
+	var page = 1;
+	var idolNo = 1;
 function fnCommentList(){
 	$.ajax({
 		type : 'get',
 		url : '/comment/list.do',
-		data : 'idolNo=' + $('#idolNo').val() + '&page=' + page,
+		data : 'idolNo=' + idolNo + '&page=' + page,
 		dataType : 'json',
 		success : function(resData){
 			$('#commentList').empty();
 			$.each(resData.commentList, function(i, comment){
-				if(comment.state == -1){
-					if(comment.depth == 0){                  
-	                  str += '<span>삭제된 댓글입니다.';
-	                } else {
-	                  str += '<span style="margin-left: 30px;">삭제된 답글입니다.';
-	                }						
-				} else {
+				var str = '';
 					if(comment.depth == 0) {
 						str += '<span>';
 					} else {
 						str += '<span style="margin-left: 30px;">';
 					}
-				str += comment.userDTO.email;
+				str += comment.usersDTO.userNo;
 				str += '<br>' + comment.content;
 				if('${session.loginEmail}' != '') {
-					if('${session.userNo}' == comment.usersDTO.userNo && comment.state == 1) {
-						str += '<input type="button" value="삭제" class="btnDeleteReply" data-comment_no="' + comment.commentNo + '">';
+					if('${session.loginUsersNo}' == comment.usersDTO.userNo) {
+						str += '<input type="button" value="삭제" class="btnDeleteReply" data-comment_no="' + comment.replyNo + '">';
 					} else {
 						str += '<input type="button" value="답글" class="btnOpenReply">';
 					}
@@ -63,21 +58,20 @@ function fnCommentList(){
 				  /******************* 답글달 때 전송할 데이터는 4개(content, blogNo, groupNo, memberNo) *******************/
 				  str += '  <form class="frmReply">';
 				  str += '    <input type="text"   name="content"  class="replyContent" placeholder="답글을 작성해 주세요">';
-				  str += '    <input type="hidden" name="blogNo"   value="' + comment.blogNo + '">';
+				  str += '    <input type="hidden" name="idolNo"   value="' + comment.idolNo + '">';
 				  str += '    <input type="hidden" name="groupNo"  value="' + comment.groupNo + '">';
-				  str += '    <input type="hidden" name="memberNo" value="${sessionScope.loginNo}">';  // 수업 때 잘못 구현한 부분
+				  str += '    <input type="hidden" name="userNo" value="${session.loginUsersNo}">';  // 수업 때 잘못 구현한 부분
 				  str += '    <input type="button" value="답글작성완료" class="btnAddReply">';
 				  str += '  </form>';
 				  /*********************************************************************************************************/
 				  str += '</div>';
-				}
 			$('#commentList').append(str);
 			})
 		}
 	})
 }
 function fnAddReply(){
-	$.on('click', '.btnAddReply', function(){
+	$('.btnAddReply').on('click', function(){
 		if($(this).prevAll('.replyContent').val() == ''){
 			alert('답글 내용을 입력하세요!');
 			return;
@@ -101,7 +95,7 @@ function fnAddReply(){
 	})
 }
 function fnDeleteReply(){
-	$.on('click', 'btnDeleteReply', function(){
+	$('.btnDeleteReply').on('click', function(){
 		$.ajax({
 			type : 'post',
 			url : '/comment/remove.do',
@@ -137,4 +131,6 @@ $(function(){
 
 $(function(){
 	fnCommentList();
+	fnAddComment();
+	fnAddReply();
 })
