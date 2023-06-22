@@ -129,7 +129,7 @@
 						 <li><a th:href="@{/users/checkPw.html}">마이페이지</a></li>
 					</ul>
 				</li>
-				<li>
+				<li th:if="${session.loginEmail == 'admin@gmail.com'}">
 					<a href="#">ADMIN</a>
 					<ul>
 						<li><a th:href="@{/manager/salelist.do}">판매목록 및 관리</a></li>

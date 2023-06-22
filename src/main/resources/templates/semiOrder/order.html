@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{/layout/header::oceanHead('kakaopay실험')}"></head>
-<script th:src="@{/js/lib/jquery-3.6.4.min.js}"></script>
+<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
 <script>
 $(function(){
 	$("#kakaopayTest").on('sunmit', function(){
@@ -52,8 +52,50 @@ $(function(){
 		})
 	})
 })
+
+
+/* ******************* 아임포트 ************************** */
+IMP.init("imp34850056"); // 예: imp00000000a
+
+function requestPay() {
+    IMP.request_pay({
+      pg: "kcp.store-04ae1711-468b-4691-b19b-48e00dbc9948",
+      pay_method: "card",
+      merchant_uid: "ORD20180131-0000011",   // 주문번호
+      name: "민쌤의 커피머신^^",
+      amount: 23432000,                         // 숫자 타입
+      buyer_email: $("#kakaopayTest input[name='pay-email']").val(),
+      buyer_name: $("#kakaopayTest input[name='pay-name']").val(),
+      buyer_tel: $("#kakaopayTest input[name='pay-tel']").val(),
+      buyer_addr: "서울특별시 강남구 신사동",
+      buyer_postcode: "01181"
+    }, function (rsp) { // callback
+      //rsp.imp_uid 값으로 결제 단건조회 API를 호출하여 결제결과를 판단합니다.
+   	  rsp => {
+   		    if (rsp.success) {   
+   		      // axios로 HTTP 요청
+   		      ajax({
+   		        url: "/api/v1/payment/complete",
+   		        method: "post",
+   		        headers: { "Content-Type": "application/json" },
+   		        data: {
+   		          imp_uid: rsp.imp_uid,
+   		          merchant_uid: rsp.merchant_uid
+   		        }
+   		      }).then((data) => {
+   		        location.replace('/semiOrder/kakaopayCompleted');
+   		       	
+   		      })
+   		    } else {
+   		      alert(`결제에 실패하였습니다. 에러 내용: ${rsp.error_msg}`);
+   		    }
+   		}
+    })
+}
 </script>
 <body>
+
+	<!-- ---------------카카오 페이 ------------------ -->
 	<form action="/semiOrder/pay" method="post" id="kakaopayTest">
 		<label>이름</label>
 		<input type="text" name="pay-name">
@@ -64,5 +106,7 @@ $(function(){
 		
 		<button>성공기원</button>
 	</form>
+	<!-- ----------------- 아임포트 ------------------ -->
+	 <button onclick="requestPay()">결제하기</button>
 </body>
 </html>
