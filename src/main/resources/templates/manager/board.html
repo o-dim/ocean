@@ -27,12 +27,18 @@
 	<div class="all">
 		<div class="wrap">
 			<form id="frm" th:action="@{/manager/board.do}">
-				<select th:name="column" th:id="column">
-					<option th:value="U.EMAIL">EMAIL</option>
-					<option th:value="CONTENT">CONTENT</option>
-				</select>
-				<input class="search_query" type="text" th:name="query" th:id="query">
-				<button>조회</button>
+				<div class="group">
+					<div class="selectBox">
+						<select th:name="column" th:id="column">
+							<option th:value="U.EMAIL">EMAIL</option>
+							<option th:value="CONTENT">CONTENT</option>
+						</select>
+					</div>
+					<div>
+					<input class="search_query" type="text" th:name="query" th:id="query">
+					<button class="btn"><i class="fa-solid fa-magnifying-glass" ></i></button>
+					</div>
+				</div>
 			</form>
 			<table>
 				<thead>
@@ -59,7 +65,7 @@
 				</tbody>
 				<tfoot>
 					<tr>
-						<td th:utext="${pagination}"></td>
+						<td colspan="3" th:utext="${pagination}"></td>
 					</tr>
 				</tfoot>
 			</table>

@@ -73,7 +73,7 @@
 		  		 </where>
 		  		 ) A
 		 GROUP BY A.CD_NO, A.TITLE, A.SINGER, A.MAIN_IMG, A.DETAIL_IMG, A.PRICE, A.STOCK, A.RECOMMEND_COUNT, A.WRITED_AT
-		 ORDER BY CD_NO ASC
+		 ORDER BY CD_NO DESC
 		 LIMIT #{begin}, #{recordPerPage}
 	</select>
 	<!-- SaleList에서 cdNo를 불러왔을 때 htNo를 가져오기 -->
@@ -259,7 +259,11 @@
 		 WHERE REPLY_NO = #{replyNo}
 	</delete>
 	
-	
+	<select id="getCdByNo" parameterType="int" resultType="CdDTO">
+      SELECT CD_NO, TITLE, SINGER, MAIN_IMG, DETAIL_IMG, PRICE, STOCK
+        FROM CD
+       WHERE CD_NO = #{cdNo}
+   </select>
 	
 	
 	

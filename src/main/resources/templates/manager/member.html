@@ -29,12 +29,18 @@
 	<div class="all">
 		<div class="wrap">
 			<form id="frm1" th:action="@{/manager/membersearch.do}">
-				<select th:name="column" th:id="column">
-					<option th:value="NAME">NAME</option>
-					<option th:value="EMAIL">EMAIL</option>
-				</select>
-				<input class="search_query" type="text" th:name="query" th:id="query">
-				<button>조회</button>
+				<div class="group">
+					<div class="selectBox">
+						<select th:name="column" th:id="column">
+							<option th:value="NAME">NAME</option>
+							<option th:value="EMAIL">EMAIL</option>
+						</select>
+					</div>
+					<div>
+						<input class="search_query" type="text" th:name="query" th:id="query">
+						<button class="btn"><i class="fa-solid fa-magnifying-glass" ></i></button>
+					</div>
+				</div>
 			</form>
 			<table>
 				<thead>
@@ -59,14 +65,14 @@
 							<td th:text="${user.postcode}"></td>
 							<td th:text="${user.roadAddress}"></td>
 							<td th:text="${user.detailAddress}"></td>
-							<td th:text="${user.joinedAt}"></td>
+							<td th:text="${#dates.format(user.joinedAt, 'YYYY년 MM월 dd일')}"></td>  
 							<td><input type="button" th:value="회원탈퇴" class="btnOut"></td>
 						</tr>
 					</th:block>			
 				</tbody>
 				<tfoot>
 					<tr>
-						<td colspan="12" th:utext="${pagination}"></td>
+						<td class="page" colspan="12" th:utext="${pagination}"></td>
 					</tr>
 				</tfoot>
 			</table>
