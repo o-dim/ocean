@@ -1,5 +1,8 @@
 package com.gdu.ocean.service;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
@@ -20,7 +23,7 @@ public class KakaopayService {
 	/*
 	 * 결제요청시도
 	 */
-	public KakaoReadyResponse kakaoPayReady() {
+	public KakaoReadyResponse kakaoPayReady(String orderId, int totalAmount) {
 //		UsersDTO user = (UsersDTO)SessionUtils.getattribute("로그인아이디설정한거");
 //		List<CartDTO> carts = cartMapper..getCartByUserEmail(user.getEmail(); // 암튼 이런이름으로 있겠지...
 //		
@@ -34,19 +37,18 @@ public class KakaopayService {
 //			}
 //		}
 //		String itemName = cartNames[0];
+		String itemName = "";
 		
-		String order_id = "testOrderId";
-		String itemName = "소민이네 카카오페이^.^";
 		/*
 		 * 카카오 페이가 요구하는 결제요청 request 담기
 		 * */
 		MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
 		parameters.add("cid", "TC0ONETIME");
-		parameters.add("partner_order_id", order_id);
+		parameters.add("partner_order_id", orderId);
 		parameters.add("partner_user_id", "ocean");
 		parameters.add("item_name", itemName);
 		parameters.add("quantity", "1"); // String.valueOf(carts.size())
-		parameters.add("total_amount", "800000");
+		parameters.add("total_amount", "" + totalAmount);
 		parameters.add("tax_free_amount", "0");
 		parameters.add("approval_url", "http://localhost:8080/semiOrder/payCompleted"); // 결제승인시 넘어갈 url
 		parameters.add("cancel_url", "http://localhost:8080/semiOrder/kakaopayCancel"); // 결제취소시 넘어갈 url
@@ -99,10 +101,13 @@ public class KakaopayService {
 	/*
 	 * header
 	 */
+	@Value("${kakaopay.Authorization}")
+	private String auth;
 	
 	private HttpHeaders getHeader() {
+		log.info("가져오기 : ........... " + auth);
 		HttpHeaders headers = new HttpHeaders();
-		headers.set("Authorization", "KakaoAK f3b60dfea5b4d33dc619ccd3cd4b3b73");
+		headers.set("Authorization", auth);
 		headers.set("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
 		
 		return headers;
