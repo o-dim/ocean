@@ -16,12 +16,18 @@
 	<div class="all">
 		<div class="wrap">
 			<form id="frm1" th:action="@{/manager/sleepmember.do}">
-				<select th:name="column" th:id="column">
-					<option th:value="NAME">NAME</option>
-					<option th:value="EMAIL">EMAIL</option>
-				</select>
-				<input class="search_query" type="text" th:name="query" th:id="query">
-				<button>조회</button>
+				<div class="group">
+					<div class="selectBox">
+						<select th:name="column" th:id="column">
+							<option th:value="NAME">NAME</option>
+							<option th:value="EMAIL">EMAIL</option>
+						</select>
+					</div>
+					<div>
+						<input class="search_query" type="text" th:name="query" th:id="query">
+						<button class="btn"><i class="fa-solid fa-magnifying-glass" ></i></button>
+					</div>
+				</div>
 			</form>
 
 			<table>
@@ -30,7 +36,6 @@
 						<td>회원번호</td>
 						<td>이름</td>
 						<td>이메일</td>
-						<td>비밀번호</td>
 						<td>전화번호</td>
 						<td>우편번호</td>
 						<td>도로명주소</td>
@@ -46,7 +51,6 @@
 							<td th:text="${sleepUserNo - vs.index}"></td>
 							<td th:text="${sleepUser.name}"></td>
 							<td th:text="${sleepUser.email}"></td>
-							<td th:text="${sleepUser.pw}"></td>
 							<td th:text="${sleepUser.phoneNo}"></td>
 							<td th:text="${sleepUser.postcode}"></td>
 							<td th:text="${sleepUser.roadAddress}"></td>

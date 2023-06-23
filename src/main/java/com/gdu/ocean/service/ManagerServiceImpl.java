@@ -1,6 +1,7 @@
 package com.gdu.ocean.service;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
@@ -11,6 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.IOUtils;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -267,7 +271,7 @@ public class ManagerServiceImpl implements ManagerService {
 		HttpSession session = request.getSession();
 		
 		/* session 저장해서 삭제 테스트 나중에 지워야함 */
-		session.setAttribute("loginEmail", "quddls6@naver.com");
+		session.setAttribute("loginEmail", "nick@naver.com");
 		
 		String email = (String) session.getAttribute("loginEmail");
 		
@@ -285,11 +289,11 @@ public class ManagerServiceImpl implements ManagerService {
 				
 				session.invalidate();
 				
-				out.println("alert('다신 돌아오지말거라');");
+				out.println("alert('다음에 또 찾아주세요.');");
 				out.println("location.href='/manager/membersearch.do';");
 				
 			} else {
-				out.println("alert('응 못도망가');");
+				out.println("alert('정보를 확인해주세요.');");
 				out.println("history.back();");
 			}
 			out.println("</script>");
@@ -330,7 +334,7 @@ public class ManagerServiceImpl implements ManagerService {
 		List<ReplyDTO> replyList = managerMapper.getBoardList(map);
 		model.addAttribute("replyList", replyList);
 		model.addAttribute("pagination", pageUtil.getPagination("/manager/board.do?column=" + column + "&query=" + query));
-		model.addAttribute("replyNo", totalRecord - (page - 1) * recordPerPage);
+		model.addAttribute("idolNo", totalRecord - (page - 1) * recordPerPage);
 	}
 	
 	@Override
@@ -339,6 +343,23 @@ public class ManagerServiceImpl implements ManagerService {
 		return removeResult;
 		
 	}
+	
+	@Override
+	   public ResponseEntity<byte[]> display(int cdNo) {
+	      CdDTO cdDTO = managerMapper.getCdByNo(cdNo);
+	      ResponseEntity<byte[]> image = null;
+	      try {
+	         File mainImg = new File(cdDTO.getMainImg());
+	         if (mainImg.exists()) {
+	               FileInputStream inputStream = new FileInputStream(mainImg);
+	               byte[] imageBytes = IOUtils.toByteArray(inputStream);
+	               image = new ResponseEntity<>(imageBytes, HttpStatus.OK);
+	         }
+	      } catch(Exception e) {
+	         e.printStackTrace();
+	      }
+	      return image;
+	   }
 
 	
 }

@@ -2,6 +2,7 @@ package com.gdu.ocean.controller;
 
 import java.io.PrintWriter;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.gdu.ocean.domain.KakaoApproveResponse;
 import com.gdu.ocean.domain.KakaoReadyResponse;
+import com.gdu.ocean.domain.OrderDTO;
 import com.gdu.ocean.service.KakaopayService;
 
 import lombok.RequiredArgsConstructor;
@@ -49,19 +51,20 @@ public class KakaoPayController {
 		return readyResponse;
 	}
 	*/
-	/*
+
 	@PostMapping("/semiOrder/pay")
 	@ResponseBody
-	public String kakaoPayReady(Model model, HttpSession session) {
+	public String kakaoPayReady(@RequestParam("order_id")String orderId, @RequestParam("total_amount")int totalAmount, OrderDTO order, HttpSession session) {
 		log.info("kakaopayReady 성공..............");
-		KakaoReadyResponse readyResponse = kakaoPayService.kakaoPayReady();
+		
+		KakaoReadyResponse readyResponse = kakaoPayService.kakaoPayReady(orderId, totalAmount);
 		session.setAttribute("tid", readyResponse.getTid());
 		log.info("kakaopayReady tid : " + readyResponse.getTid());
 		//log.info(".........주문가격 : "+totalAmount);
 		return readyResponse.getNext_redirect_pc_url();
 	}
-	*/
 	
+	/*
 	@PostMapping("/semiOrder/pay")
 	@ResponseBody
 	public String kakaoPayReady(Model model, HttpSession session, HttpServletResponse response) {
@@ -78,6 +81,7 @@ public class KakaoPayController {
 		//log.info(".........주문가격 : "+totalAmount);
 		return null;
 	}
+	*/
 	 
 	/*
 	 * 결제 승인 요청

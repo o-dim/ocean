@@ -113,7 +113,12 @@
 		    <artifactId>stomp-websocket</artifactId>
 		    <version>2.3.3-1</version>
 		</dependency>
-
+        <!-- 아임포트 -->
+		<dependency>
+		    <groupId>com.github.iamport</groupId>
+		    <artifactId>iamport-rest-client-java</artifactId>
+		    <version>0.2.23</version>
+		</dependency>
 
 	</dependencies>
 	

@@ -2,56 +2,77 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{/layout/managerheader::headFrag('게시판관리')}"></head>
 <link rel="stylesheet" th:href="@{/css/member.css(ver=1.0)}">
-
+<script>
+	function fnOut(){
+		$('.btnOut').on('click', function(){
+			if(confirm('절대 퇴장 시키시겠습니까?')){
+				location.href='/manager/userout.do';
+			}
+		})
+	}
+	
+	$(function(){
+		fnOut();
+	})
+	
+</script>
 <body>
 
 	<div th:replace="~{/layout/managerheader::gnbFrag}"></div>
+		<div class="logo-top">
+	    	<img th:src="@{/photo/OCEAN2.png}">
+		</div>	
+		<div class="logo-btm">
+		    <img th:src="@{/photo/OCEAN2.png}">
+		</div>
 
 	<div class="all">
 		<div class="wrap">
-			<form id="frm1" action="@{/manager/search.do}">
-				<select name="column" id="column">
-					<option th:value="NAME">NAME</option>
-					<option th:value="EMAIL">EMAIL</option>
-				</select>
-				<input class="search_query" type="text" th:name="query" id="query">
-				<button>조회</button>
+			<form id="frm1" th:action="@{/manager/membersearch.do}">
+				<div class="group">
+					<div class="selectBox">
+						<select th:name="column" th:id="column">
+							<option th:value="NAME">NAME</option>
+							<option th:value="EMAIL">EMAIL</option>
+						</select>
+					</div>
+					<div>
+						<input class="search_query" type="text" th:name="query" th:id="query">
+						<button class="btn"><i class="fa-solid fa-magnifying-glass" ></i></button>
+					</div>
+				</div>
 			</form>
-
 			<table>
 				<thead>
 					<tr>
-						<td>회원번호</td>
+						<td class="member">회원번호</td>
 						<td>이름</td>
 						<td>이메일</td>
-						<td>비밀번호</td>
 						<td>휴대폰번호</td>
-						<td>우편번호</td>
+						<td class="member">우편번호</td>
 						<td>도로명주소</td>
-						<td>지번</td>
-						<td>상세주소</td>
+						<td class="member">상세주소</td>
 						<td>가입일자</td>
 					</tr>
 				</thead>
 				<tbody>
 					<th:block th:each="user,vs:${userList}">
-						<tr>
+						<tr class="member_1">
 							<td th:text="${userNo - vs.index}"></td>
 							<td th:text="${user.name}"></td>
 							<td th:text="${user.email}"></td>
-							<td th:text="${user.pw}"></td>
 							<td th:text="${user.phoneNo}"></td>
 							<td th:text="${user.postcode}"></td>
 							<td th:text="${user.roadAddress}"></td>
-							<td th:text="${user.jibunAddress}"></td>
 							<td th:text="${user.detailAddress}"></td>
-							<td th:text="${user.joinedAt}"></td>
+							<td th:text="${#dates.format(user.joinedAt, 'YYYY년 MM월 dd일')}"></td>  
+							<td><input type="button" th:value="회원탈퇴" class="btnOut"></td>
 						</tr>
 					</th:block>			
 				</tbody>
 				<tfoot>
 					<tr>
-						<td colspan="12" th:utext="${pagination}"></td>
+						<td class="page" colspan="12" th:utext="${pagination}"></td>
 					</tr>
 				</tfoot>
 			</table>

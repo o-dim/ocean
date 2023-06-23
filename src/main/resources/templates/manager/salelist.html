@@ -67,7 +67,7 @@
             <th:block th:each="cd,vs:${cdList}">
                <tbody class="hashtag">
                   <tr>
-                     <td rowspan="4" ><img th:src="${cd.mainImg}"></td>
+                     <td rowspan="4" ><img th:src="@{/manager/display.do(cdNo=${cd.cdNo})}"></td>
                      <td th:text="${cd.title}"></td>
                      <td>
                         <form class="frm_remove" method="post" th:action="@{/manager/remove.do}">
@@ -97,7 +97,6 @@
                </tfoot>
          </table>
       </div>
-      <div></div>
    </div>
 </body>
 </html>

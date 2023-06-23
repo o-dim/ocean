@@ -35,4 +35,5 @@ public interface ManagerMapper {
 	public int removeReply(int replyNo);
 	public int addCd(CdDTO cdDTO);
 	public int addHashtagCd(HashtagCdDTO hashtagCdDTO);
+	public CdDTO getCdByNo(int cdNo);
 }

@@ -60,9 +60,8 @@ public class SpotifyServiceImpl implements SpotifyService {
 				String title = track.getName();                             // 제목 
 				String singer = track.getArtists()[0].getName();            // 이 노래 가수이름
 				String imgUrl = track.getAlbum().getImages()[0].getUrl();   // 앨범이미지
-				String preview = trackPaging.getItems()[0].getPreviewUrl();	// 미리듣기
-				String music = trackPaging.getItems()[0].getUri();
-				String music2 = track.getHref();
+				String preview = trackPaging.getItems()[i].getPreviewUrl();	// 미리듣기
+				
 				track.getUri();
 				Map<String, String> song = new HashMap<>();
 				song.put("title", title);

@@ -65,19 +65,20 @@ public class PageUtil {
 		
 		// 이전 블록 : 1블록은 이전 블록이 없고, 나머지 블록은 이전 블록이 있다.
 		if(beginPage == 1) {
-			sb.append("<span class=\"hidden\">◀</span>");
+			sb.append("<span class=\"hidden\">◀&nbsp;</span>");
 		} else {
-			sb.append("<a class=\"link\" href=\"" + path + "page=" + (beginPage - 1) + "\">◀</a>");
+			sb.append("<a class=\"link\" href=\"" + path + "page="+ (beginPage - 1) + "\">◀</a>");
 		}
 		
 		// 페이지번호 : 현재 페이지는 링크가 없다.
-		for(int p = beginPage; p <= endPage; p++) {
-			if(p == page) {
-				sb.append("<span class=\"strong\">" + p + "</span>");
-			} else {
-				sb.append("<a class=\"link\" href=\"" + path + "page=" + p + "\">" + p + "</a>");
-			}
-		}
+		 for (int p = beginPage; p <= endPage; p++) {
+		        if (p == page) {
+		            sb.append("<span class=\"strong\">" + p + "</span>");
+		        } else {
+		            sb.append("<a class=\"link\" href=\"" + path + "page=" + p + "\">" + p + "</a>");
+		        }
+		        sb.append(" "); // 숫자 사이에 공백 추가
+		    }
 		
 		// 다음 블록 : 마지막 블록은 다음 블록이 없고, 나머지 블록은 다음 블록이 있다.
 		if(endPage == totalPage) {

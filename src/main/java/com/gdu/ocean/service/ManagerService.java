@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -23,4 +24,5 @@ public interface ManagerService {
 	public void getBoardList(HttpServletRequest request, Model model);
 	public int removeReply(int replyNo);
 	public int addCd(MultipartHttpServletRequest multipartRequest) throws Exception;
+	public ResponseEntity<byte[]> display(int cdNo);
 }

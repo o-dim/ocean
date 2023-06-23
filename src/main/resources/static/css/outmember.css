@@ -1,11 +1,12 @@
 @charset "UTF-8";
-@charset "UTF-8";
-@font-face {
-	    font-family: 'GmarketSansMedium';
-	    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
-	    font-weight: normal;
-	    font-style: normal;
-	}
+
+	@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css");
+	@font-face {
+		    font-family: 'GmarketSansMedium';
+		    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+		    font-weight: normal;
+		    font-style: normal;
+		}
 	body {
 		background-color: #e9e9e9;
 		font-family: 'GmarketSansMedium';
@@ -103,4 +104,31 @@
 	.wrap > table thead:nth-of-type(1) {
 		border-bottom: 3px solid black;
 	}
+	
+	.btn {
+		background-color: transparent;
+		border: none;
+		height: 50px;
+	}	
+	
+	.fa-magnifying-glass {
+		font-size: 20px;
+		right: 100px;
+	}		
+	
+	.fa-magnifying-glass:hover {
+		cursor: pointer;
+	}	
+	
+	.search_query {
+		width: 800px;
+		height: 20px;
+		border: none;
+		outline: none;
+		background-color: #e9e9e9;
+		border-bottom: solid 2px black;
+		text-align: center;
+		font-size: 17px;
+		font-family: 'GmarketSansMedium';
+	}	
 	
