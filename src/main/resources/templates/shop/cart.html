@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{/layout/shopHeader::shopHead('welcome')}"></head>
+<body>
+		<div id="shopList">
+			<div class="nav_title1">
+				<img th:src="@{/photo/OCEAN.png}" class="nav_ocean_link1" th:onclick="'fnBackground()'" th:ondblclick="'fnOcean()'" >	
+			</div>
+				<div>
+				<div id="all">
+					<div id="top">
+						<div id="new">
+							<h1>Cart</h1>
+							<header th:replace="~{layout/shopHeader::shopHeader}"></header>
+						</div>
+							<div>
+								<th:block th:each="cdc,vs:${cartDetailList}">
+									<table border="1" width="1300px">
+										<tr colspan="4">
+											<td>
+												<img th:src="@{${cdc.cdNo.mainImg}}" width="200px">
+											</td>
+											<td>
+												<div th:text="${cdc.cdNo.singer}"></div>
+												<div th:text="${cdc.cdNo.title}"></div>
+												<div th:text="${cdc.count}"></div>
+												<div th:text="${cdc.cdNo.price}"></div>
+											</td>
+										</tr>
+									</table>
+								</th:block>
+								<div >
+									<input type="button" id="btnCartDetailBuy" class="btnByCartDetail" value="구매하기" onclick="fnbtnCartDetailBuy()">
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<script th:inline="javascript">
+			
+			
+			//함수호출
+			
+			
+			
+			/******구매하기 버튼 이용해 orderpage이동 *******/
+						
+			
+			
+			
+			
+			
+			</script>
+	
+
+	
+		
+	
+</body>
+</html>

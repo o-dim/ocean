@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.URL;
+import java.util.List;
 import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -13,16 +14,23 @@ import javax.net.ssl.HttpsURLConnection;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.gdu.ocean.domain.CartDetailDTO;
+import com.gdu.ocean.domain.OrderDTO;
+import com.gdu.ocean.mapper.ShopMapper;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class IamPortServiceImpl implements IamPortService {
+	
+	private ShopMapper shopMapper;
 	
 	@Value("${iamport.imp_key}")
 	private String impKey;
@@ -104,6 +112,19 @@ public class IamPortServiceImpl implements IamPortService {
 	    
 	    br.close();
 	    conn.disconnect();
+	    
+	    int cartNo = session
+		OrderDTO orderDTO = new OrderDTO();
+		List<CartDetailDTO> carts = shopMapper.getCartDetailNo(cartNo);
+		for (CartDetailDTO cart : carts) { //스트레이 3개 : cart , 레드벨벳 2개 : cart => 모두 가지고 있는 게 carts 
+			int count = cart.getCount(); // 3개
+			orderDTO.setCdNo(cart.getCdNo()); // 스트레이(cdDTO) 빼자마자 order에다가 넣음
+			orderDTO.setCount(count); // order에다가 3개 넣음
+		}
+		// 현재 상황 : cart 스트레이 3개가 있고, order에도 스트레이 3개가 있음 (근데 db order에 있는게 아님 단순히 자바 order에만 존재하고 있음)
+		shopMapper.addOrder(orderDTO); // db에다가 order insert문 돌려서 db 저장함 (스트레이 3 저장됨) : 현재상황 오더db에 스3존재 및 카트db에 스3존재 
+		shopMapper.deleteCart(cartNo); // db에다가 cart delete함(스트레이 3 삭제됨)
+		// 최종 상황 : cartDB 깨끗 및 orderDB에 스 3 저장 (레벨도 이하동문)
 	    
 	    return response.getResponse().getAmount();
 	}

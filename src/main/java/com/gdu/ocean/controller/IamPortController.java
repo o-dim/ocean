@@ -28,7 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @RestController
 @Slf4j
-public class PaymentApiController {
+public class IamPortController {
 
     private final IamPortService iamPortService;
     private IamportClient api;
@@ -38,7 +38,7 @@ public class PaymentApiController {
 	@Value("{imp_secret}")
 	private String impSecret;
 	
-    private PaymentApiController() {
+    private IamPortController() {
         this.iamPortService = null;
 		// REST API 키와 REST API secret 를 아래처럼 순서대로 입력한다.
         this.api = new IamportClient(impKey,impSecret);

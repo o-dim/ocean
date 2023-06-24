@@ -6,9 +6,7 @@
 <!--  주소 라이브러리 -->
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <style>
-	body {
-		
-	}
+
 	.container {
 		display: flex;
 	}
@@ -41,25 +39,25 @@ function execDaumPostcode() {
 /* ******************* 아임포트 ************************** */
 
 /*
- * 주문번호 무작위 생성 메소드 
+ * 주문번호 무작위 생성 메소드 d
  */
 function createOrderNum() {
 	const date = new Date();
 	const year = date.getFullYear();
-	const month = String(date.getMonth() + 1).padStart(2, "0");
+	const month = String(date.getMonth() + 1).padStart(2, "0");//날짜
 	const day = String(date.getDate()).padStart(2, "0");
 	
-	let orderNum = year + month + day;
+	let orderNum = year + month + day;//고대로 들어감
 	for(let i=0;i<10;i++) {
-		orderNum += Math.floor(Math.random() * 8);	
+		orderNum += Math.floor(Math.random() * 8);	//무작위 숫자 8개
 	}
 	return orderNum;
 }
-$('#kakaopayBtn').on('submit', function() {
+$('#kakaopayBtn').on('submit', function() { //카카오 눌렀을떄 서브밋이된다
 	
 	const data = {
 		orderNum : createOrderNum(),
-		name : $("#iamportTest input[name='buyer_name']").val(),
+		name : $("#iamportTest input[name='buyer_name']").val(), //
 		email : $("#iamportTest input[name='buyer_email']").val(),
 		phone : $("#iamportTest input[name='buyer_tel']").val(),
 		postcode : $("#iamportTest input[name='postcode']").val(),
@@ -122,7 +120,7 @@ $('#iamportBtn').on('submit', function() {
 		        msg += '고유ID : ' + rsp.imp_uid;
 		        msg += '상점 거래ID : ' + rsp.merchant_uid;
 		        msg += '결제 금액 : ' + rsp.paid_amount;
-		        msg += '카드 승인번호 : ' + rsp.apply_num;
+		        msg += '카드 승인번호 : ' + rsp.apply_num; //안써도됨 확인용 
 		    } else {
 		    	 var msg = '결제에 실패하였습니다.';
 		         msg += '에러내용 : ' + rsp.error_msg;
