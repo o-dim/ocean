@@ -1,5 +1,6 @@
 package com.gdu.ocean.controller;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -94,9 +95,11 @@ public class ManagerController {
 		return "manager/outmember";
 	}
 	
+	@ResponseBody
 	@GetMapping("/userout.do")
-	public void userout(HttpServletRequest request, HttpServletResponse response) {
-		managerService.userout(request, response);
+	public int userout(String email, HttpServletRequest request, HttpServletResponse response) {
+		int result = managerService.userout(email, request, response);
+		return result;
 	}
 	
 	// 상품 추가하기
@@ -109,6 +112,11 @@ public class ManagerController {
    @GetMapping("/display.do")
    public ResponseEntity<byte[]> display(@RequestParam("cdNo") int cdNo) {
       return managerService.display(cdNo);
+   }
+   
+   @GetMapping("/displaydetail.do")
+   public ResponseEntity<byte[]> displaydetail(@RequestParam("cdNo") int cdNo) {
+	   return managerService.displaydetail(cdNo);
    }
    
 	

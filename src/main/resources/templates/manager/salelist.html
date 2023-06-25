@@ -40,15 +40,12 @@
 <body>
    
    <div th:replace="~{/layout/managerheader::gnbFrag}"></div>
-<<<<<<< HEAD
 		<div class="logo-top">
           <a th:href="@{/}"><img th:src="@{/photo/OCEAN2.png}"></a>
 		</div>   
-=======
       <div class="logo-top">
           <img th:src="@{/photo/OCEAN2.png}">
       </div>   
->>>>>>> 847006eff14266a7acd7345e0d0c31632629f72e
    <div class="all">
       <div class="searchbar">
          <div class="searchbar_1">
@@ -92,13 +89,13 @@
                   </tr>
                   <tr>
                      <td th:text="|가격 : *{cd.price}|"></td>
-                     <td th:text="|재고 : *{cd.stock}|"></td>
+                     <td th:text="|재고 *{cd.stock}|"></td>
                   </tr>
                </tbody>
             </th:block>
                <tfoot>
                   <tr>
-                     <td th:utext="${pagination}">
+                     <td class="page" colspan="3" th:utext="${pagination}">
                   </tr>
                </tfoot>
          </table>

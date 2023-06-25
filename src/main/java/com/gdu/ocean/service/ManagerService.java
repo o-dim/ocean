@@ -20,10 +20,11 @@ public interface ManagerService {
 	public void getUserList(HttpServletRequest request, Model model);
 	public void getSleepUserList(HttpServletRequest request, Model model);
 	public void getOutUserList(HttpServletRequest request, Model model);
-	public void userout(HttpServletRequest request, HttpServletResponse response);
+	public int userout(String email, HttpServletRequest request, HttpServletResponse response);
 	public void getBoardList(HttpServletRequest request, Model model);
 	public int removeReply(int replyNo);
 	public int addCd(MultipartHttpServletRequest multipartRequest) throws Exception;
 	public ResponseEntity<byte[]> display(int cdNo);
+	public ResponseEntity<byte[]> displaydetail(int cdNo);
 	public void getOrderList(HttpServletRequest request, Model model);
 }

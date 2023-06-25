@@ -2,7 +2,6 @@ package com.gdu.ocean.service;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,7 +9,6 @@ import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.http.HttpStatus;
@@ -34,9 +32,11 @@ import com.gdu.ocean.util.MyFileUtil;
 import com.gdu.ocean.util.PageUtil;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class ManagerServiceImpl implements ManagerService {
 
 	private final ManagerMapper managerMapper;
@@ -267,30 +267,22 @@ public class ManagerServiceImpl implements ManagerService {
 	
 	@Transactional(readOnly=false)
 	@Override
-	public void userout(HttpServletRequest request, HttpServletResponse response) {
-		
-		HttpSession session = request.getSession();
-		
-		/* session 저장해서 삭제 테스트 나중에 지워야함 */
-		session.setAttribute("loginEmail", "nick@naver.com");
-		
-		String email = (String) session.getAttribute("loginEmail");
-		
+	public int userout(String email, HttpServletRequest request, HttpServletResponse response) {
+		log.info(email + "..................탈퇴시킬 email");
 		UsersDTO usersDTO = managerMapper.selectUserById(email);
 		
 		int insertResult = managerMapper.insertOutUser(usersDTO);
 		int deleteResult = managerMapper.deleteUser(email);
-		
+		return deleteResult;
+		/*
 		try {
 			
 			response.setContentType("text/html; charset=UTF-8");
 			PrintWriter out = response.getWriter();
 			out.println("<script>");
 			if(insertResult == 1 && deleteResult == 1) {
-				
-				session.invalidate();
-				
-				out.println("alert('다음에 또 찾아주세요.');");
+								
+				out.println("alert('탈퇴 회원으로 이동되었습니다.');");
 				out.println("location.href='/manager/membersearch.do';");
 				
 			} else {
@@ -303,6 +295,7 @@ public class ManagerServiceImpl implements ManagerService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		*/
 		
 	}
 	
@@ -355,12 +348,31 @@ public class ManagerServiceImpl implements ManagerService {
 	               FileInputStream inputStream = new FileInputStream(mainImg);
 	               byte[] imageBytes = IOUtils.toByteArray(inputStream);
 	               image = new ResponseEntity<>(imageBytes, HttpStatus.OK);
-	         }
+	         } 
 	      } catch(Exception e) {
 	         e.printStackTrace();
 	      }
 	      return image;
 	   }
+	   
+	   @Override
+	   public ResponseEntity<byte[]> displaydetail(int cdNo) {
+		   CdDTO cdDTO = managerMapper.getCdByNo(cdNo);
+		   ResponseEntity<byte[]> image = null;
+		   try {
+			   File detailImg = new File(cdDTO.getDetailImg());
+			   System.out.println("디테일이미지" + detailImg);
+			   if (detailImg.exists()) {
+				   FileInputStream inputStream = new FileInputStream(detailImg);
+				   byte[] imageBytes = IOUtils.toByteArray(inputStream);
+				   image = new ResponseEntity<>(imageBytes, HttpStatus.OK);
+			   } 
+		   } catch(Exception e) {
+			   e.printStackTrace();
+		   }
+		   return image;
+	   }
+	   
 	   
     @Override
 		public void getOrderList(HttpServletRequest request, Model model) {
