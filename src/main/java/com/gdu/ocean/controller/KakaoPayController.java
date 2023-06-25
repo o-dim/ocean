@@ -1,6 +1,8 @@
 package com.gdu.ocean.controller;
 
 import java.io.PrintWriter;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,7 +19,9 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import com.gdu.ocean.domain.KakaoApproveResponse;
 import com.gdu.ocean.domain.KakaoReadyResponse;
 import com.gdu.ocean.domain.OrderDTO;
+import com.gdu.ocean.mapper.ShopMapper;
 import com.gdu.ocean.service.KakaopayService;
+import com.gdu.ocean.service.ShopService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,11 +33,23 @@ import lombok.extern.slf4j.Slf4j;
 public class KakaoPayController {
 	
 	private final KakaopayService kakaoPayService;
+	private final ShopService shopService;
 	
-	@GetMapping("/order/order")
-	public String order() {
-		return "/order/order";
+	@ResponseBody
+	@PostMapping(value="/order/order", produces="application/json")
+	public Map<String, Object> order(HttpServletRequest request) {
+		return shopService.addOrderList(request);
 	}
+	/*
+	@PostMapping("/getBuyCdList.do")
+	public String buy(@RequestParam("userNo") int userNo
+				 	, @RequestParam("cdNo")   int cdNo
+					, @RequestParam("count")  int count
+					, Model model) {
+		shopService.
+		return "shop"
+	}	  
+	 */
 	
 	/*
 	@PostMapping("/semiOrder/pay")

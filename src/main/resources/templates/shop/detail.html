@@ -7,20 +7,28 @@
 	<!-- 빠진거 : 해시태그, 앨범 설명, 로그인 세션 유무(장바구니, 구매하기 로그인여부에따라) -->
 	
 	<div class="cdData">
-		<div class="detailImg">
-			<img th:src="${cd.mainImg}">
-		</div>
-	    <div class="cdInfo">
-			<div class="hashtagName" id="hashtagName" th:text="${cd.title}"></div>
-			<div class="price" id="price">수량</div>
-			<div>
-				<input type="button" class="btn btnBuyCount" onclick="fnBtnPlus()" value="+">
-				<input type="text" name="count" id="count" readonly="readonly" />
-				<input type="button" class="btn btnBuyCount" onclick="fnBtnMinus()" value="-">
-				<input type="button" class=btn id="btnAddToCart" value="장바구니에 담기">
-				<input type="button" class="btn btnPrimary btnBuy" value="구매하기"  />
-			</div>
-		</div>
+		<table border ="2">
+			<tr class="detailImg" rowspan="2">
+				<td colspan="2">
+					<img th:src="${cd.mainImg}">
+				</td>
+				<td>
+				</td>
+			</tr>
+			<tr>
+				<td class="cdInfo" colspan="2">
+					<div class="hashtagName" id="hashtagName" th:text="${cd.title}"></div>
+					<div class="price" id="price">수량</div>
+						<input type="button" class="btn btnBuyCount" onclick="fnBtnPlus()" value="+">
+						<input type="text" name="count" id="count" readonly="readonly" />
+						<input type="button" class="btn btnBuyCount" onclick="fnBtnMinus()" value="-">
+				</td>
+				<td>
+					<input type="button" class= btn id="btnAddToCart" value="장바구니에 담기">
+					<input type="button" id="btnBuy" class="btn btnPrimary btnBuy" value="바로주문해요" onclick="fnBuy()"/>
+				</td>
+			</tr>
+		</table>
 	</div>
 		
 	<div class="modalbutton">
@@ -143,6 +151,13 @@
 		function fnCloseModal() {
 			modal.css('visibility', 'hidden').css('opacity', '0');
 		}
+		
+		
+		/*******************************************/
+		
+		
+		
+		
 		
 	</script>
 	

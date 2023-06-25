@@ -60,6 +60,64 @@
 			<result column="AUTOLOGIN_ID" property="autologinEmail"/>
 			<result column="AUTOLOGIN_EXPIRED_AT" property="autologinExpiredAt"/>
 		</association>
+		<association property="cdNo" javaType="CdDTO">
+	        <id column="CD_NO" property="cdNo" />
+	        <result column="TITLE" property="title" />
+	        <result column="SINGER" property="singer" />
+	        <result column="MAIN_IMG" property="mainImg" />
+	        <result column="DETAIL_IMG" property="detailImg" />
+	        <result column="PRICE" property="price" />
+	        <result column="STOCK" property="stock" />
+	        <result column="RECOMMEND_COUNT" property="recommendCount" />
+	        <result column="WRITED_AT" property="writedAt" />
+   	    </association>
+   	     
+	</resultMap>
+	
+	<resultMap id="OrderMap" type="OrderDTO" >
+		<id column="ORDER_NO" property="orderNo" />
+		<result column="TOTAL" property="total" />
+		<result column="EMAIL" property="email" />
+		<result column="PHONENO" property="phoneNo" />
+		<result column="POSTCODE" property="postcode" />
+		<result column="ROAD_ADDRESS" property="roadAddress" />
+		<result column="JIBUN_ADDRESS" property="jibunAddress" />
+		<result column="DETAIL_ADDRESS" property="detailAddress" />
+		<result column="NAME" property="name" />
+		<result column="COUNT" property="count" />
+		<result column="ORDER_AT" property="orderAt" />
+		<association property="cartNo" javaType="CartDTO">
+			<id column="CART_NO" property="cartNo" />
+        	<result column="MADE_AT" property="madeAt" />
+        	<association property="userNo" javaType="UsersDTO">
+				<id column="USER_NO" property="userNo"/>
+				<result column="EMAIL" property="email"/>
+				<result column="PW" property="pw"/>
+				<result column="PHONENO" property="phoneNo"/>
+				<result column="POSTCODE" property="postcode"/>
+				<result column="ROAD_ADDRESS" property="roadAddress"/>
+				<result column="JIBUN_ADDRESS" property="jibunAddress"/>
+				<result column="DETAIL_ADDRESS" property="detailAddress"/>
+				<result column="NAME" property="name"/>
+				<result column="JOINED_AT" property="joinedAt"/>
+				<result column="AGREECODE" property="agreecode"/>
+				<result column="AUTOLOGIN_ID" property="autologinEmail"/>
+				<result column="AUTOLOGIN_EXPIRED_AT" property="autologinExpiredAt"/>
+			</association>
+		</association>
+		<association property="cdNo" javaType="CdDTO">
+	        <id column="CD_NO" property="cdNo" />
+	        <result column="TITLE" property="title" />
+	        <result column="SINGER" property="singer" />
+	        <result column="MAIN_IMG" property="mainImg" />
+	        <result column="DETAIL_IMG" property="detailImg" />
+	        <result column="PRICE" property="price" />
+	        <result column="STOCK" property="stock" />
+	        <result column="RECOMMEND_COUNT" property="recommendCount" />
+	        <result column="WRITED_AT" property="writedAt" />
+   	    </association>
+		
+	
 	</resultMap>
 	
 	<resultMap type="HashtagCdDTO" id="HashtagCdMap">
@@ -117,6 +175,13 @@
 		  FROM CART
 		 WHERE USER_NO = #{userNo}
 	</select>
+	
+	<select id="getOrderByCartDetailNo" parameterType="int" resultType="CartDetailDTO">
+		SELECT ORDER_NO
+		  FROM CART_DETAIL 
+		 WHERE CART_DETAIL_NO = #{cartDetailNo}
+	</select>
+	
 	<insert id="madeCart" parameterType="int">
 		INSERT INTO CART (
 		    MADE_AT
@@ -134,6 +199,12 @@
 		 WHERE CART_NO = #{cartNo} AND CD_NO = #{cdNo}
 	</select>
 	
+	<select id="confirmUsersInOrder" parameterType="Map" resultType="OrderDTO">
+		SELECT ORDER_NO
+		  FROM USERS
+		 WHERE USER_NO = #{userNo} AND CART_NO = #{cartNo}
+	</select>
+	
 	<insert id="addCartDetail" parameterType="Map">
 		INSERT INTO CART_DETAIL (
 		    COUNT
@@ -145,6 +216,8 @@
 		  , #{cdNo}
 		)
 	</insert>
+	
+
 	<update id="modifyCartDetail" parameterType="Map">
 		UPDATE CART_DETAIL
 		   SET COUNT = COUNT + #{count}
@@ -160,7 +233,7 @@
 	 WHERE USER_NO = #{userNo}
 	</select>
 	 
-	 <select id="getCartDetailList" parameterType="int" resultMap="CartDetailMap">
+    <select id="getCartDetailList" parameterType="int" resultMap="CartDetailMap">
 	SELECT CD.CART_DETAIL_NO, CD.COUNT, CD.CART_NO, CD.CD_NO, CT.CART_NO, CT.MADE_AT, C.CD_NO, C.TITLE, C.SINGER, C.MAIN_IMG, C.PRICE, C.STOCK, C.WRITED_AT  
  	  FROM CART CT INNER JOIN CART_DETAIL CD
  	   ON CT.CART_NO = CD.CART_NO INNER JOIN CD C
@@ -168,16 +241,74 @@
  	 WHERE CT.CART_NO = #{cartNo}
  	</select>
 	
-	<select id="getCartDetailByCartNo" parameterType="int" resultType="CartDetailDTO">
-	SELECT CD.CART_DETAIL_NO
-	  FROM CART CT INNER JOIN CART_DETAIL CD
- 	   ON CT.CART_NO = CD.CART_NO
-	 	WHERE CT.CART_NO = #{cartNo}
+	
+	
+	
+	<insert id="addOrderList" parameterType="Map">
+		INSERT INTO ORDER_TBL (
+			TOTAL
+		  , EMAIL
+		  , PHONENO
+		  , POSTCODE
+		  , ROAD_ADDRESS
+		  , JIBUN_ADDRESS
+		  , DETAIL_ADDRESS
+		  , NAME
+		  , COUNT
+		  , ORDER_AT
+		  , CART_NO
+		  , CD_NO
+		) VALUES (
+			#{total}
+		  , #{email}
+		  , #{phoneNo}
+		  , #{postcode}
+		  , #{roadAddress}
+		  , #{jibunAddress}
+		  , #{detailAddress}
+		  , #{name}
+		  , #{count}
+		  , NOW()
+		  , #{cartNo}
+		  , #{cdNo}
+		)
+	</insert>
+	
+	
+	<select id="getOrderNoByUserNo" parameterType="int" resultType="OrderDTO">
+	 SELECT O.ORDER_NO
+	  FROM ORDER_TBL O RIGHT JOIN USERS U
+	  ON USER_NO = USER_NO
+     WHERE USER_NO = #{userNo}
 	</select>
+	<!-- 
+	<select id="fastGetOrderList" parameterType="" resultType="">
+	 SELECT CD.CART_DETAIL_NO, CD.COUNT, CT.CART_NO, C.CD_NO, CT.MADE_AT, C.CD_NO, C.TITLE, C.SINGER, C.MAIN_IMG, C.PRICE
+	  FROM ORDER_TBL O RIGHT JOIN CD C 
+	  ON O.CD_NO = C.CD_NO RIGHT JOIN CART_DETAIL CD
+	  ON C.CD_NO = CD.CD_NO RIGHT JOIN CART CT
+	  ON CD.CART_NO = CT.CART_NO RIGHT JOIN USERS U
+	  ON CT.USER_NO = U.USER_NO
+	  WHERE U.USER_NO = #{userNo}
+	</select>	
+	 -->
 	
-	  
-
 	
+	<select id="getOrderList" parameterType="int" resultMap="OrderMap">
+	SELECT C.MAIN_IMG, O.ORDER_NO, O.EMAIL, O.NAME
+	FROM ORDER_TBL O INNER JOIN CD C 
+	  ON O.CD_NO = C.CD_NO INNER JOIN CART_DETAIL CD
+	  ON C.CD_NO = CD.CD_NO INNER JOIN CART CT
+	  ON CD.CART_NO = CT.CART_NO INNER JOIN USERS U
+	  ON CT.USER_NO = U.USER_NO
+	 WHERE U.USER_NO = #{userNo}
+	</select>  
+	
+	<delete id="deleteCart" parameterType="CartDTO">
+	DELETE
+	  FROM CART
+	 WHERE CART_NO = #{cartNo}	
+	</delete>
 	
  	
 	

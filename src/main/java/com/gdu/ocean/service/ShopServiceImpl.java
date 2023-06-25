@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import javax.mail.Session;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.catalina.connector.Request;
 import org.springframework.stereotype.Service;
@@ -15,11 +17,16 @@ import com.gdu.ocean.domain.CartDTO;
 import com.gdu.ocean.domain.CartDetailDTO;
 import com.gdu.ocean.domain.CdDTO;
 import com.gdu.ocean.domain.HashtagDTO;
+import com.gdu.ocean.domain.OrderDTO;
+import com.gdu.ocean.domain.UsersDTO;
 import com.gdu.ocean.mapper.ShopMapper;
 import com.gdu.ocean.util.PageUtil;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class ShopServiceImpl implements ShopService {
@@ -121,6 +128,45 @@ public class ShopServiceImpl implements ShopService {
 		return null;
 		
 	}
+	
+	
+	
+	@Override
+	public Map<String, Object> addOrderList(HttpServletRequest request) {
+		int userNo = Integer.parseInt(request.getParameter("userNo"));
+		int cartNo = Integer.parseInt(request.getParameter("cartNo"));
+		//UsersDTO userDTO = shopMapper.getOrderNoByUserNo(cartNo);
+		
+		//OrderDTO orderDTO = shopMapper.getOrderNoByUserNo(userNo);
+		UsersDTO usersDTO = shopMapper.getOrderNoByUserNo(cartNo);
+		if(usersDTO == null) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			int insertOrderResult = shopMapper.addOrderList(map);
+			if(insertOrderResult == 1) {
+				usersDTO = new UsersDTO();
+			}	
+			//파라미터 전달 이때 전달하고 나면 삭제해야함 
+			map.put("userNo", usersDTO.getUserNo());
+			map.put("cartNo", cartNo);
+			
+			OrderDTO orderDTO = shopMapper.confirmUsersInOrder(map);
+			int addOrderResult = 0;
+			
+			
+			Map<String, Object> orderResult = new HashMap<String, Object>();
+			orderResult.put("addOrderResult", orderResult);
+			orderResult.put("cartNo", cartNo);
+			if(cartNo == 1) {
+				shopMapper.deleteCart(cartNo);
+			}
+			return orderResult;
+			
+		}
+		
+		return null;
+	}
+		
+		
 	
 	@Override
 	public void getCartDetailList(int cartNo, Model model) {
