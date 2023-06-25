@@ -23,7 +23,7 @@
 	</select>
 
 	<select id="selectUsersByPhoneNo" parameterType="String" resultType="UsersDTO">
-	SELECT PHONENO, JOINED_AT
+	SELECT EMAIL, PHONENO, JOINED_AT
       FROM USERS
      WHERE PHONENO = #{phoneNo}
 	</select>
@@ -55,7 +55,7 @@
 		   , AGREECODE
 		) VALUES (
 			  #{email}
-			, SHA2(#{pw}, 256)
+			, #{pw}
 			, #{phoneNo}
 			, #{postcode}
 			, #{roadAddress}
@@ -67,10 +67,10 @@
 		)		
 	</insert>
 	<select id="selectUsersByUsersDTO" parameterType="UsersDTO" resultType="UsersDTO">
-	    SELECT USER_NO, EMAIL, PHONENO, POSTCODE, ROAD_ADDRESS, JIBUN_ADDRESS, DETAIL_ADDRESS, NAME, AGREECODE
-	    FROM USERS
-	    WHERE EMAIL = #{email}
-	      AND PW = SHA2(#{pw}, 256)
+    SELECT USER_NO, EMAIL, PW, PHONENO, POSTCODE, ROAD_ADDRESS, JIBUN_ADDRESS, DETAIL_ADDRESS, NAME, AGREECODE
+    FROM USERS
+    WHERE EMAIL = #{email}
+      AND PW = SHA2(#{pw}, 256)
 	</select>
 	
 	
@@ -146,8 +146,8 @@
 	  		     ,AGREECODE
 	        FROM USERS U LEFT OUTER JOIN USERS_ACCESS UA
 	          ON U.EMAIL = UA.EMAIL
-	       WHERE MONTHS_BETWEEN(SYSDATE, UA.LAST_LOGIN_AT) >= 12 <!-- 12개월 이상 로그인 이력이 없는 회원 -->
-	          OR (MONTHS_BETWEEN(SYSDATE, U.JOINED_AT) >= 12 AND UA.LAST_LOGIN_AT IS NULL)) <!-- 가입일이 12개월 이상 지나고, 로그인 이력이 아예 없는 회원 -->
+	       WHERE MONTHS_BETWEEN(NOW(), UA.LAST_LOGIN_AT) >= 12 <!-- 12개월 이상 로그인 이력이 없는 회원 -->
+	          OR (MONTHS_BETWEEN(NOW(), U.JOINED_AT) >= 12 AND UA.LAST_LOGIN_AT IS NULL)) <!-- 가입일이 12개월 이상 지나고, 로그인 이력이 아예 없는 회원 -->
 	  </insert>
 	  
 	  <!-- 휴면처리 2단계 : 1년(12개월) 이상 접속 내역(USER_ACCESS_T의 LAST_LOGIN_AT)이 없는 회원을 회원 테이블에서 삭제하기 -->
@@ -157,28 +157,19 @@
 	     WHERE EMAIL IN(SELECT U.EMAIL
 	                      FROM USERS U LEFT OUTER JOIN USERS_ACCESS UA
 	                        ON U.EMAIL = UA.EMAIL
-	                     WHERE MONTHS_BETWEEN(SYSDATE, UA.LAST_LOGIN_AT) >= 12
-	                        OR (MONTHS_BETWEEN(SYSDATE, U.JOINED_AT) >= 12 AND UA.LAST_LOGIN_AT IS NULL))
+	                     WHERE MONTHS_BETWEEN(NOW(), UA.LAST_LOGIN_AT) >= 12
+	                        OR (MONTHS_BETWEEN(NOW(), U.JOINED_AT) >= 12 AND UA.LAST_LOGIN_AT IS NULL))
 	  </delete>
 
 	  <!-- 휴면복원 1단계 : 휴면 테이블의 데이터를 회원 테이블에 저장하기 -->
-	   <insert id="insertRestoreUsers" parameterType="String">
-    INSERT INTO USERS (
-    ) (SELECT EMAIL
-            , PW
-            , NAME
-            , EMAIL
-            , PHONENO
-            , POSTCODE
-            , ROAD_ADDRESS
-            , JIBUN_ADDRESS
-            , DETAIL_ADDRESS
-            , AGREECODE
-            , JOINED_AT
-            , PW_MODIFIED_AT
-         FROM SLEEP_USERS
-        WHERE EMAIL = #{email})
-  </insert>
+	<insert id="insertRestoreUsers" parameterType="String">
+	  INSERT IGNORE INTO USERS
+	  (EMAIL, PW, PHONENO, POSTCODE, ROAD_ADDRESS, JIBUN_ADDRESS, DETAIL_ADDRESS, NAME, JOINED_AT, AGREECODE, PW_MODIFIED_AT)
+	  SELECT EMAIL, PW, PHONENO, POSTCODE, ROAD_ADDRESS, JIBUN_ADDRESS, DETAIL_ADDRESS, NAME, JOINED_AT, AGREECODE, PW_MODIFIED_AT
+	  FROM SLEEP_USERS
+	  WHERE EMAIL = #{email}
+	</insert>
+
   
   <!-- 휴면복원 2단계 : 복원할 회원을 SLEEP_USERS 테이블에서 삭제하기 -->
   <delete id="deleteSleepUsers" parameterType="String">
@@ -207,5 +198,45 @@
          , AGREECODE = #{agreecode}
      WHERE EMAIL = #{email}
   </update>
-	  
+   <!-- 네이버 회원 가입 -->
+  <insert id="insertNaverUsers" parameterType="UsersDTO">
+    INSERT INTO USERS (
+        EMAIL
+      , PW
+      , NAME
+      , PHONENO
+      , AGREECODE
+      , JOINED_AT
+      , PW_MODIFIED_AT
+    ) VALUES (
+        #{email}
+      , #{pw}
+      , #{name}
+      , #{phoneNo}
+      , #{agreecode}
+      , NOW()
+      , NOW()
+    )
+  </insert>	
+  
+  <!-- 카카오 회원 가입 -->
+  <insert id="insertKakaoUsers" parameterType="UsersDTO">
+    INSERT INTO USERS (
+        EMAIL
+      , PW
+      , NAME
+      , PHONENO
+      , AGREECODE
+      , JOINED_AT
+      , PW_MODIFIED_AT
+    ) VALUES (
+        #{email}
+      , #{pw}
+      , #{name}
+      , #{phoneNo}
+      , #{agreecode}
+      , NOW()
+      , NOW()
+    )
+  </insert>	    
 </mapper> 

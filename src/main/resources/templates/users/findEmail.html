@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-<script>
+<script th:src="@{/js/lib/jquery-3.6.4.min.js}"></script>
+<script th:src="@{/js/lib/moment-with-locales.js}"></script>
+<script th:inline="javascript">
 
   function fnFindEmail() {
 	  $('#btnFindEmail').on('click', function(){
@@ -10,14 +12,14 @@
         url: '/users/findEmail.do',
         contentType: 'application/json',  // 보내는 데이터가 JSON이라는 의미입니다. 
         data: JSON.stringify({            // 보내는 데이터의 파라미터 이름이 없기 때문에 컨트롤러에서 parameter를 받는 request.getParameter(), @RequestParam, 커맨드 객체 모두 사용할 수 없습니다.
-        	email: $('#email').val()        // 컨트롤러에서는 @RequestBody와 객체 또는 Map을 통해서 받아야 합니다.
+        	phoneNo: $('#phoneNo').val()  // 컨트롤러에서는 @RequestBody와 객체 또는 Map을 통해서 받아야 합니다.
         }),
         dataType: 'json',
         success: function(resData) {
           if(resData.findUsers != null) {
             let email = resData.findUsers.email;
             moment.locale('ko-KR');
-            $('#findResult').html('회원님의 아이디는 ' + email + '입니다.<br>(가입일 : ' + moment(resData.findUsers.joinedAt).format("YYYY년 MM월 DD일 a h:mm:ss") + ')');
+            $('#findResult').html('회원님의 이메일은 ' + email + '입니다.<br>(가입일 : ' + moment(resData.findUsers.joinedAt).format("YYYY년 MM월 DD일 a h:mm:ss") + ')');
           } else {
         	  $('#findResult').html('일치하는 회원이 없습니다. 입력 정보를 확인하세요.');
           }
@@ -32,43 +34,158 @@
 
 </script>
 <style>
-@font-face {
-	    font-family: 'GmarketSansMedium';
-	    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
-	    font-weight: normal;
-	    font-style: normal;
-		}
-	    
-        body {
-            background-color: #E9E9E9;
-          	font-family: 'GmarketSansMedium';
-            font-size: 15px;
+
+    @font-face {
+        font-family: 'GmarketSansMedium';
+        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+    }
+    
+    body {
+        background-color: #E9E9E9;
+        font-family: 'GmarketSansMedium';
+        overflow-x: hidden;
+        font-size: 15px;
+    }
+
+    .logo-top {
+        position: absolute;
+        left: -85px;
+        top: 25px;
+        width: 40%;
+    }
+
+    .logo-btm {
+        position: absolute;
+        bottom: 0;
+        right: 160px;
+        width: 40%;
+    }
+
+    #box {
+        position: absolute;
+        width: 480px;
+        height: 530px;
+        left: 50%;
+        top: 15%;
+        transform: translateX(-50%);
+        background-color: #000;
+        opacity: 0.7;
+        border-radius: 20px;
+        box-shadow: 8px 8px 8px #585858;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        padding-left: 90px;
+    }
+
+    input {
+        width: 100%;
+        border: none;
+        font-family: 'GmarketSansMedium';
+        border-bottom: 1px solid white;
+        outline: none;
+        background-color: transparent;
+        margin-bottom: 10px;
+        color: white;
+        font-size: 14px;
+    }
+
+    #container {
+        margin-top: -50px;
+        margin-bottom: 30px;
+        text-align: left;
+        color: white;
+    }
+    
+
+  .form-row {
+    display: flex;
+    flex-direction: row; 
+    align-items: center; 
+    margin-bottom: 10px;
+  }
+  
+   .form-row label {
+    margin-right: 10px; 
+  }
+
+  .form-row input[type="text"] {
+    flex: 1; 
+  }
+      
+    input[type="button"] {
+        border: 1px solid white;
+        color: white;
+        width: auto;
+        margin-left: 5px;
+        border-radius: 20px;
+        cursor: pointer;
+    }
+    
+    a {
+        color: white;
+        text-decoration-line: none;
+        margin-left: 40px;
+    }
+
+    @media (max-width: 768px) {
+        #box {
+            width: 80%;
+            left: 50%;
+            transform: translateX(-50%);
         }
+    }
+
+    @media (max-width: 480px) {
+        body {
+            font-size: 14px;
+        }
+
+        .logo-top,
+        .logo-btm {
+            display: none;
+        }
+
+        #box {
+            width: 90%;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+    }
 </style>
+
 </head>
 <body>
-	  <div>
-
-	    <h1>이메일 찾기</h1>
-	
-	    <div>
-	      <label for="phoneNo">휴대전화</label>
-	      <input type="text" name="email" id="email">
-	    </div>
-	    <div>
-	      <input type="button" value="이메일찾기" id="btnFindEmail">
-	    </div>
-	    <div>
-	      <a th:href="@{/users/login.html}">로그인</a> |
-	      <a th:href="@{/users/findPw.html}">비밀번호 찾기</a> |
-	      <a th:href="@{/users/agree.html}">회원가입</a>
-	    </div>
-	    
-	  </div>
-  
-  <hr>
-  
-  <div id="findResult"></div>
+		<div class="logo-top">
+		    <img th:src="@{/photo/OCEAN2.png}">
+		</div>
+		<div class="logo-btm">
+		    <img th:src="@{/photo/OCEAN2.png}">
+		</div>
+		
+		<form id="frmEdit" method="post" th:action="@{/users/findEmail.do}">
+		<div id="container">
+			<div id="box">
+			    <div>이메일 찾기</div>
+				    <div class="form-row">
+				      <label for="phoneNo">휴대전화</label>
+				      <input type="text" name="phoneNo" id="phoneNo">
+				      <input type="button" value="이메일 찾기" id="btnFindEmail">
+				    </div>
+ 					<div id="findResult"></div>
+				    <div class="form-row">
+				    </div>
+				    <div>
+				      <a th:href="@{/users/login.html}">로그인</a> |
+				      <a th:href="@{/users/findPw.html}">비밀번호 찾기</a> |
+				      <a th:href="@{/users/agree.html}">회원가입</a>
+				    </div>
+				  </div>
+			</div>
+  		</form>
 
 </body>
 </html>
