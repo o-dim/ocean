@@ -4,223 +4,251 @@
 <script th:src="@{/js/lib/jquery-3.6.4.min.js}"></script>
 <script th:inline="javascript">
 
+  // 전역 변수
+  var verifyEmail = false;
+  
+  // 이메일 중복 체크
+  function fnCheckEmail(){
+    $('#btnVerifyEmail').on('click', function(){
+      $.ajax({
+        type: 'get',
+        url: '/users/verifyEmail.do',
+        data: 'email=' + $('#email').val(),
+        dataType: 'json',
+        success: function(resData){  // resData = {"enableEmail": true} 또는 {"enableEmail": false}
+          verifyEmail = resData.enableEmail;
+          if(verifyEmail){
+            alert('사용할 수 있는 이메일입니다.');
+            $('#btnVerifyEmail').prop('disabled', true);
+          } else {
+        	  alert('사용할 수 없는 이메일입니다. 다른 이메일을 사용하세요.');
+          }
+        }
+      })
+    })
+  }
+  
+  // 회원가입
+  function fnNaverJoin(){
+    $('#frmNaverJoin').on('submit', function(event){
+      if(verifyEmail == false){
+        alert('가입을 위해서 이메일 중복확인이 필요합니다.');
+        event.preventDefault();
+        return;
+      } else if($('#service').is(':checked') == false || $('#privacy').is(':checked') == false){
+        alert('필수 약관에 동의해야만 가입할 수 있습니다.');
+        event.preventDefault();
+        return;
+      }
+    })
+  }
+  
+  // 전체선택 체크박스
+  function fnCheckAll(){
+    $('#checkAll').on('click', function(){
+      $('.checkOne').prop('checked', $(this).prop('checked'));
+    })
+  }
+  
+  // 개별선택 체크박스
+  function fnCheckOne(){
+    let chkOne = $('.checkOne');  // 모든 개별선택
+    chkOne.on('click', function(){
+      let chkCnt = 0;
+      for(let i = 0; i < chkOne.length; i++){
+        chkCnt += $(chkOne[i]).prop('checked');
+      }
+      $('#checkAll').prop('checked', chkCnt == chkOne.length);
+    })
+  }
+  
+  
+	/*  취소 시 메인 페이지로 이동. */
+	function fnCancel(){
+	 $('#btnCancel').on('click', function(){      
+	   location.href = '/users/login.html';
+	 })
+	}
+  
+  // 함수 호출
+  $(function(){
+    fnCheckEmail();
+    fnNaverJoin();
+    fnCheckAll();
+    fnCheckOne();
+    fnCancel();
+  })
 
-// 취소 시 이전 페이지 이동 
-function fnCancel(){
-	$('#btnCancle').on('click', function(){
-		history.back();
-	});
-}
-
-// 체크박스 전체 선택
-function fnCheckAll(){
-	$('#checkAll').on('click', function(){
-		$('.checkOne').prop('checked', $(this).prop('checked'));
-	});
-}
-
-// 개별 선택 
-function fnCheckOne(){
-	$('.checkOne').on('click', function(){
-		
-	});
-}
-
-//가입 페이지 이동 (frmAgree의 submit)
-function fnFrmAgreeSubmit(){
-	$('#frmAgree').on('submit', function(event){
-		if($('#service').is(':checked') == false || $('#privacy').is(':checked') == false) {
-			alert('필수 약관에 동의해야만 가입할 수 있습니다.');
-			event.preventDefault();
-			return;
-		}
-	});
-}
-
-// 함수 호출
-$(function(){
-	fnCancel();
-	fnCheckAll();
-	fnCheckOne();
-	fnFrmAgreeSubmit();
-});
 </script>
 <style>
-    @font-face {
-        font-family: 'GmarketSansMedium';
-        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
-        font-weight: normal;
-        font-style: normal;
-    }
-    
-    body {
-        background-color: #E9E9E9;
-        overflow-x: hidden;
-        font-family: 'GmarketSansMedium';
-        font-size: 15px;
-    }
-
-    .logo-top {
-        position: absolute;
-        left: -85px;
-        top: 25px;
-        width: 40%;
-    }
-
-    .logo-btm {
-        position: fixed;
-        bottom: 0;
-        right: 160px;
-        width: 40%;
-    }
-
-    #container {
-        margin-top: -50px;
-        margin-bottom: 30px;
-        text-align: left;
-        color: white;
-    }
-
-    #box {
-        position: absolute;
-        width: 750px;
-        height: 850px;
-        left: 23%;
-        top: 10%;
-        background-color: #000;
-        opacity: 0.7;
-        border-radius: 20px;
-        box-shadow: 8px 8px 8px #585858;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: flex-start;
-        padding-left: 90px;
-    }
-
-    .checkbox input {
-        width: 15px;
-        cursor: pointer;
-        color: white;
-        margin-bottom: 15px;
-    }
-
-    .button_group {
-        display: flex;
-        margin-left: 130px;
-        margin-top: 20px;
-    }
-
-    #btnCancle {
-        display: block;
-        background-color: white;
-        width: 190px;
-        height: 50px;
-        border: 1px solid white;
-        border-radius: 20px;
-        justify-content: center;
-        margin-right: 20px;
-        cursor: pointer;
-        font-family: 'GmarketSansMedium';
-    }
-
-    button {
-        background-color: transparent;
-        font-family: 'GmarketSansMedium';
-        font-size: 15px;
-        width: 190px;
-        height: 50px;
-        margin-bottom: 20px;
-        color: white;
-        border: 1px solid white;
-        border-radius: 20px;
-        text-align: center;
-        cursor: pointer;
-    }
-
-    .agreement_content {
-        background-color: transparent;
-        color: white;
-        border: solid 1px white;
-        margin-bottom: 15px;
-        font-size: 12px;
-        font-family: 'GmarketSansMedium';
-    }
-
-    @media (max-width: 1024px) {
-        #box {
-            width: 80%;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        .logo-top,
-        .logo-btm {
-            display: none;
-        }
-    }
-
-    @media (max-width: 768px) {
+  	@font-face {
+	    font-family: 'GmarketSansMedium';
+	    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+	    font-weight: normal;
+	    font-style: normal;
+		}
+	    
         body {
+            background-color: #E9E9E9;
+          	font-family: 'GmarketSansMedium';
             font-size: 14px;
         }
 
-        #box {
-            width: 90%;
-            padding-left: 20px;
-            padding-right: 20px;
+        .logo-top {
+            position: absolute;
+            left: -85px;
+            top: 25px;
+            width: 40%;
         }
 
-        .button_group {
+        .logo-btm {
+            position: fixed;
+            bottom: 0;
+            right: 160px;
+            width: 40%;
+        }
+
+        #box {
+
+            position: absolute;
+            width: 480px;
+            height: 800px;
+            left: 35%;
+            top: 10%;
+            margin-left: -25px;
+            margin-top: -25px;
+            padding-left: 90px; 
+            background-color: #000;
+            opacity: 0.7;
+            border-radius: 20px;
+            box-shadow: 8px 8px 8px #585858;
+            display: flex;
             flex-direction: column;
-            margin-left: 0;
-            margin-top: 10px;
+            justify-content: center;
+            align-items: flex-start; 
         }
 
-        #btnCancle {
-            margin-right: 0;
+        input {
+        
+            width: 400px;
+            border: none;
+            font-family: 'GmarketSansMedium';
+            border-bottom: 1px solid white;
+            outline: none;
+            background-color: transparent;
+            margin-bottom: 15px;
+            color: white;
+            font-size: 14px;
+        }
+        
+        #email {
+         	width: 280px;
+        }
+        
+        input[type="button"]
+		{
+			border: 1px solid white;
+			color: white;
+			width : 110px;
+			margin-left : 20px;
+			border-radius: 20px;
+			cursor: pointer;
+		}
+	        
+	        
+	    input[type="checkbox"]
+		{
+			width : 15px;
+			cursor: pointer;
+		}
+	        
+
+        #container {
+         	margin-top: -50px;
             margin-bottom: 10px;
+            text-align: left;
+            color: white;
         }
+        
+        .form-row {
+	    display: flex;
+	    flex-direction: column;
     }
-
-    @media (max-width: 480px) {
-        body {
-            font-size: 12px;
-        }
-
-        #box {
-            width: 90%;
-            padding-left: 10px;
-            padding-right: 10px;
-        }
+    
+    
+    .emailcheck {
+    	display: flex;
     }
+        button {
+        background-color: transparent;
+        font-family: 'GmarketSansMedium';
+        font-size: 14px;
+	    width: 400px;
+	    height: 50px;
+	    margin-bottom: 20px;
+	    color:white;
+	    border: 1px solid white;
+	    border-radius: 20px;
+	    text-align: center;
+	    cursor:pointer
+    }
+    
+
+	  .lblCheck {
+	    cursor: pointer;
+	}	
+	
+	    .agreement_content {
+	   	background-color: transparent;
+	   	color:white;
+	   	border: solid 1px white;
+	   	margin-bottom: 15px;
+	   	font-size: 12px;
+	   	font-family: 'GmarketSansMedium';
+   	}  
+
 </style>
-
 </head>
 <body>
+	<header th:replace="~{layout/header::oceanHeader}" ></header>
 	
-	<div class="logo-top"><img th:src="@{/photo/OCEAN2.png}"></div>
-	<div class="logo-btm"><img th:src="@{/photo/OCEAN2.png}"></div>
-	
-	<div id="container">
-	
-	<div id="box">
-	
-		<div>약관 동의하기</div>
-		
-		<form id="frmAgree" th:action="@{/users/join.html}">
-			<div>
-				<input type="checkbox" id="checkAll" name="checkAll">
-				<label for="checkAll">모두 동의</label>
-			</div>
-			
-			<hr>
-			
-			<div class="checkbox">
-				<input type="checkbox" id="service" class="checkOne">
-				<label for="service">이용약관 동의(필수)</label>
-				<div class="agreement">
-				 <textarea rows="10" cols="82" class="agreement_content">
+	<div class="logo-top"><img th:src="@{/photo/OCEAN2.png}" ></div>
+	<div class="logo-btm"><img th:src="@{/photo/OCEAN2.png}" ></div>
+  <div>
+  	<div id="container">
+  		<div id="box">
+		    <div style="font-size: 15px; margin-top: 10px; margin-bottom: 15px;">회원 가입</div>
+			    <form id="frmNaverJoin" method="post" th:action="@{/users/naver/join.do}">
+			      
+			      <div class="form-row">
+				        <label for="email">이메일</label>
+			      	<div class="emailcheck">
+				        <input type="text" th:name="email" id="email" th:value="${profile.email}">
+				        <input type="button" value="이메일중복체크" id="btnVerifyEmail">
+			      	</div>
+			      </div>
+			    
+			      <div class="form-row">
+			        <label for="name">이름</label>
+			        <input type="text" th:name="name" id="name" th:value="${profile.name}">
+			      </div>
+			          
+			      <div class="form-row">
+			        <label for="phoneNo">휴대전화</label>
+			        <input type="text" th:name="phoneNo" id="phoneNo" th:value="${profile.phoneNo}">
+			      </div>
+			      
+			      <!-- 약관 -->
+			      <div class="checkbox">
+			        <input type="checkbox" id="checkAll" class="checkAll">
+			        <label for="checkAll" class="lblCheck">모두 동의</label>
+			      </div>
+			      <hr>
+			      <div class="checkbox">
+			        <input type="checkbox" id="service" class="checkOne">
+			        <label for="service" class="lblCheck">이용약관 동의(필수)</label>
+			        <div>
+			          <textarea rows="5" cols="50" class="agreement_content">
 제1조(목적) 이 약관은 OCEAN (전자상거래 사업자)이 운영하는 OCEAN Music 사이버 몰(이하 “몰”이라 한다)에서 제공하는 인터넷 관련 서비스(이하 “서비스”라 한다)를 이용함에 있어 사이버 몰과 이용자의 권리․의무 및 책임사항을 규정함을 목적으로 합니다.
   ※「PC통신, 무선 등을 이용하는 전자상거래에 대해서도 그 성질에 반하지 않는 한 이 약관을 준용합니다.」
 제2조(정의)
@@ -315,16 +343,14 @@ $(function(){
   ② “몰”은 위 대금을 환급함에 있어서 이용자가 신용카드 또는 전자화폐 등의 결제수단으로 재화 등의 대금을 지급한 때에는 지체 없이 당해 결제수단을 제공한 사업자로 하여금 재화 등의 대금의 청구를 정지 또는 취소하도록 요청합니다.
   ③ 청약철회 등의 경우 공급받은 재화 등의 반환에 필요한 비용은 이용자가 부담합니다. “몰”은 이용자에게 청약철회 등을 이유로 위약금 또는 손해배상을 청구하지 않습니다. 다만 재화 등의 내용이 표시·광고 내용과 다르거나 계약내용과 다르게 이행되어 청약철회 등을 하는 경우 재화 등의 반환에 필요한 비용은 “몰”이 부담합니다.
   ④ 이용자가 재화 등을 제공받을 때 발송비를 부담한 경우에 “몰”은 청약철회 시 그 비용을  누가 부담하는지를 이용자가 알기 쉽도록 명확하게 표시합니다.
-</textarea>
-									
-				</div>
-			</div>
-			
-			<div class="checkbox">
-				<input type="checkbox" id="privacy" class="checkOne">
-				<label for="privacy">개인정보수집 동의(필수)</label>
-				<div class="agreement">
-				 <textarea rows="10" cols="82" class="agreement_content">
+			          </textarea>
+			        </div>
+			      </div>
+			      <div class="checkbox">
+			        <input type="checkbox" id="privacy" class="checkOne">
+			        <label for="privacy" class="lblCheck">개인정보수집 동의(필수)</label>
+			        <div>
+			           <textarea rows="5" cols="50" class="agreement_content">
 제17조(개인정보보호)
   ① “몰”은 이용자의 개인정보 수집시 서비스제공을 위하여 필요한 범위에서 최소한의 개인정보를 수집합니다. 
   ② “몰”은 회원가입시 구매계약이행에 필요한 정보를 미리 수집하지 않습니다. 다만, 관련 법령상 의무이행을 위하여 구매계약 이전에 본인확인이 필요한 경우로서 최소한의 특정 개인정보를 수집하는 경우에는 그러하지 아니합니다.
@@ -366,19 +392,14 @@ $(function(){
 제24조(재판권 및 준거법)
   ① “몰”과 이용자 간에 발생한 전자상거래 분쟁에 관한 소송은 제소 당시의 이용자의 주소에 의하고, 주소가 없는 경우에는 거소를 관할하는 지방법원의 전속관할로 합니다. 다만, 제소 당시 이용자의 주소 또는 거소가 분명하지 않거나 외국 거주자의 경우에는 민사소송법상의 관할법원에 제기합니다.
   ② “몰”과 이용자 간에 제기된 전자상거래 소송에는 한국법을 적용합니다.
-				 </textarea>
-				</div>
-			</div>
-			
-		   <!--
-	          1. 체크한 경우     : 파라미터 location이 on값을 가지고 전달된다.
-	          2. 체크 안 한 경우 : 파라미터 location이 전달되지 않는다.
-	        -->
-	        <div class="checkbox">
-		        <input type="checkbox" id="location" name="location" class="checkOne">
-		        <label for="location">위치정보수집 동의(선택)</label>
-		       <div class="agreement">
-				 <textarea rows="10" cols="82" class="agreement_content">
+			           </textarea>
+			        </div>
+			      </div>
+			      <div class="checkbox">
+			        <input type="checkbox" id="location" name="location" class="checkOne">
+			        <label for="location" class="lblCheck">위치정보수집 동의(선택)</label>
+			        <div>
+			           <textarea rows="5" cols="50" class="agreement_content">
 제1조(목적) 본 약관은 회원(위치기반 서비스 약관에 동의한 개인위치정보주체를 말합니다. 이하 “회원”이라고 합니다.)이 OEAN(이하 “회사”라고 합니다.)가 제공하는 음악 서비스(이하 “서비스”라고 합니다)를 이용함에 있어 회사와 회원의 권리·의무 및 기타 필요한 사항을 규정함을 목적으로 합니다.
 제2조(이용약관의 효력 및 변경) ① 본 약관은 서비스를 신청한 고객 또는 개인위치정보주체가 본 약관에 동의하고 회사 소정의 절차에 따라 서비스의 이용자로 등록함으로써 효력이 발생합니다.
   ② 회원이 온라인에서 본 약관의 "동의하기" 버튼을 클릭하였을 경우 본 약관의 내용을 모두 읽고 이를 충분히 이해하였으며, 그 적용에 동의한 것으로 봅니다.
@@ -462,18 +483,18 @@ o 이용자 위치를 기준으로 주변의 분위기에 맞춰 음악 추천 |
 제2조 위치정보관리책임자는 2023년 06월을 기준으로 다음과 같이 지정합니다.
   1. 소  속 : 구디 자바 61기 2조/부서
   2. 연락처 : 02-1111-1111
-				 </textarea>
-				 </div>
-	        </div>
-	        <hr>
-	        
-	        <div class="button_group">
-	        	<input type="button" value="취소" id="btnCancle">
-	        	<button>다음</button>
-	        </div>
-		</form>
-	
-	</div>
-	</div>
+			           </textarea>
+			        </div>
+			      </div>
+
+			      <div>
+			        <button>가입하기</button>
+			      </div>
+			    	<input type="button" value="취소하기" style="border: none; width: 365px; cursor:pointer;" id="btnCancel">
+			    </form>
+			  
+			  </div>
+  		</div>
+  	</div>   
 </body>
 </html>

@@ -1,4 +1,5 @@
 <factorypath>
+    <factorypathentry kind="VARJAR" id="M2_REPO/org/json/json/20230227/json-20230227.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/org/bgee/log4jdbc-log4j2/log4jdbc-log4j2-jdbc4.1/1.16/log4jdbc-log4j2-jdbc4.1-1.16.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/org/springframework/boot/spring-boot-starter-mail/2.7.12/spring-boot-starter-mail-2.7.12.jar" enabled="true" runInBatchMode="false"/>

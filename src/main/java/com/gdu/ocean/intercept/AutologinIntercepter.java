@@ -39,13 +39,8 @@ public class AutologinIntercepter implements HandlerInterceptor {
         if(loginUsersDTO != null) {
           session.setAttribute("loginEmail", loginUsersDTO.getEmail());
         }
-        
       }
-      
     }
-    
     return true;  // 인터셉터를 동작 시킨 뒤 컨트롤러를 계속 동작시킨다.
-    
   }
-  
 }

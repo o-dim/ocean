@@ -34,4 +34,7 @@ public interface UsersMapper {
     public int deleteSleepUsers(String email);
     public int updateUsersPassword(UsersDTO usersDTO);
     public int updateUsersInfo(UsersDTO usersDTO);
+    
+    public int insertNaverUsers(UsersDTO usersDTO);
+    public int insertKakaoUsers(UsersDTO usersDTO);
 }
