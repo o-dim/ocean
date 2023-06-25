@@ -173,7 +173,7 @@ html, body {
 }
 
 .modalbutton {
-  background-color:  var(--main-color);
+  background-color: var(--main-color);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -182,7 +182,7 @@ html, body {
   background: rgba(0,0,0,0);
 }
 
-.goCart {
+.addToCart {
   text-decoration: none;
   font-size: 0.875rem;
   font-weight: 300;
@@ -194,9 +194,7 @@ html, body {
   padding: 1rem 2rem;
 }
 
-
-
-#button:hover {
+.btn:hover {
 	cursor: pointer;
 }
 
@@ -222,8 +220,6 @@ html, body {
 
 .popup-inner {
   position: relative;
-  bottom: -100vw;
-  right: -100vh;
   display: flex;
   align-items: center;
   max-width: 800px;
@@ -231,7 +227,6 @@ html, body {
   width: 60%;
   height: 80%;
   background-color: #fff;
-  transform: rotate(32deg);
   transition: 0.64s ease-in-out;
 }
 

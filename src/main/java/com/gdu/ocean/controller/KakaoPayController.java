@@ -1,7 +1,10 @@
 package com.gdu.ocean.controller;
 
 import java.io.PrintWriter;
+import java.util.List;
+import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -15,7 +18,10 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.gdu.ocean.domain.KakaoApproveResponse;
 import com.gdu.ocean.domain.KakaoReadyResponse;
+import com.gdu.ocean.domain.OrderDTO;
+import com.gdu.ocean.mapper.ShopMapper;
 import com.gdu.ocean.service.KakaopayService;
+import com.gdu.ocean.service.ShopService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,11 +33,23 @@ import lombok.extern.slf4j.Slf4j;
 public class KakaoPayController {
 	
 	private final KakaopayService kakaoPayService;
+	private final ShopService shopService;
 	
-	@GetMapping("/semiOrder/order")
-	public String order() {
-		return "/semiOrder/order";
+	@ResponseBody
+	@PostMapping(value="/order/order", produces="application/json")
+	public Map<String, Object> order(HttpServletRequest request) {
+		return shopService.addOrderList(request);
 	}
+	/*
+	@PostMapping("/getBuyCdList.do")
+	public String buy(@RequestParam("userNo") int userNo
+				 	, @RequestParam("cdNo")   int cdNo
+					, @RequestParam("count")  int count
+					, Model model) {
+		shopService.
+		return "shop"
+	}	  
+	 */
 	
 	/*
 	@PostMapping("/semiOrder/pay")
@@ -49,19 +67,20 @@ public class KakaoPayController {
 		return readyResponse;
 	}
 	*/
-	/*
-	@PostMapping("/semiOrder/pay")
+
+	@PostMapping("/order/pay")
 	@ResponseBody
-	public String kakaoPayReady(Model model, HttpSession session) {
+	public String kakaoPayReady(@RequestParam("order_id")String orderId, @RequestParam("total_amount")int totalAmount, OrderDTO order, HttpSession session) {
 		log.info("kakaopayReady 성공..............");
-		KakaoReadyResponse readyResponse = kakaoPayService.kakaoPayReady();
+		
+		KakaoReadyResponse readyResponse = kakaoPayService.kakaoPayReady(orderId, totalAmount);
 		session.setAttribute("tid", readyResponse.getTid());
 		log.info("kakaopayReady tid : " + readyResponse.getTid());
 		//log.info(".........주문가격 : "+totalAmount);
-		return readyResponse.getNext_redirect_pc_url();
+		return readyResponse.getNext_redirect_pc_url();//만약 성공시 qr코드가 뜬다 
 	}
-	*/
 	
+	/*
 	@PostMapping("/semiOrder/pay")
 	@ResponseBody
 	public String kakaoPayReady(Model model, HttpSession session, HttpServletResponse response) {
@@ -78,42 +97,45 @@ public class KakaoPayController {
 		//log.info(".........주문가격 : "+totalAmount);
 		return null;
 	}
+	*/
 	 
 	/*
-	 * 결제 승인 요청
+	 * 결제 승인 요청 큐알 찎을시 내가 돌아가 
 	 */
-	@GetMapping("/semiOrder/payCompleted")
-	public String kakaoPayCompleted(@RequestParam("pg_token") String pgToken, HttpSession session) {
+	@GetMapping("/order/payCompleted")
+	public String kakaoPayCompleted(@RequestParam("pg_token") String pgToken, @RequestParam("order_id") String orderId, HttpSession session) {
 		
 		log.info("kakaopayCompleted 성공..............");
 		log.info("KakapayCompleted pgToken : " + pgToken + "..............");
 		String tid = (String) session.getAttribute("tid");
 		// 카카오 결제 요청
-		KakaoApproveResponse approveResponse = kakaoPayService.kakaoPayApprove(tid, pgToken);
+		KakaoApproveResponse approveResponse = kakaoPayService.kakaoPayApprove(tid, orderId, pgToken);
 		log.info("KakapayCompleted찐찐성공 : " + approveResponse);
-		return "redirect:/semiOrder/kakaopayCompleted";
+		// 성공한 카트애들을 ORDER 테이블로 이동하기
+		
+		return "redirect:/order/kakaopayCompleted";
 	}
 	
-	@GetMapping("/semiOrder/kakaopayCompleted")
+	@GetMapping("/order/kakaopayCompleted")
 	public String completedPage() {
-		return "/semiOrder/kakaopayCompleted";
+		return "/order/kakaopayCompleted";
 	}
 	/*
 	 * 	결제 취소
 	 */
-	@GetMapping("/semiOrder/kakaopayCancel")
+	@GetMapping("/order/kakaopayCancel")
 	public String kakaoPayCancel() {
 		log.info("kakaopayCancel..............");
-		return "/semiOrder/kakaopayCancel";
+		return "/order/kakaopayCancel";
 	}
 	
 	/*
 	 * 결제 실패
 	 */
-	@GetMapping("/semiOrder/pay/fail")
+	@GetMapping("/order/kakaopayfail")
 	public String kakaoPayFail() {
 		log.info("kakaopayFail..............");
-		return "redirect:/semiOrder/kakaopayFail";
+		return "redirect:/order/kakaopayFail";
 	}
 	
 }

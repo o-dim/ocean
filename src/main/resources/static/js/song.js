@@ -12,12 +12,14 @@
                     	var str = '<tr class="song-line">'
                         str += '<td><img src="'  + song.imgUrl + '" class="imgUrl">';
                         str += '<td class="title-singer"><div class="song-title">' + song.title + '</div><div class="singer">' + song.singer + '</div>';
-                        str += '<td>' + song.music2 + '</td>';
+                        str += '<td><audio src="' + song.preview + '" controls></audio></td>';
                         // str += '<td><audio src="' + song.music2 + '" controls></audio>';
 	                    $('#result').append(str);
                     });
                 }
             });
+            
+            window.scrollTo({top: 1100, behavior: 'smooth'});
         });
     }
     
@@ -30,7 +32,7 @@
 	            data: 'mood=' + $('#mood').val(),
 	            dataType: 'json',
 	            success: function(resData) {
-	                $('#recommendResult').empty();
+	                $('#result').empty();
 	                var table = $('<table>');
 	                var tableHeader = '<tr><th>title</th><th>preview</th></tr>';
 	                table.append(tableHeader);
@@ -41,9 +43,10 @@
 	                    row.append(title_td, preview_td);
 	                    table.append(row);
 	                });
-	                $('#recommendResult').append(table);
+	                $('#result').append(table);
 	            }
 	        });
+	        window.scrollTo({top: 1100, behavior: 'smooth'});
 		})
     }
     
@@ -57,7 +60,7 @@
             dataType: 'json',
             data: 'mood=chill',
             success: function(resData) {
-                $('#recommendResult').empty();
+                $('#result').empty();
                 var table = $('<table>');
                 var tableHeader = '<tr><th>title</th><th>preview</th></tr>';
                 table.append(tableHeader);
@@ -68,7 +71,7 @@
                     row.append(title_td, preview_td);
                     table.append(row);
                 });
-                $('#recommendResult').append(table);
+                $('#result').append(table);
             }
     	});
     });

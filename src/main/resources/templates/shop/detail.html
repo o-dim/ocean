@@ -5,79 +5,71 @@
 
 	<header th:replace="~{layout/shopHeader::shopHeader}"></header>
 	<!-- 빠진거 : 해시태그, 앨범 설명, 로그인 세션 유무(장바구니, 구매하기 로그인여부에따라) -->
-		<div>
-			<div class="cdData" border="3">
-			   <tr>
-			    <td id="cdData1" rowspan="3">
-			      <div id="detailImg">
-			        <img th:src="${cd.mainImg}">
-			      </div>
-			    </td>
-			  </tr>
-	     	
-	     	<table id="cdData" border="3">
-	     		<tr>
-			    	<td id="hashtagName" rowspan="2">
-				      <th th:text="${cd.title}"></th>
-				   	</td>
-				    <td colspan="2"><span id="price">수량</span></td>
-				    <td>
-				      <button type="button" class="btnBuyCount" onclick="btnPlus()">+</button>
-				      <input type="text" name="buyCount" id="buyCount" readonly="readonly" />
-				      <button type="button" class="btnBuyCount" onclick="btnMinus()">-</button>
-				      <input type="button" value="장바구니" id="cart" class="cart" />
-				      <input type="button" value="구매하기" class="detailBuy" />
-				      <input type="button" class="keepShopping2" value="짜증" onclick="fnannoy()">
-				    </td>
-			   	</tr>	
-			</table>
-
-		</div>
+	
+	<div class="cdData">
+		<table border ="2">
+			<tr class="detailImg" rowspan="2">
+				<td colspan="2">
+					<img th:src="${cd.mainImg}">
+				</td>
+				<td>
+				</td>
+			</tr>
+			<tr>
+				<td class="cdInfo" colspan="2">
+					<div class="hashtagName" id="hashtagName" th:text="${cd.title}"></div>
+					<div class="price" id="price">수량</div>
+						<input type="button" class="btn btnBuyCount" onclick="fnBtnPlus()" value="+">
+						<input type="text" name="count" id="count" readonly="readonly" />
+						<input type="button" class="btn btnBuyCount" onclick="fnBtnMinus()" value="-">
+				</td>
+				<td>
+					<input type="button" class= btn id="btnAddToCart" value="장바구니에 담기">
+					<input type="button" id="btnBuy" class="btn btnPrimary btnBuy" value="바로주문해요" onclick="fnBuy()"/>
+				</td>
+			</tr>
+		</table>
+	</div>
 		
 	<div class="modalbutton">
-	  <a class="goCart" href="#popup" id="goCart">장바구니</a>
-	  <div class="popup" id="popup" >
+	  <div class="popup" id="popup">
 	    <div class="popup-inner">
 	      <div class="popup__photo">
-	        <!--/*
-		        <img th:src="@{/photo/oceanBlack.jpg}">
-	         */-->
-	      <img src="https://images.unsplash.com/photo-1515224526905-51c7d77c7bb8?ixlib=rb-0.3.5&s=9980646201037d28700d826b1bd096c4&auto=format&fit=crop&w=700&q=80" alt="">
+	      	<img th:src="@{https://images.unsplash.com/photo-1515224526905-51c7d77c7bb8?ixlib=rb-0.3.5&s=9980646201037d28700d826b1bd096c4&auto=format&fit=crop&w=700&q=80}" alt="">
 	      </div>
 	      <div class="popup__text">
 	      	<div id="oceanModalTxt">
-		        <h1>Ocean</h1> 
-		        <h2>What's important is an unbreakable heart</h2>
+				<h1>Ocean</h1> 
+				<h1>장바구니에 물품이 담겼습니다!</h1>
+				<h2>What's important is an unbreakable heart</h2>
 	      	</div>
-	      
-       	
-       	<p>
-			"SEA" commonly refers to the body of water surrounding a landmass, while "OCEAN" 
-			refers to the vast and deep waters covering 71% of the Earth's surface. Our "OCEAN" 
-			represents the immense and far-reaching influence of K-pop. With that concept in mind,
-			 we have planned a website.
-			The secrets of the ocean are still unknown, and we embark on a journey with Ocean, 
-			not knowing what it holds or where it leads. Join us and explore the unknown with Ocean!
-		</p>
-        
-      	<div id="container"> 
-	      	<input type="button" id="button" class="button" value="장바구니이동" onclick="fnbutton()">
-	      	<input type="button" id="keepShopping" class="keepShopping" value="계속쇼핑하기" onclick="fnkeeShopping()">    		
-	      	    		
+	       	<p>
+				"SEA" commonly refers to the body of water surrounding a landmass, while "OCEAN" 
+				refers to the vast and deep waters covering 71% of the Earth's surface. Our "OCEAN" 
+				represents the immense and far-reaching influence of K-pop. With that concept in mind,
+				 we have planned a website.
+				The secrets of the ocean are still unknown, and we embark on a journey with Ocean, 
+				not knowing what it holds or where it leads. Join us and explore the unknown with Ocean!
+			</p>
+	      	<div id="container"> 
+	      		<form th:action="@{/shop/getCartDetailList.do}">
+	      			<input type="hidden" name="cartNo" id="cartNo">
+			      	<button class="btn" >장바구니이동</button>	
+			      	<input type="button" id="keepShopping" class="btn" value="계속쇼핑하기" onclick="fnCloseModal()">    		 		
+	      		</form>
+	      	</div>
       	</div>
+      	<a class="popup__close" href="javascript:fnCloseModal()">X</a>
       </div>
-      <a class="popup__close" href="javascript:closeModal()">X</a>
-    </div>
+  	</div>
   </div>
-</div>
-	
+  
 	<script th:inline="javascript">
 	    
 	    // 함수 호출
 	    fnGetHashtagName();
-	    fnBuyCount();
-	   
-	    
+	    fnAddToCart();
+	  
 		/********** 해시태그 이름 가져오기 **********/
 	    function fnGetHashtagName(){
 	    	$.ajax({
@@ -94,82 +86,77 @@
 	    		}
 	    	})
 	    }
-		/***************************************/
 	    
 	    
-		/********** 장바구니 수량 증가 **********/
-		var buyCount = 0;
-	    $('#buyCount').val(buyCount);
+		/********** 구매수량 조절(+/-) **********/
+		var count = 1;
+	    $('#count').val(count);
 
 	    var stock = /*[[${cd.stock}]]*/ null;
 	    var price = /*[[${cd.price}]]*/ null;
 	    
-	    function btnPlus() {
-	    	buyCount++;
-	    	buyCount = (buyCount <= stock) ? buyCount : stock
-	    	$('#buyCount').val(buyCount);
+	    function fnBtnPlus() {
+	    	count++;
+	    	count = (count <= stock) ? count : stock
+	    	$('#count').val(count);
+	    	$('#price').text(count * price);
 	   	}
 	    
-	    function btnMinus() {
-	    	buyCount--;
-	    	buyCount = (buyCount >= 0) ? buyCount : 0;
-	    	$('#buyCount').val(buyCount);
+	    function fnBtnMinus() {
+	    	if(count == 1) {
+	    		alert('최소 주문 수량은 1개입니다.');
+	    		return;
+	    	}
+	    	count--;
+	    	$('#count').val(count);
+	    	$('#price').text(count * price);
 	    }
-	
-	    function fnBuyCount(){
-		    $('.btnBuyCount').on('click', function(){
-		    	$('#price').text(buyCount * price);
-		    })
-	    }
-		/************************************/
 
 		
-		/*cartNo전달 성공시 모달 */
+		/***************장바구니 담기***********/
+		function fnAddToCart(){
+			$('#btnAddToCart').on('click', function(){
+				var loginEmail = /*[[${session.email}]]*/ null;
+			  	var userNo = /*[[${session.loginUsersNo}]]*/ null;
+			  	if(userNo == null) {
+			  		alert('로그인이 필요합니다. 로그인 페이지로 이동합니다.');
+			  		location.href='/login.html';
+			  	}
+				$.ajax({
+					type: 'post',
+					url: '/shop/addCartDetail.do',
+					data: 'userNo=[[${session.loginUsersNo}]]&cdNo=[[${cd.cdNo}]]&count=' + $('#count').val(),
+					dataType: 'json',
+					success: function(resData) {  // resData = {"addCartDetailResult": 1, "cartNo": 100}
+						console.log(resData);
+						if(resData.addCartDetailResult == 1){
+							$('#cartNo').val(resData.cartNo);
+							fnOpenModal();
+						} else {
+							alert('장바구니에 추가되지 않았습니다.');
+						}
+					},
+					error: function(jqXHR) {
+						alert('오류 발생');
+					}
+				});
+			})
+		}
+		
+		/* 장바구니에 담기 성공 시 모달 */
+		const modal = $('#popup');
+		function fnOpenModal() {
+			modal.css('visibility', 'visible').css('opacity', '1');
+		}
+		function fnCloseModal() {
+			modal.css('visibility', 'hidden').css('opacity', '0');
+		}
 		
 		
-			
 		/*******************************************/
-	
-		/***************장바구니 이동 이벤트***********/
 		
-		const modal = document.getElementById('popup');
-
-		function openModal() {
-			modal.style.visibility = 'visible';
-			modal.style.opacity = '1';
-		}
 		
-		function closeModal() {
-			modal.style.visibility = 'hidden';
-			modal.style.opacity = '0';
-		}
-	
-		$('#goCart').on('click', function() {
-			openModal();
-		});
 		
-		function fnbutton(){
-			var loginEmail = /*[[${session.email}]]*/ null;
-			
-			$.ajax({
-				type: 'get',
-				url: '/shop/getCartNo.do',
-				data:'userNo=[[${session.userNo}]]',
-				dataType: 'json',
-				success: function(resData) {  
-   				
-    				if(loginEmail != null){
-    					location.href = '/shop/getCartDetail.do?cartNo=' + resData.cartNo  						
-    				}else{
-    					alert("로그인 후 이용해주세요");
-    					location.href='/login.html';
-    				}
-				},
-				error: function(jqXHR) {
-					alert('안됨');
-				}
-			});
-		}
 		
 		
 	</script>

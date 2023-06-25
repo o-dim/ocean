@@ -10,126 +10,17 @@
 	
 	}
 	
-	/*a링크 주석1*/
- 	.nav_ocean_link3 {
-    background: linear-gradient(to right, rgba(20, 20, 20, 0) 50%, #757575, #616161, #424242, #212121);
-    background-size: 400% 100%;
-    background-position: 0 100%;
-    transition: background-position 0.9s;
-  }
-  
-	.nav_ocean_link3:after {
-	  content: '';
-	  display: block;
-	  position: absolute;
-	  top: 100%;
-	  right: 0;
-	  bottom: 0;
-	  left: 0;
-	  background: #333333;
-	  z-index: -1;
-	  background: -webkit-linear-gradient(#333333, #333333);
-	  background: linear-gradient(#333333, #333333);
-	  width: 100%;
-	}
-	
-	
-  	.nav_ocean_link3:hover {
-    background-position: -200% 200%;
-	
- 	}
- 	
-	
-	
-	.nav_ocean_link3:hover:after {
-	  content: '';
-	  display: block;
-	  position: absolute;
-	  top: 0;
-	  right: 0;
-	  bottom: 0;
-	  left: 0;
-	  background: #333333;
-	  z-index: -1;
-	  background: -webkit-linear-gradient(#333333, #333333);
-	  background: linear-gradient(#333333, #333333);
-	}
-	
-	  .nav_ocean_link3 {
-	  width: 95%;
-	  margin: 0 auto;
-	  text-align: center;
-	  
-	  @media screen and (max-width: 700px) {
-	    width: 65%;
-	  }
-	}
-	
-	
-	/*a 링크주석2*/
-	
- 	.nav_ocean_link2 {
-    background: linear-gradient(to right, rgba(20, 20, 20, 0) 50%, #757575, #616161, #424242, #212121);
-    background-size: 400% 100%;
-    background-position: 0 100%;
-    transition: background-position 0.9s;
-  }
-  
-	.nav_ocean_link2:after {
-	  content: '';
-	  display: block;
-	  position: absolute;
-	  top: 100%;
-	  right: 0;
-	  bottom: 0;
-	  left: 0;
-	  background: #333333;
-	  z-index: -1;
-	  background: -webkit-linear-gradient(#333333, #333333);
-	  background: linear-gradient(#333333, #333333);
-	  width: 100%;
-	}
-	
-	
-  	.nav_ocean_link2:hover {
-    background-position: -200% 200%;
-	
- 	}
- 	
-	
-	
-	.nav_ocean_link2:hover:after {
-	  content: '';
-	  display: block;
-	  position: absolute;
-	  top: 0;
-	  right: 0;
-	  bottom: 0;
-	  left: 0;
-	  background: #333333;
-	  z-index: -1;
-	  background: -webkit-linear-gradient(#333333, #333333);
-	  background: linear-gradient(#333333, #333333);
-	}
-	
-	 .nav_ocean_link2 {
-	  width: 95%;
-	  margin: 0 auto;
-	  text-align: center;
-	  
-	  @media screen and (max-width: 700px) {
-	    width: 65%;
-	  }
-	}
-	
-	/* a링크 주석 3*/
+	.nav_ocean_link2,
+	.nav_ocean_link3,
 	.nav_ocean_link4 {
-    background: linear-gradient(to right, rgba(20, 20, 20, 0) 50%, #757575, #616161, #424242, #212121);
-    background-size: 400% 100%;
-    background-position: 0 100%;
-    transition: background-position 0.9s;
-  }
-  
+	  background: linear-gradient(to right, rgba(20, 20, 20, 0) 50%, #757575, #616161, #424242, #212121);
+	  background-size: 450% 100%;
+	  background-position: 0 100%;
+	  transition: background-position 0.9s;
+	}
+	
+	.nav_ocean_link2:after,
+	.nav_ocean_link3:after,
 	.nav_ocean_link4:after {
 	  content: '';
 	  display: block;
@@ -142,17 +33,17 @@
 	  z-index: -1;
 	  background: -webkit-linear-gradient(#333333, #333333);
 	  background: linear-gradient(#333333, #333333);
-	  width: 100%;
+	  width: 106%;
 	}
 	
+	.nav_ocean_link2:hover,
+	.nav_ocean_link3:hover,
+	.nav_ocean_link4:hover {
+	  background-position: -200% 200%;
+	}
 	
-  	.nav_ocean_link4:hover {
-    background-position: -200% 200%;
-	
- 	}
- 	
-	
-	
+	.nav_ocean_link2:hover:after,
+	.nav_ocean_link3:hover:after,
 	.nav_ocean_link4:hover:after {
 	  content: '';
 	  display: block;
@@ -167,11 +58,13 @@
 	  background: linear-gradient(#333333, #333333);
 	}
 	
-	  .nav_ocean_link4 {
+	.nav_ocean_link2,
+	.nav_ocean_link3,
+	.nav_ocean_link4 {
 	  width: 95%;
 	  margin: 0 auto;
 	  text-align: center;
-	  
+	
 	  @media screen and (max-width: 700px) {
 	    width: 65%;
 	  }
@@ -383,5 +276,7 @@ h1:after {
   top: 100%;
   transform: rotateZ(180deg);
 }
+
+
 
 

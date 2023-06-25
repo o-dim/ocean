@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{/layout/shopHeader::shopHead('welcome')}"></head>
+	
+	<body>
+		<div id="shopList">
+			<div class="nav_title1">
+				<img th:src="@{/photo/OCEAN.png}" class="nav_ocean_link1" th:onclick="'fnBackground()'" th:ondblclick="'fnOcean()'" >	
+			</div>
+				<div>
+				<div id="all">
+					<div id="top">
+						<div id="new">
+							<h1>Cart</h1>
+							<header th:replace="~{layout/shopHeader::shopHeader}"></header>
+						</div>
+							<div>
+								<th:block th:each="cdc,vs:${cartDetailList}">
+									<table border="1" width="1300px">
+										<tr colspan="4">
+											<td>
+												<img th:src="@{${cdc.cdNo.mainImg}}" width="200px">
+											</td>
+											<td>
+												<div th:text="${cdc.cdNo.singer}"></div>
+												<div th:text="${cdc.cdNo.title}"></div>
+												<div th:text="${cdc.count}"></div>
+												<div th:text="${cdc.cdNo.price}"></div>
+											</td>
+										</tr>
+									</table>
+								</th:block>
+								<input type="button" value="구매하기" id="btnCartDetailBuy" class="btnByCartDetail" onclick="fnbtnByCartDetail()">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<script th:inline="javascript">
+				function fnbtnByCartDetail() {
+					var loginEmail = /*[[${session.email}]]*/ null;
+					var userNo = /*[[${session.loginUsersNo}]]*/ null;
+					$.ajax({
+						type: 'post',
+						url: '/order/order',
+						data: 'userNo=[[${session.loginUsersNo}]]',
+						dataType: 'json',
+						success: function(resData) {
+							if(resData.orderList == 1){ //여기 수정할 것 
+								alert('결제내역페이지로 이동합니다');
+								location.href='/order/order?userNo=[[${session.loginUsersNo}]]'; 
+							} else {
+								alert('결제내역페이지 이동이 실패하였습니다.');
+							}
+						},
+						error: function(jqXHR) {
+							alert('오류 발생');
+						}
+					});
+		
+				}
+				
+			</script>
+	
+	
+
+	
+		
+	
+</body>
+</html>
