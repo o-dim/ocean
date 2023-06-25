@@ -3,8 +3,11 @@ package com.gdu.ocean.service;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
+import org.apache.hc.core5.http.impl.bootstrap.HttpServer;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
@@ -12,6 +15,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import com.gdu.ocean.domain.CartDTO;
 import com.gdu.ocean.domain.CartDetailDTO;
 import com.gdu.ocean.domain.CdDTO;
 import com.gdu.ocean.domain.KakaoApproveResponse;
@@ -30,7 +34,7 @@ public class KakaopayService {
 	/*
 	 * 결제요청시도
 	 */
-	public KakaoReadyResponse kakaoPayReady(String orderId, int totalAmount) {
+	public KakaoReadyResponse kakaoPayReady() {
 //		UsersDTO user = (UsersDTO)SessionUtils.getattribute("로그인아이디설정한거");
 //		List<CartDTO> carts = cartMapper..getCartByUserEmail(user.getEmail(); // 암튼 이런이름으로 있겠지...
 //		
@@ -44,8 +48,9 @@ public class KakaopayService {
 //			}
 //		}
 //		String itemName = cartNames[0];
-		String itemName = "";
-		
+		String itemName = "ocean CD";
+		String orderId = "3333333";
+		String totalAmount = "2222";
 		/*
 		 * 카카오 페이가 요구하는 결제요청 request 담기
 		 * */
@@ -104,21 +109,29 @@ public class KakaopayService {
 
 	}
 	// 결제 완료된 물건들을 ORDER 테이블에 저장하고, CART 테이블에 저장된 결제 완료 물건들을 삭제하는 메소드 
-	public void kakaopaySaveOrder() {
+	/*
+	public void kakaopaySaveOrder(HttpServletRequest request) {
+		
 		// session을 이용해서 카트 넘버를 가져오세용
-		int cartNo = session
+		HttpSession session = request.getSession();
+		CartDTO cartDTO = shopMapper.getCartByUserNo(Integer.parseInt(String.valueOf(session.getAttribute("loginUsersNo"))));
+		int cartNo = cartDTO.getCartNo();
+		log.info(cartNo + "..............넘길 cartNo 뽑아옴");
 		OrderDTO orderDTO = new OrderDTO();
-		List<CartDetailDTO> carts = shopMapper.getCartDetailNo(cartNo);
+		List<CartDetailDTO> carts = shopMapper.getCartDetailList(cartNo);
 		for (CartDetailDTO cart : carts) { //스트레이 3개 : cart , 레드벨벳 2개 : cart => 모두 가지고 있는 게 carts 
 			int count = cart.getCount(); // 3개
 			orderDTO.setCdNo(cart.getCdNo()); // 스트레이(cdDTO) 빼자마자 order에다가 넣음
+			log.info("넘길 cdNo .........." + cart.getCdNo());
 			orderDTO.setCount(count); // order에다가 3개 넣음
+			log.info("넘길 갯수........" + count);
 		}
 		// 현재 상황 : cart 스트레이 3개가 있고, order에도 스트레이 3개가 있음 (근데 db order에 있는게 아님 단순히 자바 order에만 존재하고 있음)
 		shopMapper.addOrder(orderDTO); // db에다가 order insert문 돌려서 db 저장함 (스트레이 3 저장됨) : 현재상황 오더db에 스3존재 및 카트db에 스3존재 
 		shopMapper.deleteCart(cartNo); // db에다가 cart delete함(스트레이 3 삭제됨)
 		// 최종 상황 : cartDB 깨끗 및 orderDB에 스 3 저장 (레벨도 이하동문)
 	}
+	*/
 	
 	/*
 	 * header 건드릴 필요 x 

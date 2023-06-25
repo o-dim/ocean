@@ -31,6 +31,7 @@ public interface ShopMapper {
 	public CartDetailDTO getCartDetailByCartNo(int cartNo);
 	public CartDetailDTO confirmCdInCart(Map<String, Object> map);
 	
+	public int addOrder(OrderDTO orderDTO);
 	public int addOrderList(Map<String, Object> map); 				//OrderList만들기 
 	public List<OrderDTO> getOrderList(int userNo); 				//OrderList가져오기
 	public UsersDTO getOrderNoByUserNo(int cartNo);					//cartNo를 통해서 orderNo가져오기

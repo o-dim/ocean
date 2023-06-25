@@ -30,35 +30,20 @@
 										</tr>
 									</table>
 								</th:block>
-								<input type="button" value="구매하기" id="btnCartDetailBuy" class="btnByCartDetail" onclick="fnbtnByCartDetail()">
+								<form action="/order/order" method="get">
+									<input type="hidden" name="userNo" th:value="${session.loginUsersNo}">
+									<input type="hidden" name="cartNo" th:value="${cartNo}">
+									<button>구매하기 찐버튼</button>
+									<input type="button" value="구매하기" id="btnCartDetailBuy" class="btnByCartDetail">
+								</form>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 			<script th:inline="javascript">
-				function fnbtnByCartDetail() {
-					var loginEmail = /*[[${session.email}]]*/ null;
-					var userNo = /*[[${session.loginUsersNo}]]*/ null;
-					$.ajax({
-						type: 'post',
-						url: '/order/order',
-						data: 'userNo=[[${session.loginUsersNo}]]',
-						dataType: 'json',
-						success: function(resData) {
-							if(resData.orderList == 1){ //여기 수정할 것 
-								alert('결제내역페이지로 이동합니다');
-								location.href='/order/order?userNo=[[${session.loginUsersNo}]]'; 
-							} else {
-								alert('결제내역페이지 이동이 실패하였습니다.');
-							}
-						},
-						error: function(jqXHR) {
-							alert('오류 발생');
-						}
-					});
-		
-				}
+			
+			
 				
 			</script>
 	
