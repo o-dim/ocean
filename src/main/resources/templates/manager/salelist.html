@@ -40,9 +40,9 @@
 <body>
    
    <div th:replace="~{/layout/managerheader::gnbFrag}"></div>
-		<div class="logo-top">
+      <div class="logo-top">
           <img th:src="@{/photo/OCEAN2.png}">
-		</div>   
+      </div>   
    <div class="all">
       <div class="searchbar">
          <div class="searchbar_1">
@@ -64,8 +64,8 @@
       <div>
          
          <table style="margin: 0 auto;">
+            <th:block th:each="cd,vs:${cdList}">
                <tbody class="hashtag">
-            	<th:block th:each="cd,vs:${cdList}">
                   <tr>
                      <td rowspan="4" ><img th:src="@{/manager/display.do(cdNo=${cd.cdNo})}"></td>
                      <td th:text="${cd.title}"></td>
@@ -88,16 +88,15 @@
                      <td th:text="|가격 : *{cd.price}|"></td>
                      <td th:text="${cd.stock}"></td>
                   </tr>
-            	</th:block>
                </tbody>
+            </th:block>
                <tfoot>
                   <tr>
-                     <td class="page" colspan="3" th:utext="${pagination}">
+                     <td th:utext="${pagination}">
                   </tr>
                </tfoot>
          </table>
       </div>
-      <div></div>
    </div>
 </body>
 </html>
