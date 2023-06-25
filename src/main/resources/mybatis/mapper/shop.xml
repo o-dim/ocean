@@ -234,16 +234,18 @@
 	</select>
 	 
     <select id="getCartDetailList" parameterType="int" resultMap="CartDetailMap">
-	SELECT CD.CART_DETAIL_NO, CD.COUNT, CD.CART_NO, CD.CD_NO, CT.CART_NO, CT.MADE_AT, C.CD_NO, C.TITLE, C.SINGER, C.MAIN_IMG, C.PRICE, C.STOCK, C.WRITED_AT  
- 	  FROM CART CT INNER JOIN CART_DETAIL CD
- 	   ON CT.CART_NO = CD.CART_NO INNER JOIN CD C
- 	   ON C.CD_NO = CD.CD_NO
+	SELECT U.NAME, CD.CART_DETAIL_NO, CD.COUNT, CD.CART_NO, CD.CD_NO, CT.CART_NO, CT.MADE_AT, C.CD_NO, C.TITLE, C.SINGER, C.MAIN_IMG, C.PRICE, C.STOCK, C.WRITED_AT  
+ 	  FROM ORDER_TBL O RIGHT JOIN CD C 
+	  ON O.CD_NO = C.CD_NO RIGHT JOIN CART_DETAIL CD
+	  ON C.CD_NO = CD.CD_NO RIGHT JOIN CART CT
+	  ON CD.CART_NO = CT.CART_NO RIGHT JOIN USERS U
+	  ON CT.USER_NO = U.USER_NO
  	 WHERE CT.CART_NO = #{cartNo}
  	</select>
 	
 	
 	
-	
+	<!-- 
 	<insert id="addOrderList" parameterType="Map">
 		INSERT INTO ORDER_TBL (
 			TOTAL
@@ -273,6 +275,7 @@
 		  , #{cdNo}
 		)
 	</insert>
+	-->
 	
 	
 	<select id="getOrderNoByUserNo" parameterType="int" resultType="OrderDTO">
@@ -311,7 +314,35 @@
 	</delete>
 	
  	
-	
+	<insert id="addOrderList" parameterType="OrderDTO">
+		INSERT INTO ORDER_TBL (
+			TOTAL
+		  , EMAIL
+		  , PHONENO
+		  , POSTCODE
+		  , ROAD_ADDRESS
+		  , JIBUN_ADDRESS
+		  , DETAIL_ADDRESS
+		  , NAME
+		  , COUNT
+		  , ORDER_AT
+		  , CART_NO
+		  , CD_NO
+		) VALUES (
+			#{total}
+		  , #{email}
+		  , #{phoneNo}
+		  , #{postcode}
+		  , #{roadAddress}
+		  , #{jibunAddress}
+		  , #{detailAddress}
+		  , #{name}
+		  , #{count}
+		  , NOW()
+		  , #{CartDTO.cartNo}
+		  , #{CdDTO.cdNo}
+		)
+	</insert>
 	
 	
 	

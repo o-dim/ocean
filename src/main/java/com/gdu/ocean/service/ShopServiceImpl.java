@@ -130,11 +130,13 @@ public class ShopServiceImpl implements ShopService {
 	}
 	
 	
-	
+	/*
 	@Override
 	public Map<String, Object> addOrderList(HttpServletRequest request) {
 		int userNo = Integer.parseInt(request.getParameter("userNo"));
+		log.info("userNo..........." + userNo);
 		int cartNo = Integer.parseInt(request.getParameter("cartNo"));
+		log.info("cartNo..........." + cartNo);
 		//UsersDTO userDTO = shopMapper.getOrderNoByUserNo(cartNo);
 		
 		//OrderDTO orderDTO = shopMapper.getOrderNoByUserNo(userNo);
@@ -165,7 +167,7 @@ public class ShopServiceImpl implements ShopService {
 		
 		return null;
 	}
-		
+	*/
 		
 	
 	@Override
@@ -181,6 +183,7 @@ public class ShopServiceImpl implements ShopService {
 		// 리스트는 model 쓰기가 애매하다 1개의 DTO면 모델을 쓸만하지만 여러개의 DTO 경우는 애매해다
 		List<CartDetailDTO> cartDetailList = shopMapper.getCartDetailList(cartNo);
 		model.addAttribute("cartDetailList", cartDetailList);
+		model.addAttribute("cartNo", cartNo);
 	}
 	
 	/*

@@ -25,6 +25,7 @@ import com.gdu.ocean.service.ShopService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import retrofit2.http.GET;
 
 @Slf4j
 @Controller
@@ -35,10 +36,11 @@ public class KakaoPayController {
 	private final KakaopayService kakaoPayService;
 	private final ShopService shopService;
 	
-	@ResponseBody
-	@PostMapping(value="/order/order", produces="application/json")
-	public Map<String, Object> order(HttpServletRequest request) {
-		return shopService.addOrderList(request);
+	
+	@GetMapping("/order/order")
+	public String order(int cartNo, int userNo, Model model) {
+		shopService.getCartDetailList(cartNo, model);
+		return "/order/order";
 	}
 	/*
 	@PostMapping("/getBuyCdList.do")
@@ -68,12 +70,12 @@ public class KakaoPayController {
 	}
 	*/
 
-	@PostMapping("/order/pay")
+	@PostMapping("/order/ready")
 	@ResponseBody
-	public String kakaoPayReady(@RequestParam("order_id")String orderId, @RequestParam("total_amount")int totalAmount, OrderDTO order, HttpSession session) {
+	public String kakaoPayReady(HttpSession session) {
 		log.info("kakaopayReady 성공..............");
 		
-		KakaoReadyResponse readyResponse = kakaoPayService.kakaoPayReady(orderId, totalAmount);
+		KakaoReadyResponse readyResponse = kakaoPayService.kakaoPayReady();
 		session.setAttribute("tid", readyResponse.getTid());
 		log.info("kakaopayReady tid : " + readyResponse.getTid());
 		//log.info(".........주문가격 : "+totalAmount);

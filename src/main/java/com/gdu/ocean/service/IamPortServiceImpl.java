@@ -10,10 +10,13 @@ import java.util.List;
 import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.gdu.ocean.domain.CartDTO;
 import com.gdu.ocean.domain.CartDetailDTO;
 import com.gdu.ocean.domain.OrderDTO;
 import com.gdu.ocean.mapper.ShopMapper;
@@ -93,7 +96,7 @@ public class IamPortServiceImpl implements IamPortService {
 
 	}
 	@Override
-	public int paymentInfo(String imp_uid, String access_token) throws IOException {
+	public int paymentInfo(HttpServletRequest request, String imp_uid, String access_token) throws IOException {
 		HttpsURLConnection conn = null;
 		 
 	    URL url = new URL("https://api.iamport.kr/payments/" + imp_uid);
@@ -113,9 +116,12 @@ public class IamPortServiceImpl implements IamPortService {
 	    br.close();
 	    conn.disconnect();
 	    
-	    int cartNo = session
+	 // session을 이용해서 카트 넘버를 가져오세용
+		HttpSession session = request.getSession();
+		CartDTO cartDTO = shopMapper.getCartByUserNo(Integer.parseInt(String.valueOf(session.getAttribute("loginUsersNo"))));
+		int cartNo = cartDTO.getCartNo();
 		OrderDTO orderDTO = new OrderDTO();
-		List<CartDetailDTO> carts = shopMapper.getCartDetailNo(cartNo);
+		List<CartDetailDTO> carts = shopMapper.getCartDetailList(cartNo);
 		for (CartDetailDTO cart : carts) { //스트레이 3개 : cart , 레드벨벳 2개 : cart => 모두 가지고 있는 게 carts 
 			int count = cart.getCount(); // 3개
 			orderDTO.setCdNo(cart.getCdNo()); // 스트레이(cdDTO) 빼자마자 order에다가 넣음
