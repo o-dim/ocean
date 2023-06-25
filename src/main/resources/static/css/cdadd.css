@@ -136,7 +136,7 @@
 		display: flex;
 		justify-content: space-between;
 		text-align: center;
-		line-height: 30px;
+		line-height: 40px;
 	}
 	
 	#hashtag1{
@@ -188,6 +188,58 @@
 	.checked {
 		background-color: white;
 		border-radius: 15px;
+	}
+	
+	#title {
+		width: 300px;
+		height: 20px;
+		border: none;
+		outline: none;
+		margin-left: 30px;
+		background-color: #d9d9d9;
+		border-bottom: solid 2px black;
+		text-align: center;
+		font-size: 17px;
+		font-family: 'GmarketSansMedium';
+	}
+	
+	#singer {
+		width: 300px;
+		height: 20px;
+		border: none;
+		outline: none;
+		margin-left: 30px;
+		background-color: #d9d9d9;
+		border-bottom: solid 2px black;
+		text-align: center;
+		font-size: 17px;
+		font-family: 'GmarketSansMedium';
+	}
+	
+	#price {
+		width: 300px;
+		height: 20px;
+		border: none;
+		outline: none;
+		margin-left: 30px;
+		background-color: #d9d9d9;
+		border-bottom: solid 2px black;
+		text-align: center;
+		font-size: 17px;
+		font-family: 'GmarketSansMedium';
+	}
+	
+	#stock {
+		width: 300px;
+		height: 20px;
+		border: none;
+		outline: none;
+		margin-left: 60px;
+		background-color: #d9d9d9;
+		border-bottom: solid 2px black;
+		text-align: center;
+		font-size: 17px;
+		font-family: 'GmarketSansMedium';
 	}
 	
 

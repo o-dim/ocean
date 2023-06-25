@@ -36,12 +36,11 @@
 						<td>회원번호</td>
 						<td>이름</td>
 						<td>이메일</td>
-						<td>전화번호</td>
+						<td>휴대폰번호</td>
 						<td>우편번호</td>
 						<td>도로명주소</td>
-						<td>지번</td>
 						<td>상세주소</td>
-						<td>회원가입일</td>
+						<td>가입일</td>
 						<td>휴면된날짜</td>
 					</tr>
 				</thead>
@@ -54,23 +53,19 @@
 							<td th:text="${sleepUser.phoneNo}"></td>
 							<td th:text="${sleepUser.postcode}"></td>
 							<td th:text="${sleepUser.roadAddress}"></td>
-							<td th:text="${sleepUser.jibunAddress}"></td>
 							<td th:text="${sleepUser.detailAddress}"></td>
-							<td th:text="${sleepUser.joinedAt}"></td>
-							<td th:text="${sleepUser.sleptAt}"></td>
+							<td th:text="${#dates.format(sleepUser.joinedAt, 'YYYY년 MM월 dd일')}"></td>
+							<td th:text="${#dates.format(sleepUser.sleptAt, 'YYYY년 MM월 dd일')}"></td>
 						</tr>
 					</th:block>			
 				</tbody>
 				<tfoot>
 					<tr>
-						<td colspan="12" th:utext="${pagination}"></td>
+						<td class="page" colspan="12" th:utext="${pagination}"></td>
 					</tr>
 				</tfoot>
 			</table>
 		</div>
-
-			<span style="font-size:32px;">총 매출</span>
-
 	</div>
 	
 	

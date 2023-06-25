@@ -49,7 +49,8 @@ public class ManagerController {
 	
 	
 	@GetMapping("/sale.html")
-	public String sale() {
+	public String sale(HttpServletRequest request, Model model) {
+		managerService.getOrderList(request, model);
 		return "manager/sale";
 	}
 	

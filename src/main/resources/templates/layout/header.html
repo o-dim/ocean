@@ -66,32 +66,36 @@
 		  	z-index: 9;
 		}
 
-	/* 마우스 인식 시 원래의 위치로 이동 */
-	.side-bar:hover {
-	  transform: translate(-15px, 0);   /* 둥근 모서리의 너비만큼 X축 이동, Y축 고정 */
-	}
+		/* 마우스 인식 시 원래의 위치로 이동 */
+		.side-bar:hover {
+		  transform: translate(-15px, 0);   /* 둥근 모서리의 너비만큼 X축 이동, Y축 고정 */
+		}
 		
 		/* 자식의 position이 absolute일 때 자식을 영역 안에 가두어 준다 */
-	.side-bar > ul > li {
-	  position: relative;
-	}
+		.side-bar > ul > li {
+		  position: relative;
+		}
 
-/* 모든 메뉴가 마우스 인식 시 반응 */
-.side-bar ul > li:hover > a {
-  background-color: rgba(0, 0, 0, 0.7);
-  border-bottom: 1px solid #999;
-}
+		/* 모든 메뉴가 마우스 인식 시 반응 */
+		.side-bar ul > li:hover > a {
+		  background-color: rgba(0, 0, 0, 0.7);
+		  border-bottom: 1px solid #999;
+		}
+<<<<<<< HEAD
+		
+=======
 
-/* 1차 메뉴의 항목이 마우스 인식 시에 2차 메뉴 등장 */
-.side-bar > ul > li:hover > ul {
-  display: block;
-  position: absolute;
-  background-color: rgba(0, 0, 0, 0.7);
-  top: 0;         /* 2차 메뉴의 상단을 1차 메뉴의 상단에 고정 */
-  right: 100%;     /* 2차 메뉴를 1차 메뉴의 너비만큼 이동 */
-  width: 100%;    /* 1차 메뉴의 너비를 상속 */
-  
-}
+>>>>>>> c5b48cfdccd7f3a390fc092fcdca8c2a4cd67f80
+		/* 1차 메뉴의 항목이 마우스 인식 시에 2차 메뉴 등장 */
+		.side-bar > ul > li:hover > ul {
+		  display: block;
+		  position: absolute;
+		  background-color: rgba(0, 0, 0, 0.7);
+		  top: 0;         /* 2차 메뉴의 상단을 1차 메뉴의 상단에 고정 */
+		  right: 100%;     /* 2차 메뉴를 1차 메뉴의 너비만큼 이동 */
+		  width: 100%;    /* 1차 메뉴의 너비를 상속 */
+		  
+		}
 		</style>
 
 		<div class="side-bar">
@@ -124,9 +128,8 @@
 				<li>
 					<a href="#">MYPAGE</a>
 					<ul>
-						<li><a th:href="@{/users/login.html}">로그인</a></li>
 						<li><a th:href="@{/users/agree.html}">회원가입</a></li>
-						 <li><a th:href="@{/users/checkPw.html}">마이페이지</a></li>
+						 <li><a th:href="@{/users/mypage.do}">마이페이지</a></li>
 					</ul>
 				</li>
 				<li th:if="${session.loginEmail == 'admin@gmail.com'}">

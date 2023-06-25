@@ -25,4 +25,5 @@ public interface ManagerService {
 	public int removeReply(int replyNo);
 	public int addCd(MultipartHttpServletRequest multipartRequest) throws Exception;
 	public ResponseEntity<byte[]> display(int cdNo);
+	public void getOrderList(HttpServletRequest request, Model model);
 }

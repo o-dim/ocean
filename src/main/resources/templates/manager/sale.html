@@ -11,82 +11,56 @@
 	
 	function setDateBox(){
 		var dt = new Date();
-		var year = dt.getFullYear();
+		var month = dt.getMonth() + 1;
+		var year = dt.getFullYear() + " - ";
+		$('.year').text(year);
 
-		for(var y = (year); y >=(year-10); y--){
-			if(year == y) {
-				$("#year1").append("<option selected value='"+ y +"'>"+ y + " 년  " +"</option>");
-			}else{
-				$("#year1").append("<option value='"+ y +"'>"+ y + " 년  " +"</option>");
-			}
+		for(var m = 1; m <= 12; m++){
+			var column = (m == month) ? "column" : "";
+			$('#query').append("<option value='" + m + "'" + column + ">" + m + "</option>");
 		}
+		
 	}
-
 	
 </script>
 
 <body>
 
 	<div th:replace="~{/layout/managerheader::gnbFrag}"></div>
-
+		<div class="logo-top">
+          <img th:src="@{/photo/OCEAN2.png}">
+		</div>
 	<div class="all">
-		<div>
-			<select id="year1" name="year1">
-			
-			</select>
+		<div class="searchbar_1">
+			<form id="frm" th:action="@{/manager/sale.html}">
+				<span class="year"></span>	
+				<select id=query name="query"></select>
+				<button class="btn">조회</button>
+			</form>
 		</div>
 		<div class="wrap">
-			<table>
-				<tr>
-					<td>1월</td>
-					<td>----- 총매출액</td>
-				</tr>
-				<tr>
-					<td>2월</td>
-					<td>----- 총매출액</td>
-				</tr>
-				<tr>
-					<td>3월</td>
-					<td>----- 총매출액</td>
-				</tr>
-				<tr>
-					<td>4월</td>
-					<td>----- 총매출액</td>
-				</tr>
-				<tr>
-					<td>5월</td>
-					<td>----- 총매출액</td>
-				</tr>
-				<tr>
-					<td>6월</td>
-					<td>----- 총매출액</td>
-				</tr>
-				<tr>
-					<td>7월</td>
-					<td>----- 총매출액</td>
-				</tr>
-				<tr>
-					<td>8월</td>
-					<td>----- 총매출액</td>
-				</tr>
-				<tr>
-					<td>9월</td>
-					<td>----- 총매출액</td>
-				</tr>
-				<tr>
-					<td>10월</td>
-					<td>----- 총매출액</td>
-				</tr>
-				<tr>
-					<td>11월</td>
-					<td>----- 총매출액</td>
-				</tr>
-				<tr>
-					<td>12월</td>
-					<td>----- 총매출액</td>
-				</tr>
-			</table>
-			<span style="font-size:32px;">총 매출</span>
+			<ul>
+				<li class="listyle">
+					<span class="date">구매일자</span>
+					<span class="menustyle">메뉴</span>
+					<span class="quantity">수량</span>
+					<span class="price">가격</span>
+				</li>	
+					<th:block th:each="order,vs:${orderList}">
+				<li class="listyle">
+					<span class="date" th:text="${#dates.format(order.orderAt, 'YYYY-MM-dd')}"></span>
+					<span class="menustyle" th:text="${order.cdNo.title}"></span>
+					<span class="quantity" th:text="${order.count}"></span>
+					<span class="price" th:text=" ${#numbers.formatDecimal(order.total, 0, 'COMMA', 0, 'POINT')}"></span>
+				</li>
+					</th:block>
+				<li class="page">
+					<span th:utext="${pagination}"></span>
+				</li>
+				<li>
+					<span class="total" th:text="|총매출 ${#numbers.formatDecimal(sum, 0, 'COMMA', 0, 'POINT')}|"></span>
+				</li>
+			</ul>
 		</div>
 	</div>
 	

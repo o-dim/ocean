@@ -49,6 +49,24 @@
 			</association>
 	</resultMap>
 	
+	<resultMap type="OrderDTO" id="OrderMap">
+		<id column="ORDER_NO" property="orderNo" />
+		<result column="TOTAL" property="total"/>
+		<result column="EMAIL" property="email"/>
+		<result column="PHONENO" property="phoneNo"/>
+		<result column="POSTCODE" property="postcode"/>
+		<result column="ROAD_ADDRESS" property="roadAddress"/>
+		<result column="JIBUN_ADDRESS" property="jibunAddress"/>
+		<result column="DETAIL_ADDRESS" property="detailAddress"/>
+		<result column="NAME" property="name"/>
+		<result column="COUNT" property="count"/>
+		<result column="ORDER_AT" property="orderAt"/>
+			<association javaType="CdDTO" property="cdNo">
+				<id column="CD_NO" property="cdNo" />
+				<result column="TITLE" property="title"/>
+			</association>
+	</resultMap>
+	
 	
 	<select id="getUserCount" resultType="int">
 		SELECT COUNT(*)
@@ -245,7 +263,8 @@
             ON R.USER_NO = U.USER_NO
 		 <where>
 		 	<if test="column != '' and query != ''">
-		 		${column} LIKE CONCAT('%', UPPER(#{query}), '%') OR ${column} LIKE CONCAT('%', LOWER(#{query}), '%')
+		 		${column} LIKE CONCAT('%', UPPER(#{query}), '%')
+		 		 OR ${column} LIKE CONCAT('%', LOWER(#{query}), '%')
 		 	</if>
 		 </where>
          ) A
@@ -264,8 +283,30 @@
         FROM CD
        WHERE CD_NO = #{cdNo}
    </select>
+   
+   	<select id="getOrderCount" resultType="int">
+		SELECT COUNT(*)
+		  FROM ORDER_TBL
+	</select>
 	
-	
+   <select id="getOrderList" parameterType="Map" resultMap="OrderMap">
+     SELECT A.ORDER_NO, A.TOTAL, A.EMAIL, A.PHONENO, A.POSTCODE, A.ROAD_ADDRESS, A.JIBUN_ADDRESS, A.DETAIL_ADDRESS, A.NAME, A.COUNT, A.ORDER_AT, A.CD_NO, A.TITLE
+       FROM (SELECT O.ORDER_NO, O.TOTAL, O.EMAIL, O.PHONENO, O.POSTCODE, O.ROAD_ADDRESS, O.JIBUN_ADDRESS, O.DETAIL_ADDRESS, O.NAME, O.COUNT, O.ORDER_AT, C.CD_NO, C.TITLE
+       		   FROM ORDER_TBL O LEFT OUTER JOIN CD C
+       		     ON O.CD_NO = C.CD_NO
+       		     <where>
+       		     	<if test="query != ''">
+       		     		ORDER_AT LIKE CONCAT('2023-%', #{query}, '-%')
+       		     	</if>
+       		     </where>
+       		     ) A
+      ORDER BY ORDER_NO DESC
+      LIMIT #{begin}, #{recordPerPage}
+   </select>
+   <select id="getOrderSum" resultType="int">
+	SELECT SUM(TOTAL)
+      FROM ORDER_TBL
+   </select>
 	
 	
 	

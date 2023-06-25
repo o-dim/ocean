@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 import com.gdu.ocean.domain.CdDTO;
 import com.gdu.ocean.domain.HashtagCdDTO;
 import com.gdu.ocean.domain.HashtagDTO;
+import com.gdu.ocean.domain.OrderDTO;
 import com.gdu.ocean.domain.OutUsersDTO;
 import com.gdu.ocean.domain.ReplyDTO;
 import com.gdu.ocean.domain.SleepUsersDTO;
@@ -36,4 +37,7 @@ public interface ManagerMapper {
 	public int addCd(CdDTO cdDTO);
 	public int addHashtagCd(HashtagCdDTO hashtagCdDTO);
 	public CdDTO getCdByNo(int cdNo);
+	public int getOrderCount();
+	public List<OrderDTO> getOrderList(Map<String, Object> map);
+	public int getOrderSum();
 }

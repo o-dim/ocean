@@ -79,12 +79,16 @@ function fnModifyPw(){
         dataType: 'json',
         success: function(resData){  // resData = {"updateUserPasswordResult": 1}
           if(resData.updateUsersPasswordResult == 1){
-            alert('비밀번호가 변경되었습니다.');
+           	Swal.fire({
+         		  text: '비밀번호가 변경되었습니다.',
+         		})
             fnInitEditPwArea();
             $('#btnOpenEditPwArea').show();
             $('#editPwArea').hide();
           } else {
-            alert('비밀번호 변경이 실패했습니다.');
+           	Swal.fire({
+         		  text: '비밀번호 변경이 실패했습니다.',
+         		})
           }
         }
       })
@@ -171,14 +175,12 @@ $(function(){
 
 </script>
    <style>
-   
-   	@font-face {
-	    font-family: 'GmarketSansMedium';
-	    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
-	    font-weight: normal;
-	    font-style: normal;
-		}
-
+   @font-face {
+    font-family: 'GmarketSansMedium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
      body {
      	background-color : #E9E9E9;
      	font-family: 'GmarketSansMedium';
@@ -192,17 +194,15 @@ $(function(){
 	}
 	.logo-btm {
 		position: absolute;
-		bottom: 0;
+		bottom: -15%;
 		right : 160px;
 		width: 40%;
 	}
-
 	
 	#box {
     position: absolute;
-    font-size: 13px;
     width: 430px;
-    height: 730px;
+    height: 700px;
     left: 40%;
     margin-left: -25px;
     margin-top: -25px;
@@ -223,12 +223,12 @@ $(function(){
 		width : 350px;
 		border: none;
 		border-bottom: 1px solid white;
-		font-family: 'GmarketSansMedium';
-		font-size: 13px;
 		outline: none;
+		font-family: 'GmarketSansMedium';
 		background-color: transparent;
 		margin-bottom: 10px;
 		color: white;
+		font-size: 14px;
 	}
 	
 	input[type="button"]
@@ -257,7 +257,6 @@ $(function(){
 
 	#postcode {
 		width : 250px; 
-		font-size: 13px;
 	}
 	
  	
@@ -287,18 +286,28 @@ $(function(){
 		text-align: center;
         cursor:pointer
 	}
+	
+	label {
+	
+		font-size: 14px;
+	}
+	
+	.radio {
+		font-size: 14px;
+	}
      
+    span #msgPw  {
+    	font-size: 14px;
+    }
 </style>
 </head>
 <body>
+
+	<header th:replace="~{layout/header::oceanHeader}" ></header>
 	
-	<div class="logo-top">
-    	<img th:src="@{/photo/OCEAN2.png}">
-	</div>
+	<div class="logo-top"><img th:src="@{/photo/OCEAN2.png}" ></div>
+	<div class="logo-btm"><img th:src="@{/photo/OCEAN2.png}" ></div>
 	
-	<div class="logo-btm">
-	    <img th:src="@{/photo/OCEAN2.png}">
-	</div>
 	<div id="container">
 	   <div id="box">
 		    <form id="frmEdit" method="post" th:action="@{/users/modifyInfo.do}">
@@ -370,10 +379,10 @@ $(function(){
 				  
 				      
 				      <div>
-				        <div>위치정보 동의여부</div>
+				        <div class="radio">위치정보 동의여부</div>
 				        <input type="radio" name="location" id="locationOn" value="on"><label for="locationOn">동의함</label>
 				        <input type="radio" name="location" id="locationOff" value="off"><label for="locationOff">동의 안함</label>
-				        <div>프로모션 동의여부</div>
+				        <div class="radio">프로모션 동의여부</div>
 				        <input type="radio" name="event" id="eventOn" value="on"><label for="eventOn">동의함</label>
 				        <input type="radio" name="event" id="eventOff" value="off"><label for="eventOff">동의 안함</label>
 				        <script>

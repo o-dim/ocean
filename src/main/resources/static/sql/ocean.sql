@@ -30,6 +30,9 @@ CREATE TABLE USERS (
    EMAIL                VARCHAR(100)    NOT NULL UNIQUE,               -- 회원 이메일
    PW                   VARCHAR(100)    NOT NULL,                      -- 회원 비밀번호
    PHONENO              LONGTEXT        NOT NULL,                     -- 회원 전화번호
+   EMAIL                VARCHAR(100)    NOT NULL UNIQUE,            -- 회원 이메일
+   PW                   VARCHAR(100)    NOT NULL,                   -- 회원 비밀번호
+   PHONENO              LONGTEXT        NOT NULL,                  -- 회원 전화번호
    POSTCODE             VARCHAR(20)        NULL,                     -- 회원 우편번호
    ROAD_ADDRESS         VARCHAR(100)         NULL,                     -- 회원 도로명주소
    JIBUN_ADDRESS        VARCHAR(100)         NULL,                     -- 회원 지번
@@ -42,6 +45,7 @@ CREATE TABLE USERS (
    AUTOLOGIN_EXPIRED_AT DATETIME,                                       -- 자동로그인 만료일
    CONSTRAINT PK_USERS PRIMARY KEY(USER_NO)
 );
+
 
 -- 판매용 CD 
 CREATE TABLE CD (
@@ -174,6 +178,8 @@ CREATE TABLE SLEEP_USERS (
     DETAIL_ADDRESS      VARCHAR(100)         NULL,               -- 회원 상세주소
     NAME            VARCHAR(30)            NULL,               -- 회원이름
     JOINED_AT         DATETIME            NULL,               -- 회원가입날짜
+    AGREECODE          INT              NOT NULL,
+
     PW_MODIFIED_AT     DATETIME                  NULL,                -- 비밀번호변경일
     SLEPT_AT         DATETIME            NULL,               -- 회원휴면날짜
     CONSTRAINT PK_SLEEP_USERS PRIMARY KEY(SLEEP_USER_NO)
@@ -238,6 +244,37 @@ CREATE TABLE KAKAO_APPROVE_RESPONSE(
 
 
 -- USERS 데이터 삽입
+INSERT INTO USERS
+            (
+             EMAIL
+            , PW
+            , PHONENO
+            , POSTCODE
+            , ROAD_ADDRESS
+            , JIBUN_ADDRESS
+            , DETAIL_ADDRESS
+            , NAME
+            , JOINED_AT
+			, AGREECODE
+			, PW_MODIFIED_AT 
+            , AUTOLOGIN_EMAIL 
+            , AUTOLOGIN_EXPIRED_AT
+            ) VALUES (
+             'admin@gmail.com'
+            , SHA2('mango123!',256)
+            , '010-1111-0000'
+            , '15226'
+            , '서울시 가산'
+            , '서울시 가산'
+            , '4885호'
+            , '관리자'
+            , NOW()
+			,0
+			,NULL
+			,NULL
+			,NULL
+);
+
 INSERT INTO USERS
             (
              EMAIL
@@ -847,6 +884,37 @@ INSERT INTO USERS
 );
 
 
+INSERT INTO SLEEP_USERS
+         (
+             EMAIL
+            , PW
+            , PHONENO
+            , POSTCODE
+            , ROAD_ADDRESS
+            , JIBUN_ADDRESS
+            , DETAIL_ADDRESS
+            , NAME
+            , JOINED_AT
+            , AGREECODE
+			, PW_MODIFIED_AT 
+			, SLEPT_AT 
+            ) VALUES (
+			'john@gmail.com'
+            , SHA2('mango123!',256)
+            , '010-1111-1111'
+            , '17425'
+            , '경기도 안산시 대부도로 123'
+            , '경기도 안산시 대부도동 123'
+            , '203호'
+            , 'john'
+            ,  DATE_SUB(DATE(NOW()), INTERVAL 1 YEAR)
+            ,0
+			,NULL
+			,NOW()
+);
+
+
+
 INSERT INTO HASHTAG (
          NAME
          ) VALUES (
@@ -895,6 +963,10 @@ INSERT INTO CD (
          ,15000
          ,100
        ,0
+		 ,'/storage/cdImg/36c1099c04e64385b3898eb0584dae45.png'
+         ,15000
+         ,100
+		 ,0
          ,NOW()
 );
 INSERT INTO CD (
@@ -1008,7 +1080,8 @@ INSERT INTO CD (
          ,'/storage/cdImg/2_b2db5189-0562-4b2e-8e99-6727ae4fd333_1512x.png'
          ,20000
          ,100
-       ,0
+         ,0
+         ,0
          ,NOW()          
 );
 INSERT INTO CD (
@@ -1028,6 +1101,7 @@ INSERT INTO CD (
          ,23000
          ,100
        ,0
+		 ,0
          ,NOW()          
 );
 INSERT INTO CD (
@@ -1047,6 +1121,7 @@ INSERT INTO CD (
          ,13000
          ,100
        ,0
+		 ,0
          ,NOW()          
 );
 INSERT INTO CD (
@@ -1294,6 +1369,7 @@ INSERT INTO CD (
          ,16800
          ,100
        ,0
+		 ,0
          ,NOW()          
 );
 INSERT INTO CD (
@@ -1312,7 +1388,8 @@ INSERT INTO CD (
          ,'/storage/cdImg/e8423605bdb8cf0557964f5a1cb5fd13_0b30d014-f2c5-4be3-bbb6-b5bee0441f82_1512x.png'
          ,13400
          ,100
-       ,0
+         ,0
+         ,0
          ,NOW()          
 );
 INSERT INTO CD (
@@ -1331,7 +1408,8 @@ INSERT INTO CD (
          ,'/storage/cdImg/2_2c8a8db5-b368-44a2-830f-c66bcf9cef05_1512x.png'
          ,15000
          ,100
-       ,0
+         ,0
+         ,0
          ,NOW()          
 );
 
@@ -1351,7 +1429,8 @@ INSERT INTO CD (
          ,'/storage/cdImg/1_2b242452-a15d-42d4-b572-77f5688be57e_1512x.png'
          ,13000
          ,100
-       ,0
+         ,0
+         ,0
          ,NOW()          
 );
 INSERT INTO CD (
@@ -1371,6 +1450,7 @@ INSERT INTO CD (
          ,20000
          ,100
        ,0
+		 ,0
          ,NOW()          
 );
 INSERT INTO CD (
@@ -1390,6 +1470,7 @@ INSERT INTO CD (
          ,16000
          ,100
        ,0
+		 ,0
          ,NOW()          
 );
 INSERT INTO CD (
@@ -1409,6 +1490,7 @@ INSERT INTO CD (
          ,15000
          ,100
        ,0
+		 ,0
          ,NOW()          
 );
 INSERT INTO CD (
@@ -1428,6 +1510,7 @@ INSERT INTO CD (
          ,20000
          ,100
        ,0
+		 ,0
          ,NOW()          
 );
 INSERT INTO CD (
@@ -1447,6 +1530,7 @@ INSERT INTO CD (
          ,16200
          ,100
        ,0
+		 ,0
          ,NOW()          
 );
 INSERT INTO CD (
@@ -1466,6 +1550,7 @@ INSERT INTO CD (
          ,18600
          ,100
        ,0
+		 ,0
          ,NOW()          
 );
 INSERT INTO CD (
@@ -1485,6 +1570,7 @@ INSERT INTO CD (
          ,21000
          ,100
        ,0
+		 ,0
          ,NOW()          
 );
 INSERT INTO CD (
@@ -1504,6 +1590,7 @@ INSERT INTO CD (
          ,24000
          ,100
        ,0
+		 ,0
          ,NOW()          
 );
 INSERT INTO CD (
@@ -1523,6 +1610,7 @@ INSERT INTO CD (
          ,15000
          ,100
        ,0
+		 ,0
          ,NOW()          
 );
 INSERT INTO CD (
@@ -1542,6 +1630,7 @@ INSERT INTO CD (
          ,17900
          ,100
        ,0
+		 ,0
          ,NOW()          
 );
 INSERT INTO CD (
@@ -1561,6 +1650,7 @@ INSERT INTO CD (
          ,30000
          ,100
        ,0
+		 ,0
          ,NOW()          
 );
 INSERT INTO CD (
@@ -1580,6 +1670,7 @@ INSERT INTO CD (
          ,15200
          ,100
        ,0
+		 ,0
          ,NOW()          
 );
 INSERT INTO CD (
@@ -1599,6 +1690,7 @@ INSERT INTO CD (
          ,18700
          ,100
        ,0
+		 ,0
          ,NOW()          
 );
 INSERT INTO CD (
@@ -1618,6 +1710,7 @@ INSERT INTO CD (
          ,23200
          ,100
        ,0
+		 ,0
          ,NOW()          
 );
 INSERT INTO CD (
@@ -1637,6 +1730,7 @@ INSERT INTO CD (
          ,17500
          ,100
        ,0
+		 ,0
          ,NOW()          
 );
 INSERT INTO CD (
@@ -1656,6 +1750,7 @@ INSERT INTO CD (
          ,16300
          ,100
        ,0
+		 ,0
          ,NOW()          
 );
 INSERT INTO CD (
@@ -1675,6 +1770,7 @@ INSERT INTO CD (
          ,15900
          ,100
        ,0
+		 ,0
          ,NOW()          
 );
 INSERT INTO CD (
@@ -1694,6 +1790,7 @@ INSERT INTO CD (
          ,18000
          ,100
        ,0
+		 ,0
          ,NOW()          
 );
 INSERT INTO CD (
@@ -1725,6 +1822,19 @@ INSERT INTO CD (
        , RECOMMEND_COUNT
        , WRITED_AT
         )VALUES (
+		 ,0
+         ,NOW()          
+);
+INSERT INTO CD (
+		   TITLE
+		 , SINGER
+		 , MAIN_IMG
+		 , DETAIL_IMG
+		 , PRICE
+		 , STOCK
+		 , RECOMMEND_COUNT
+		 , WRITED_AT
+		  )VALUES (
           'JACK IN THE BOX (WEVERSE ALBUMS)'
          ,'제이홉(BTS)'
          ,'/storage/cdImg/0_d609588c-9759-4908-9934-75b03624e2b0_960x.png'
@@ -1732,6 +1842,8 @@ INSERT INTO CD (
          ,21000
          ,100
        ,0
+
+		 ,0
          ,NOW()          
 );
 
@@ -1752,6 +1864,7 @@ INSERT INTO CD (
          ,16900
          ,100
        ,0
+		 ,0
          ,NOW()          
 );
 INSERT INTO CD (
@@ -1771,6 +1884,7 @@ INSERT INTO CD (
          ,17500
          ,100
        ,0
+		 ,0
          ,NOW()          
 );
 INSERT INTO CD (
@@ -1790,6 +1904,7 @@ INSERT INTO CD (
          ,15200
          ,100
        ,0
+		 ,0
          ,NOW()          
 );
 
@@ -1810,6 +1925,7 @@ INSERT INTO CD (
          ,14400
          ,100
        ,0
+		 ,0
          ,NOW()          
 );
 INSERT INTO CD (
@@ -1828,7 +1944,8 @@ INSERT INTO CD (
          ,'/storage/cdImg/2_b62ac46d-5897-473f-a932-d2feef1f0990_1512x.png'
          ,12300
          ,100
-       ,0
+         ,0
+         ,0
          ,NOW()          
 );
 INSERT INTO CD (
@@ -1847,7 +1964,8 @@ INSERT INTO CD (
          ,'/storage/cdImg/2_ce3e13c5-e640-4faf-8472-12658204ba94_1512x.png'
          ,17000
          ,100
-       ,0
+         ,0
+         ,0
          ,NOW()          
 );
 INSERT INTO CD (
@@ -1866,7 +1984,8 @@ INSERT INTO CD (
          ,'/storage/cdImg/3_26a3a4d4-3e61-42c9-a5ab-e4a083c1e753_1512x.png'
          ,16900
          ,100
-       ,0
+         ,0
+         ,0
          ,NOW()          
 );
 INSERT INTO CD (
@@ -1885,7 +2004,8 @@ INSERT INTO CD (
          ,'/storage/cdImg/e8423605bdb8cf0557964f5a1cb5fd13_6d2cfb07-2fc4-41b3-a545-7a213f88ee68_1512x.png'
          ,19400
          ,100
-       ,0
+         ,0
+         ,0
          ,NOW()          
 );
 INSERT INTO CD (
@@ -1904,7 +2024,8 @@ INSERT INTO CD (
          ,'/storage/cdImg/1_4d387ac6-1c2b-45de-9307-40e318504e4b_1512x.png'
          ,31000
          ,100
-       ,0
+         ,0
+         ,0
          ,NOW()          
 );
 INSERT INTO CD (
@@ -1923,7 +2044,8 @@ INSERT INTO CD (
          ,'/storage/cdImg/02.aespa__3___TabloidVer._960x.png'
          ,22000
          ,100
-       ,0
+         ,0
+         ,0
          ,NOW()          
 );
 INSERT INTO CD (
@@ -1942,7 +2064,8 @@ INSERT INTO CD (
          ,'/storage/cdImg/1_fbe92e94-3793-465b-b7e4-b28c9724716e_1512x.png'
          ,18700
          ,100
-       ,0
+         ,0
+         ,0
          ,NOW()          
 );
 INSERT INTO CD (
@@ -1961,7 +2084,8 @@ INSERT INTO CD (
          ,'/storage/cdImg/1_5e35aefa-562c-4106-b9f6-0aaa31f127c5_1512x.png'
          ,19900
          ,100
-       ,0
+         ,0
+         ,0
          ,NOW()          
 );
 INSERT INTO CD (
@@ -1980,7 +2104,8 @@ INSERT INTO CD (
          ,'/storage/cdImg/2_3f0eec93-81cb-47ce-b76f-445e0dc6eef3_1512x.png'
          ,29000
          ,100
-       ,0
+         ,0
+         ,0
          ,NOW()          
 );
 INSERT INTO CD (
@@ -1999,7 +2124,8 @@ INSERT INTO CD (
          ,'/storage/cdImg/3_a6154a4b-bd49-4d93-87d0-2b529a12815e_1512x.png'
          ,18500
          ,100
-       ,0
+         ,0
+         ,0
          ,NOW()          
 );
 INSERT INTO CD (
@@ -2018,7 +2144,8 @@ INSERT INTO CD (
          ,'/storage/cdImg/2_fedab53a-604a-4869-837a-f4f51bf75ec8_1512x.png'
          ,19600
          ,100
-       ,0
+         ,0
+         ,0
          ,NOW()          
 );
 INSERT INTO CD (
@@ -2037,7 +2164,8 @@ INSERT INTO CD (
          ,'/storage/cdImg/3_049e581d-6554-412b-9908-a2a29083439c_1512x.png'
          ,24000
          ,100
-       ,0
+         ,0
+         ,0
          ,NOW()          
 );
 INSERT INTO CD (
@@ -2056,7 +2184,8 @@ INSERT INTO CD (
          ,'/storage/cdImg/2_15c8b1f8-19cb-489a-9f5e-9c87411d0e51_1512x.png'
          ,22000
          ,100
-       ,0
+         ,0
+         ,0
          ,NOW()          
 );
 
@@ -2076,7 +2205,8 @@ INSERT INTO CD (
          ,'/storage/cdImg/2_47c44ce9-e136-4cab-bdea-45ce9dbe087a_1512x.png'
          ,18900
          ,100
-       ,0
+         ,0
+         ,0
          , NOW()          
 );
 INSERT INTO CD (
@@ -2095,7 +2225,8 @@ INSERT INTO CD (
          ,'/storage/cdImg/2_39395a4e-cc84-47e7-802e-1dfb034d01c7_1512x.png'
          ,'22700'
          ,100
-       ,0
+         ,0
+         ,0
          ,NOW()         
 );
 INSERT INTO CD (
@@ -2114,7 +2245,8 @@ INSERT INTO CD (
          ,'/storage/cdImg/3_196948c8-dc88-4caa-9a75-b980c9d37e94_1512x.png'
          ,'19900'
          ,100
-       ,0
+         ,0
+         ,0
          ,NOW()         
 );
 INSERT INTO CD (
@@ -2133,7 +2265,8 @@ INSERT INTO CD (
          ,'/storage/cdImg/2_d98fdeee-dcd2-4710-b543-e8c0f4247614_1512x.png'
          ,'15400'
          ,100
-       ,0
+         ,0
+         ,0
          ,NOW()          
 );
 INSERT INTO CD (
@@ -2152,7 +2285,8 @@ INSERT INTO CD (
          ,'/storage/cdImg/2_98bd70df-1f27-489a-99d2-6fe884e29b8f_1512x.png'
          ,'16600'
          ,100
-       ,0
+         ,0
+         ,0
          ,NOW()        
 );
 INSERT INTO CD (
@@ -2173,10 +2307,7 @@ INSERT INTO CD (
          ,100
        ,0
          ,NOW()
-);     
-
-SELECT *
-  FROM CD;
+);   
 
 
 INSERT INTO HASHTAG_CD (CD_NO, HT_NO) VALUES (1, 1);
@@ -2332,8 +2463,7 @@ INSERT INTO HASHTAG_CD (CD_NO, HT_NO) VALUES (68, 5);
 
 -- USERS_ACCESS 데이터 삽입
 
-INSERT INTO USERS_ACCESS VALUES('james@naver.com', '20230501');  -- user1 정상 회원
-INSERT INTO USERS_ACCESS VALUES('john@gmail.com', '20220501');  -- user2 휴면 대상(12개월 이상 로그인 이력 없음)
+-- USERS_ACCESS 데이터 삽입
 
-  
-  
+INSERT INTO USERS_ACCESS (EMAIL, LAST_LOGIN_AT) VALUES('james@naver.com', NOW());  -- user1 정상 회원
+INSERT INTO USERS_ACCESS (EMAIL, LAST_LOGIN_AT) VALUES ('john@gmail.com', DATE_SUB(DATE(NOW()), INTERVAL 1 YEAR));-- user2 휴면 대상(12개월 이상 로그인 이력 없음)
