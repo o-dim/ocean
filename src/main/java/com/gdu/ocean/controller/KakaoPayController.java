@@ -42,6 +42,18 @@ public class KakaoPayController {
 		shopService.getCartDetailList(cartNo, model);
 		return "/order/order";
 	}
+	@PostMapping("/shop/directBuy.do")
+	public String direct(@RequestParam("userNo") int userNo, @RequestParam("cdNo") int cdNo, @RequestParam("count") int count, @RequestParam("cartNo") int cartNo) {
+		
+		shopService.directBuy(userNo, cdNo, count, cartNo);
+		// "directResult" 로 cdNo뽑아오기, count 뽑아오기 / cartNo는 걍 뽑아오기
+		return "redirect:/order/directBuy";
+		
+	}
+	@GetMapping("/order/directBuy")
+	public String directorder() {
+		return "/order/directBuy";
+	}
 	/*
 	@PostMapping("/getBuyCdList.do")
 	public String buy(@RequestParam("userNo") int userNo
