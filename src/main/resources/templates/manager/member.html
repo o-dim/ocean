@@ -3,10 +3,25 @@
 <head th:replace="~{/layout/managerheader::headFrag('게시판관리')}"></head>
 <link rel="stylesheet" th:href="@{/css/member.css(ver=1.0)}">
 <script>
+
 	function fnOut(){
 		$('.btnOut').on('click', function(){
-			if(confirm('절대 퇴장 시키시겠습니까?')){
-				location.href='/manager/userout.do';
+			var email = $(this).closest('tr').find('.userEmail').text();
+			if(confirm('추방하시겠습니까?')){
+				$.ajax({
+					type:'get',
+					url : '/manager/userout.do',
+					data : "email=" + email,
+					dataType:'text',
+					success : function(resData){
+						if(resData == 1){
+							alert('추방되었습니다.');
+							location.reload();
+						} else {
+							alert('추방금지');
+						}
+					}
+				})
 			}
 		})
 	}
@@ -15,16 +30,16 @@
 		fnOut();
 	})
 	
+
+	
+	
 </script>
 <body>
 
 	<div th:replace="~{/layout/managerheader::gnbFrag}"></div>
 		<div class="logo-top">
-	    	<img th:src="@{/photo/OCEAN2.png}">
+	    	<a th:href="@{/}"><img th:src="@{/photo/OCEAN2.png}"></a>
 		</div>	
-		<div class="logo-btm">
-		    <img th:src="@{/photo/OCEAN2.png}">
-		</div>
 
 	<div class="all">
 		<div class="wrap">
@@ -60,7 +75,7 @@
 						<tr class="member_1">
 							<td th:text="${userNo - vs.index}"></td>
 							<td th:text="${user.name}"></td>
-							<td th:text="${user.email}"></td>
+							<td th:text="${user.email}" class="userEmail"></td>
 							<td th:text="${user.phoneNo}"></td>
 							<td th:text="${user.postcode}"></td>
 							<td th:text="${user.roadAddress}"></td>

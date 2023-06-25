@@ -110,20 +110,20 @@
 					<a href="#">SHOP</a>
 					<ul>
 						<li><a th:href="@{/shop/list.do}">new</a></li>
-						<li></li>
-						<li></li>
+						<li><a th:href="@{/shop/preOrder.do}">pre-order</a></li>
+						<li><a th:href="@{/shop/idol.do}">idol</a></li>
 					</ul>
 				</li>
 				<li>
 					<a href="#">SONG</a>
 					<ul>
-						<li><a th:href="@{/song/song.html}">search</a></li>
+						<li><a th:href="@{/song/song.html}">search/mood</a></li>
 					</ul>
 				</li>
 				<li>
 					<a href="#">MYPAGE</a>
 					<ul>
-						<li><a th:href="@{/users/agree.html}">회원가입</a></li>
+						<li><a th:href="@{/users/mypage.do}">my page</a></li>
 					</ul>
 				</li>
 				<li th:if="${session.loginEmail == 'admin@gmail.com'}">

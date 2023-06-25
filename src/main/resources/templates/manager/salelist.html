@@ -41,7 +41,7 @@
    
    <div th:replace="~{/layout/managerheader::gnbFrag}"></div>
       <div class="logo-top">
-          <img th:src="@{/photo/OCEAN2.png}">
+          <a th:href="@{/}"><img th:src="@{/photo/OCEAN2.png}"></a>
       </div>   
    <div class="all">
       <div class="searchbar">
@@ -86,13 +86,13 @@
                   </tr>
                   <tr>
                      <td th:text="|가격 : *{cd.price}|"></td>
-                     <td th:text="${cd.stock}"></td>
+                     <td th:text="|재고 *{cd.stock}|"></td>
                   </tr>
                </tbody>
             </th:block>
                <tfoot>
                   <tr>
-                     <td th:utext="${pagination}">
+                     <td class="page" colspan="3" th:utext="${pagination}">
                   </tr>
                </tfoot>
          </table>

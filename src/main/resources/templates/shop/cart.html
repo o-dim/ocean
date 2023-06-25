@@ -25,6 +25,7 @@
 	         
 	         fnTotal(); // 페이지 로드 후 fnTotal() 실행
 </script>
+
    
    <body>
       <div id="shopList">
@@ -40,9 +41,13 @@
                   </div>
                      <div>
                         
+
                       <div class="cartbox">
                        <table style="margin: 0 auto;">
                        	 <th:block th:each="cdc,vs:${cartDetailList}">
+                        <th:block th:each="cdc,vs:${cartDetailList}">
+                        
+                           <table border="1" width="1300px">
                               <tr colspan="4">
                                  <td>
                                     <img th:src="@{${cdc.cdNo.mainImg}}" width="200px">
@@ -63,6 +68,17 @@
                         </th:block>
                       </table>
                         <input type="text" id="total" value="Total" readOnly="readonly">
+                                    <div th:text="${cdc.cdNo.singer}"></div>
+                                    <div th:text="${cdc.cdNo.title}"></div>
+                                    <div th:text="${cdc.count}" id="count">개수</div>
+                                    <div th:text="${cdc.cdNo.price}" id="price">가격</div>
+                                    <div th:text="${cdc.cdNo.cdNo}" id="cdNo">cd</div>
+                                    <div th:text="${cdc.cartNo.userNo.name}"></div>
+                                 </td>
+                              </tr>
+                           </table>
+                        </th:block>
+                     
                         <form action="/order/order" method="get">
                            <input type="hidden" name="userNo" th:value="${session.loginUsersNo}">
                            <input type="hidden" name="cartNo" th:value="${cartNo}">
@@ -70,6 +86,12 @@
                         </form>
                       </div>
                         
+                           <input type="button" value="구매하기" id="btnCartDetailBuy" class="btnByCartDetail">
+                        </form>
+                        <div>
+                         <div th:text="${name}"></div>
+                        <input th:type="text" id="total" value="총 가격" readOnly="readonly">
+
                         </div>
                      </div>
                   </div>
@@ -77,6 +99,49 @@
             </div>
          </div>
 
+
+
+         <script th:inline="javascript">
+         var total = 0;
+
+         function fnTotal() {
+            var cdNoElements = document.querySelectorAll("#cdNo");
+            var countElements = document.querySelectorAll("#count");
+            var priceElements = document.querySelectorAll("#price");
+            
+            total = 0; // 초기화
+
+            for (var i = 0; i < cdNoElements.length; i++) {
+               var cdNo = cdNoElements[i].innerText;
+               var count = countElements[i].innerText;
+               var price = priceElements[i].innerText;
+
+               total += parseInt(price) * parseInt(count);
+            }
+
+            document.getElementById("total").value = total;
+         }
+         
+         fnTotal(); // 페이지 로드 후 fnTotal() 실행
+         
+         var cartDetailList = /*[[${cartDetailList}]]*/ [];
+
+			// 반복문을 사용하여 리스트 요소에 접근
+			for (var i = 0; i < cartDetailList.length; i++) {
+				var cdNo = cartDetailList[i].cdNo.cdNo;
+				var count = cartDetailList[i].count;
+				var price = cartDetailList[i].cdNo.price;
+				var name = cartDetailList[i].userNo.name;
+				
+				var newElement = document.createElement("div");
+				newElement.innerHTML = "cdNo: " + cdNo + ", count: " + count + ", price: " + price;
+
+				// body 요소에 새로운 요소를 추가
+				document.body.appendChild(newElement);
+			}
+      </script>
+   
+   
 
    
       
