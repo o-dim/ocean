@@ -1,56 +1,85 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{/layout/shopHeader::shopHead('welcome')}"></head>
+<link rel="stylesheet" th:href="@{/css/cart.css(ver=1.0)}"/>
+<script>
+		 	var total = 0;
 	
-	<body>
-		<div id="shopList">
-			<div class="nav_title1">
-				<img th:src="@{/photo/OCEAN.png}" class="nav_ocean_link1" th:onclick="'fnBackground()'" th:ondblclick="'fnOcean()'" >	
-			</div>
-				<div>
-				<div id="all">
-					<div id="top">
-						<div id="new">
-							<h1>Cart</h1>
-							<header th:replace="~{layout/shopHeader::shopHeader}"></header>
-						</div>
-							<div>
-								<th:block th:each="cdc,vs:${cartDetailList}">
-									<table border="1" width="1300px">
-										<tr colspan="4">
-											<td>
-												<img th:src="@{${cdc.cdNo.mainImg}}" width="200px">
-											</td>
-											<td>
-												<div th:text="${cdc.cdNo.singer}"></div>
-												<div th:text="${cdc.cdNo.title}"></div>
-												<div th:text="${cdc.count}"></div>
-												<div th:text="${cdc.cdNo.price}"></div>
-											</td>
-										</tr>
-									</table>
-								</th:block>
-								<form action="/order/order" method="get">
-									<input type="hidden" name="userNo" th:value="${session.loginUsersNo}">
-									<input type="hidden" name="cartNo" th:value="${cartNo}">
-									<button>구매하기 찐버튼</button>
-									<input type="button" value="구매하기" id="btnCartDetailBuy" class="btnByCartDetail">
-								</form>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<script th:inline="javascript">
-			
-			
-				
-			</script>
+	         function fnTotal() {
+	            var cdNoElements = document.querySelectorAll("#cdNo");
+	            var countElements = document.querySelectorAll("#count");
+	            var priceElements = document.querySelectorAll("#price");
+	            
+	            total = 0; // 초기화
 	
+	            for (var i = 0; i < cdNoElements.length; i++) {
+	               var cdNo = cdNoElements[i].innerText;
+	               var count = countElements[i].innerText;
+	               var price = priceElements[i].innerText;
 	
+	               total += parseInt(price) * parseInt(count);
+	            }
+	
+	            document.getElementById("total").value = total;
+	         }
+	         
+	         fnTotal(); // 페이지 로드 후 fnTotal() 실행
+</script>
+   
+   <body>
+      <div id="shopList">
+         <div class="nav_title1">
+            <img th:src="@{/photo/OCEAN.png}" class="nav_ocean_link1" th:onclick="'fnBackground()'" th:ondblclick="'fnOcean()'" >   
+         </div>
+            <div>
+            <div id="all">
+               <div id="top">
+                  <div id="new">
+                     <h1>Cart</h1>
+                     <header th:replace="~{layout/shopHeader::shopHeader}"></header>
+                  </div>
+                     <div>
+                        
+                      <div class="cartbox">
+                       <table style="margin: 0 auto;">
+                       	 <th:block th:each="cdc,vs:${cartDetailList}">
+                              <tr colspan="4">
+                                 <td>
+                                    <img th:src="@{${cdc.cdNo.mainImg}}" width="200px">
+                                 </td>
+                                 <td>
+                                    <div th:text="${cdc.cdNo.singer}" style="margin-bottom: 25px;"></div>
+          							<div th:text="${cdc.cdNo.title}" style="margin-bottom: 25px;"></div>
+          							<div style="display: flex; align-items: center; margin-bottom: 25px;">
+            							<span style="margin-right: 10px;">수량:</span>
+            							<div th:text="${cdc.count}" id="count"></div>
+          							</div>
+          							<div style="display: flex; align-items: center;">
+	            						<span style="margin-right: 10px;">가격:</span>
+	            						<div th:text="${cdc.cdNo.price}" id="price"></div>
+          							</div>
+                                 </td>
+                              </tr>
+                        </th:block>
+                      </table>
+                        <input type="text" id="total" value="Total" readOnly="readonly">
+                        <form action="/order/order" method="get">
+                           <input type="hidden" name="userNo" th:value="${session.loginUsersNo}">
+                           <input type="hidden" name="cartNo" th:value="${cartNo}">
+                           <button>구매하기 찐버튼</button>
+                        </form>
+                      </div>
+                        
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
 
-	
-		
-	
+
+   
+      
+   
 </body>
 </html>
