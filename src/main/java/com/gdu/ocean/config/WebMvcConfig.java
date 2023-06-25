@@ -17,6 +17,10 @@ public class WebMvcConfig implements WebMvcConfigurer{
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(loginCheckInterceptor)
+<<<<<<< HEAD
+=======
+			   //.addPathPatterns("/bbs/write.html", "/upload/write.html")			
+>>>>>>> 53f252b1bfe3f901532c0f7f4844cea202557046
 			    .addPathPatterns("/users/logout.do");
      	registry.addInterceptor(loginCheckInterceptor)
 			 		
