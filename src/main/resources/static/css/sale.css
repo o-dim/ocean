@@ -10,6 +10,7 @@
 	body {
 		background-color: #e9e9e9;
 		font-family: 'GmarketSansMedium';
+		font-size:16px;
 	}
 	.logo-top {
 	    position: absolute;
@@ -17,13 +18,6 @@
 	    top: 25px;
 	    width: 40%;
 	}
-	
-	.logo-btm {
-	    position: absolute;
-	    bottom: -500px;
-	    right: 160px;
-	    width: 40%;
-	}	
 
 	.header {
 		width: 800px;
@@ -84,40 +78,131 @@
     	text-decoration : none;
     	color: black;
     }
-
-	.all {
-		width:800px;
-		margin: 0 auto;
-		
-	}
+    
+    #frm {
+    	margin-left: 70px;
+    }
 
 	select {
 		border: none;
+		font-family: 'GmarketSansMedium';
+	}
+	
+	
+	.wrap > table {
+		margin-top: 30px;
+		width: 100%;
+		text-align: center;
+		border-collapse: collapse;
+		border-right: none;
+		border-left: none;	
+	}
+	
+	td {
+		border-right: none;
+		border-left: none;
+	}
+	
+	
+	td:nth-of-type(1) {
+		width: 20%;
+	}
+	
+	#query {
+		background-color: #e9e9e9;
+		font-family: 'GmarketSansMedium';
+		font-size: 20px;
+		margin-right: 40px;
+	}
+		
+	.year {
 		font-size: 20px;
 	}
 	
-	select:focus{
-		outline: 0;
+	
+	.btn {
+		background-color: white;
+		font-size: 17px;
+		font-family: 'GmarketSansMedium';
+		cursor: pointer;
+		width: 60px;		
 	}
 	
-	.wrap > table {
-		width: 800px;
-		height: 650px;
-		border: 1px solid black;
-		border-collapse: collapse;
-		margin-top: 30px;
-		border-left: none;
-		border-right: none;
+	
+	.total {
+		font-size: 30px;
 	}
 	
-	.wrap > table td {
-		border: 1px solid black;
-		border-right: none;		
 		
+	
+	.orderStyle {
+	  font-size: 20px;
+	  border:solid 1px black;
 	}
 	
-	.wrap > table td:nth-of-type(1){
+	td:nth-of-type(1) {
+		width: 10%
+	}
+	td:nth-of-type(2) {
+		width: 60%
+	}
+	td:nth-of-type(3) {
+		width: 10%
+	}
+	td:nth-of-type(4) {
+		width: 20%
+	}
+	
+	.wrap span {
+	 display:inline-block;
+
+	}
+	
+	.wrap .listyle:nth-of-type(1) {
+		font-size : 20px; 
+	}
+	
+	li {
+		display: flex;
+		justify-content: space-between;
+		margin-bottom: 20px;
+	}
+	
+	.listyle {
+		border-bottom: solid 2px black;
+	}
+	
+	.date {
+		width: 150px;
+		height: 40px;
+	}
+	
+	.menustyle {
+		width: 700px;	
+		height: 40px;
+	}
+	
+	.quantity {
+		width: 50px;
+		height: 40px;
+	}
+	
+	.price {
+		width: 100px;
+		height: 40px;
+	}
+	
+	.wrap span {
 		text-align: center;
-		border-left: none;
-		
 	}
+	
+	.page {
+		justify-content: center;
+	}
+	
+	.page > span {
+		font-size: 20px;
+	}
+
+	
+	

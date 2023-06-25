@@ -167,7 +167,20 @@
 		cursor: pointer;
 	}	
 	
+	#btn_remove {
+		background-color: white;
+		font-size: 17px;
+		font-family: 'GmarketSansMedium';
+		cursor: pointer;
+	}
 	
+	#btn_remove:hover {
+		cursor: pointer;
+	}
+	
+	.page {
+		font-size: 18px;
+	}
 	
 	
 	

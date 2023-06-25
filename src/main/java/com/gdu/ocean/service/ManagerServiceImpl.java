@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.gdu.ocean.domain.CdDTO;
 import com.gdu.ocean.domain.HashtagCdDTO;
 import com.gdu.ocean.domain.HashtagDTO;
+import com.gdu.ocean.domain.OrderDTO;
 import com.gdu.ocean.domain.OutUsersDTO;
 import com.gdu.ocean.domain.ReplyDTO;
 import com.gdu.ocean.domain.SleepUsersDTO;
@@ -216,7 +217,7 @@ public class ManagerServiceImpl implements ManagerService {
 		
 		int totalRecord = managerMapper.getSleepUserSearchCount(map);
 		
-		int recordPerPage = 5;
+		int recordPerPage = 10;
 		
 		pageUtil.setPageUtil(page, totalRecord, recordPerPage);
 		
@@ -249,7 +250,7 @@ public class ManagerServiceImpl implements ManagerService {
 		
 		int totalRecord = managerMapper.getOutUserSearchCount(map);
 		
-		int recordPerPage = 5;
+		int recordPerPage = 10;
 		
 		pageUtil.setPageUtil(page, totalRecord, recordPerPage);
 		
@@ -324,7 +325,7 @@ public class ManagerServiceImpl implements ManagerService {
 		
 		int totalRecord = managerMapper.getBoardCount();
 		
-		int recordPerPage = 5;
+		int recordPerPage = 10;
 		
 		pageUtil.setPageUtil(page, totalRecord, recordPerPage);
 		
@@ -344,7 +345,7 @@ public class ManagerServiceImpl implements ManagerService {
 		
 	}
 	
-	@Override
+   	@Override
 	   public ResponseEntity<byte[]> display(int cdNo) {
 	      CdDTO cdDTO = managerMapper.getCdByNo(cdNo);
 	      ResponseEntity<byte[]> image = null;
@@ -360,6 +361,36 @@ public class ManagerServiceImpl implements ManagerService {
 	      }
 	      return image;
 	   }
+	   
+    @Override
+		public void getOrderList(HttpServletRequest request, Model model) {
+		
+    	int sum = managerMapper.getOrderSum();
+    	
+    	Optional<String> opt1 = Optional.ofNullable(request.getParameter("query"));
+    	String query = opt1.orElse("");
+    	
+    	Map<String, Object> map = new HashMap<String, Object>();
+    	map.put("query", query);
+    	
+    	Optional<String> opt2 = Optional.ofNullable(request.getParameter("page"));
+    	int page = Integer.parseInt(opt2.orElse("1"));
+    	
+    	int totalRecord = managerMapper.getOrderCount();
+    	
+    	int recordPerPage = 5;
+    	
+    	pageUtil.setPageUtil(page, totalRecord, recordPerPage);
+    	
+    	
+    	map.put("begin", pageUtil.getBegin());
+    	map.put("recordPerPage", recordPerPage);
+    	
+    	List<OrderDTO> orderList = managerMapper.getOrderList(map);
+    	model.addAttribute("orderList", orderList);
+    	model.addAttribute("pagination", pageUtil.getPagination("/manager/sale.html?&query=" + query));
+    	model.addAttribute("sum", sum);
+	}
 
 	
 }
