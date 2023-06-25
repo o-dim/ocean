@@ -103,13 +103,13 @@ $(function() {
 				</tbody>
 			</table>
 			<div>
-				<span>총 가격</span>
+				<span name="total" id="total"></span>
 				<span>총 가격 필요</span>
 			</div>
 		</div>
 		<div class="order_list">
 			<div>주문하시는 분</div>
-			<input type="text" name="buyer_name" value="${cdc.userNo.name}">
+			<input type="text" name="buyer_name" value="${cdc.cartNo.userNo.name}">
 			<input type="text" name="buyer_tel" value="${cdc.users.phoneNo}">
 			<input type="text" name="buyer_email" value="${cdc.usersDTO.email}">
 			<form action="/order/ready" method="post" id="kakaopay">

@@ -7,25 +7,29 @@
 	<!-- 빠진거 : 해시태그, 앨범 설명, 로그인 세션 유무(장바구니, 구매하기 로그인여부에따라) -->
 	
 	<div class="cdData">
-		<table border ="2">
-			<tr class="detailImg" rowspan="2">
-				<td colspan="2">
-					<img th:src="${cd.mainImg}">
+		<table>
+			<tr class="detailImg" >
+				<td rowspan="2">
+					<img th:src="@{/manager/display.do(cdNo=${cd.cdNo})}">
 				</td>
-				<td>
-				</td>
-			</tr>
-			<tr>
-				<td class="cdInfo" colspan="2">
+				<td class="cdInfo" colspan="5">
+					<div th:text="${cd.singer}"></div>
 					<div class="hashtagName" id="hashtagName" th:text="${cd.title}"></div>
 					<div class="price" id="price">수량</div>
-						<input type="button" class="btn btnBuyCount" onclick="fnBtnPlus()" value="+">
-						<input type="text" name="count" id="count" readonly="readonly" />
-						<input type="button" class="btn btnBuyCount" onclick="fnBtnMinus()" value="-">
+					<input type="button" class="btn btnBuyCount" onclick="fnBtnPlus()" value="+">
+					<input type="text" name="count" id="count" readonly="readonly" />
+					<input type="button" class="btn btnBuyCount" onclick="fnBtnMinus()" value="-">
 				</td>
+			</tr>
+			<tr>	
 				<td>
 					<input type="button" class= btn id="btnAddToCart" value="장바구니에 담기">
 					<input type="button" id="btnBuy" class="btn btnPrimary btnBuy" value="바로주문해요" onclick="fnBuy()"/>
+				</td>
+			</tr>
+			<tr>
+				<td rowspan="2" colspan="2">
+					<img th:src="${cd.detailImg}">
 				</td>
 			</tr>
 		</table>
