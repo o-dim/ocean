@@ -19,14 +19,6 @@
 	</properties>
 	<dependencies>
 	
-<<<<<<< HEAD
-	  	<dependency>
-	      <groupId>org.json</groupId>
-	      <artifactId>json</artifactId>
-	      <version>20230227</version>
-    	</dependency>
-	
-=======
 		<!-- https://mvnrepository.com/artifact/org.json/json -->
 	    <dependency>
 	      <groupId>org.json</groupId>
@@ -34,7 +26,6 @@
 	      <version>20230227</version>
 	    </dependency>
     
->>>>>>> c5b48cfdccd7f3a390fc092fcdca8c2a4cd67f80
 		 <!-- https://mvnrepository.com/artifact/org.bgee.log4jdbc-log4j2/log4jdbc-log4j2-jdbc4.1 -->
        <dependency>
          <groupId>org.bgee.log4jdbc-log4j2</groupId>
