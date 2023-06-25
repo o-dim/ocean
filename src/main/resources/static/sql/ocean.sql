@@ -19,8 +19,6 @@ DROP TABLE IF EXISTS HASHTAG;
 DROP TABLE IF EXISTS USERS;
 
 
-select * from cd;
-
 
 
 
