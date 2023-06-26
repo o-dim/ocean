@@ -18,7 +18,26 @@
 	    	<input type="text" id="q" placeholder="오늘은 르세라핌의 UNFORGIVEN 어떤가요?">
 	    	<button id="searchBtn">Search</button>
 	    </div>
-    	<div class="box-1"><div class="ment-2">어쩌면 당신의 기분에 따라</div><img class="choose" th:src="@{/photo/choose.svg}">
+	    
+    	<div class="box-1">
+    	<div class="ment-2">어쩌면 당신의 기분에 따라</div>
+    	<div class="choose">
+    		<img th:src="@{/photo/choose.svg}">
+			    <form class="mood-selector">
+				    <select id="mood">
+				    	<option value="">선택하세요</option>
+				    	<option value="sad">sad</option>
+				    	<option value="happy">happy</option>
+				    	<option value="chill">chill</option>
+				    	<option value="groove">groove</option>
+				    	<option value="summer">summer</option>
+				    	<option value="romance">romance</option>
+				    	<option value="r-n-b">r-n-b</option>
+				    	<option value="dance">dance</option>
+					</select>
+					<input type="button" value="조회" id="recommendBtn">
+			    </form>
+    	</div>
     	<div class="ment-3">혹은 고민할 것 없이,<br>
 						오션의 랜덤 추천음악으로 시작하기</div></div>
 	    <div><img class="phone" th:src="@{/photo/Rectangle.png}"></div>
@@ -33,20 +52,6 @@
 	    		<tbody id="result"></tbody>
 	    	</table>
 	    </div>
-	    <form class="mood-selector">
-		    <select id="mood">
-		    	<option value="">선택하세요</option>
-		    	<option value="sad">sad</option>
-		    	<option value="happy">happy</option>
-		    	<option value="chill">chill</option>
-		    	<option value="groove">groove</option>
-		    	<option value="summer">summer</option>
-		    	<option value="romance">romance</option>
-		    	<option value="r-n-b">r-n-b</option>
-		    	<option value="dance">dance</option>
-			</select>
-			<input type="button" value="조회" id="recommendBtn">
-	    </form>
 	</div>
 </body>
 </html>

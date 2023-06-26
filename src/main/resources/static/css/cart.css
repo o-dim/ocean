@@ -1,5 +1,59 @@
 @charset "UTF-8";
 
+   @font-face {
+       font-family: 'GmarketSansMedium';
+       src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+       font-weight: normal;
+       font-style: normal;
+   }
+   
+   body {
+      background-color: #e9e9e9;
+      font-family: 'GmarketSansMedium';
+		width: 100%;
+		height: auto;
+   }
+   
+   table {
+      width: 60%;
+      font-size: 24px;
+      border-top: 1px solid black;
+      border-bottom: 1px solid black;
+      margin: 0 auto;
+      
+   }
+   
+   img {
+      width: 200px;
+      height: 200px;
+   }
+   
+   
+   button {
+     font-size: 24px;
+     font-family: 'GmarketSansMedium';
+     border:1px solid black;
+     background-color: #e9e9e9;
+     border-radius: 15px;  
+     position: absolute;
+     bottom: 0;
+     left: 50%;
+     transform: translateX(-50%);
+     margin-bottom: 20px;
+}
+   
+   button:hover {
+   cursor: pointer;
+}
+
+   .cartbox input[type="text"] {
+      font-size: 24px;
+      font-family: 'GmarketSansMedium';
+      background-color: #d9d9d9;
+      border: transparent;
+      margin: 20px 0;
+   }
+   
 
    @font-face {
        font-family: 'GmarketSansMedium';
@@ -18,12 +72,14 @@
       margin: 0 auto;
       background-color: #d9d9d9;
       width: 1400px;
+      width: 800px;
       height: 1250px;
       padding-top: 60px;
       padding-right: 50px;
       border-radius: 20px;
       text-align: center;
       margin-left: 200px;
+      margin-left: 50px;
       margin-top: 40px;
    
    }
@@ -31,6 +87,8 @@
    table {
       width: 800px;
       font-size: 24px;
+      width: 70%;
+      font-size: 16px;
       border-top: 1px solid black;
       border-bottom: 1px solid black;
       margin: 0 auto;
@@ -46,6 +104,9 @@
    
    button {
        font-size: 24px;
+
+   button {
+     font-size: 24px;
      font-family: 'GmarketSansMedium';
      border:1px solid black;
      background-color: #e9e9e9;
@@ -64,12 +125,14 @@
    
    .cartbox input[type="text"] {
       font-size: 24px;
+      font-size: 16px;
       font-family: 'GmarketSansMedium';
       background-color: #d9d9d9;
       border: transparent;
       margin: 20px 0;
    }
    
+ 
    
    
 

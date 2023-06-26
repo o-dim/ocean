@@ -11,7 +11,7 @@
                var priceElements = document.querySelectorAll("#price");
                
                total = 0; // 초기화
-   
+               var total = 0; // 초기화   
                for (var i = 0; i < cdNoElements.length; i++) {
                   var cdNo = cdNoElements[i].innerText;
                   var count = countElements[i].innerText;
@@ -69,6 +69,7 @@
                            <input type="hidden" name="userNo" th:value="${session.loginUsersNo}">
                            <input type="hidden" name="cartNo" th:value="${cartNo}">
                            <button>구매하기</button>
+                           <button>구매하기 찐버튼</button>
                         </form>
                       </div>
                         
