@@ -85,26 +85,6 @@ public class SpotifyServiceImpl implements SpotifyService {
 
 	}
 	
-	// uri, name, artist, album, image, 
-//	@Override
-//	public Map<String, Object> spotifyPlaylist() {
-//		
-//		SpotifyApi spotifyApi = new SpotifyApi.Builder()
-//			    .setAccessToken(AccessToken.accessToken())
-//			    .build();
-//		
-//		int limit = 20;
-//		LocalDateTime now = LocalDateTime.now();
-//		String playlist_id = now.getHour() + "" + now.getMinute() + "" + now.getSecond();
-//		List<String> selectSongs = new ArrayList<>();
-//		selectSongs.add(e)
-//		
-//		PlaylistTrack playlistTrack = spotifyApi.addItemsToPlaylist(playlist_id, uris));
-//		 
-//		 Track track = null;
-//		
-//		return null;
-//	}
 	
 	@Override
 	public List<Map<String, String>> getRecommendsong(String mood){

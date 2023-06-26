@@ -1,182 +1,297 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{/layout/shopHeader3::shopHead('welcome')}"></head>
-<body>
-		<div id="shopList">
-				<div class="cdData">
-					<div class="nav_title1">
-				   		<img th:src="@{/photo/OCEAN.png}" class="nav_ocean_link1">	
-				   	</div>
-					<div id="all">
-						<div id="top">
-						<h1></h1>
-						<header th:replace="~{layout/shopHeader::shopHeader}"></header>		
-						</div>
-					</div>
+<style>
+   
+    @font-face {
+        font-family: 'GmarketSansMedium';
+        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+    }
+    
+      body {
+        font-family: 'GmarketSansMedium';
+        font-size: 15px;
 
-	<div class="cdData">
-		<table>
-			<tr class="detailImg" >
-				<td rowspan="2">
-					 <img th:src="@{/manager/display.do(cdNo=${cd.cdNo})}">
-				</td>
-				<td class="cdInfo" colspan="5">
-					<div th:text="${cd.singer}"></div>
-					<div class="hashtagName" id="hashtagName" th:text="${cd.title}"></div>
-					<div class="price" id="price">수량</div>
-					<input type="button" class="btn btnBuyCount" onclick="fnBtnPlus()" value="+">
-					<input type="text" name="count" id="count" readonly="readonly" />
-					<input type="button" class="btn btnBuyCount" onclick="fnBtnMinus()" value="-">
-				</td>
-			</tr>
-			<tr>	
-				<td>
-					<input type="button" class="btn" id="btnAddToCart" value="장바구니에 담기">
-					<form action="/directBuy.do" method="post">
-						<input type="hidden" id="userNo" th:value="${session.loginUsersNo}" name="userNo">
-						<input type="hidden" id="cartNo" th:value=${cartNo} name="cartNo">
-						<input type="hidden" id="price" name="total">
-						<button>바로 주문해요</button>
-					</form>
-				</td>
-			</tr>
-			<tr>
-				<td rowspan="2" colspan="2">
-					<img th:src="${cd.detailImg}">
-				</td>
-			</tr>
-		</table>
-	</div>
-		
-	<div class="modalbutton">
-	  <div class="popup" id="popup">
-	    <div class="popup-inner">
-	      <div class="popup__photo">
-	      	<img th:src="@{https://images.unsplash.com/photo-1515224526905-51c7d77c7bb8?ixlib=rb-0.3.5&s=9980646201037d28700d826b1bd096c4&auto=format&fit=crop&w=700&q=80}" alt="">
-	      </div>
-	      <div class="popup__text">
-	      	<div id="oceanModalTxt">
-				<h1>Ocean</h1> 
-				<h1>장바구니에 물품이 담겼습니다!</h1>
-				<h2>What's important is an unbreakable heart</h2>
-	      	</div>
-	       	<p>
-				"SEA" commonly refers to the body of water surrounding a landmass, while "OCEAN" 
-				refers to the vast and deep waters covering 71% of the Earth's surface. Our "OCEAN" 
-				represents the immense and far-reaching influence of K-pop. With that concept in mind,
-				 we have planned a website.
-				The secrets of the ocean are still unknown, and we embark on a journey with Ocean, 
-				not knowing what it holds or where it leads. Join us and explore the unknown with Ocean!
-			</p>
-	      	<div id="container"> 
-	      		<form th:action="@{/shop/getCartDetailList.do}">
-	      			<input type="hidden" name="cartNo" id="cartNo">
-			      	<button class="btn" >장바구니이동</button>	
-			      	<input type="button" id="keepShopping" class="btn" value="계속쇼핑하기" onclick="fnCloseModal()">    		 		
-	      		</form>
-	      	</div>
-      	</div>
-      	<a class="popup__close" href="javascript:fnCloseModal()">X</a>
+    }
+    
+    Img {
+       width: 70vw;
+    }
+
+
+   .main-image {
+      width: 500px;
+      height :500px;
+      margin-right : 50px;
+      margin-bottom: 60px;
+   }
+   
+   #hashtagName {
+      width : 500px;
+      margin-bottom:30px;
+   }
+   
+   .cdInfo{
+      margin-top: 90px;
+   
+   }
+   
+   span:not(.total) {
+      height: 100px;
+      margin-right : 10px; 
+      border: 1px solid black;
+      border-radius: 10px;
+      padding: 5px;
+   }
+
+   #cdTitle { 
+      margin-bottom:30px;
+      margin-top: 30px;
+   }
+   
+   .detailImg {
+      display: flex; 
+      justify-content: center;
+   }
+   
+   #price {
+   
+      margin-right : 30px;
+    }
+   
+  
+   
+   
+   .count-group{
+   
+   display: flex;
+   margin-right : 30px;
+   margin-top : 30px;
+   margin-bottom : 80px;
+   border : 1px solid black;
+   border-radius : 20px;
+   width: 380px;
+   height : 100px;
+   
+   }
+   
+   #count {
+      width : 30px;
+      text-align: center;
+      margin-right: 10px;
+      margin-left: 10px;
+      border: none;
+      background-color: transparent;
+   }
+   
+   .button-group > input {
+      font-family: 'GmarketSansMedium';
+   }
+   
+   .btnBuyCount {
+      border: none;
+      background-color: transparent;
+   }
+   
+   #btnAddToCart {
+      width : 180px;
+      height: 50px;
+      border: 1px solid black; 
+      border-radius : 20px;
+      text-align: center; 
+      background-color: transparent;
+      margin-right: 20px;
+   
+   }
+   
+   #btnBuy {
+      width : 180px;
+      height: 50px;
+      border: 1px solid black;
+      border-radius : 20px;
+      text-align: center; 
+      background-color: #737373;
+      color: white;
+   
+   }
+   
+   #dImg{
+      justify-content: center;
+      display: flex;
+   }
+
+</style>
+<body>
+
+   <header th:replace="~{layout/shopHeader::shopHeader}"></header>
+   <!-- 빠진거 : 해시태그, 앨범 설명, 로그인 세션 유무(장바구니, 구매하기 로그인여부에따라) -->
+   
+<div class="cdData">
+   <div class="detailImg">
+      <div><img class="main-image" th:src="@{/manager/display.do(cdNo=${cd.cdNo})}"></div> 
+   
+         <div class="cd">
+            <div class="cdInfo">
+               <div class="hashtagName" id="hashtagName"></div>
+               <div class=cdTitle id="cdTitle" th:text="${cd.title}"></div>
+               <div class="cdPrice" id="cdPrice" th:text="${#numbers.formatDecimal(cd.price, 0, 'COMMA', 0, 'POINT')} + ' 원'" ></div>
+
+         <div class="count-group" style="margin-top: 85px;">
+           <div class = "count" style="display: flex; align-items: center; margin-left: 50px; margin-right: 150px;">수량</div>
+           <input type="button" class="btn btnBuyCount" onclick="fnBtnPlus()" value="+">
+           <input type="text" name="count" id="count" readonly="readonly">
+           <input type="button" class="btn btnBuyCount" onclick="fnBtnMinus()" value="-">
+         </div>
+         </div>
+           <span class="total" style="display: flex; justify-content: space-between; margin-bottom:20px; width: 400px;"> TOTAL : <div class="price" id="price"></div></span>
+         <div class="button-group">
+            <input type="button" id="btnAddToCart" class= btn  value="장바구니">
+            <input type="button" id="btnBuy" class="btn btnPrimary btnBuy" value="바로 구매하기" onclick="fnBuy()"/>
+         </div>   
       </div>
-  	</div>
+   </div>
+</div>
+   <div id="dImg"><img th:src="@{/manager/displaydetail.do(cdNo=${cd.cdNo})}"></div>
+                  
+                  
+   
+      
+   <div class="modalbutton">
+     <div class="popup" id="popup">
+       <div class="popup-inner">
+         <div class="popup__photo">
+            <img th:src="@{https://images.unsplash.com/photo-1515224526905-51c7d77c7bb8?ixlib=rb-0.3.5&s=9980646201037d28700d826b1bd096c4&auto=format&fit=crop&w=700&q=80}" alt="">
+         </div>
+         <div class="popup__text">
+            <div id="oceanModalTxt">
+            <h1>Ocean</h1> 
+            <h1>장바구니에 물품이 담겼습니다!</h1>
+            <h2>What's important is an unbreakable heart</h2>
+            </div>
+             <p>
+            "SEA" commonly refers to the body of water surrounding a landmass, while "OCEAN" 
+            refers to the vast and deep waters covering 71% of the Earth's surface. Our "OCEAN" 
+            represents the immense and far-reaching influence of K-pop. With that concept in mind,
+             we have planned a website.
+            The secrets of the ocean are still unknown, and we embark on a journey with Ocean, 
+            not knowing what it holds or where it leads. Join us and explore the unknown with Ocean!
+         </p>
+            <div id="container"> 
+               <form th:action="@{/shop/getCartDetailList.do}">
+                  <input type="hidden" name="cartNo" id="cartNo">
+                  <button class="btn" >장바구니이동</button>   
+                  <input type="button" id="keepShopping" class="btn" value="계속쇼핑하기" onclick="fnCloseModal()">                 
+               </form>
+            </div>
+         </div>
+         <a class="popup__close" href="javascript:fnCloseModal()">X</a>
+      </div>
+     </div>
   </div>
   
-	<script th:inline="javascript">
-	    
-	    // 함수 호출
-	    fnGetHashtagName();
-	    fnAddToCart();
-	  
-		/********** 해시태그 이름 가져오기 **********/
-	    function fnGetHashtagName(){
-	    	$.ajax({
-	    		type: 'get',
-	    		url: '/shop/getHashtagName.do',
-	    		data: 'cdNo=[[${cd.cdNo}]]',
-	    		dataType: 'json',
-	    		success: function(resData){  // resData = [{"name": "new"}, {"name": "hot"}]
-	    			let str = '';
-	    			$.each(resData, function(i, hashtag){
-	    				str += '<span>' + hashtag.name + '</span>';
-	    			})
-	    			$('#hashtagName').append(str);
-	    		}
-	    	})
-	    }
-	    
-	    
-		/********** 구매수량 조절(+/-) **********/
-		var count = 1;
-	    $('#count').val(count);
+   <script th:inline="javascript">
+       
+       // 함수 호출
+       fnGetHashtagName();
+       fnAddToCart();
+     
+      /********** 해시태그 이름 가져오기 **********/
+       function fnGetHashtagName(){
+          $.ajax({
+             type: 'get',
+             url: '/shop/getHashtagName.do',
+             data: 'cdNo=[[${cd.cdNo}]]',
+             dataType: 'json',
+             success: function(resData){  // resData = [{"name": "new"}, {"name": "hot"}]
+                let str = '';
+                $.each(resData, function(i, hashtag){
+                   str += '<span>' + hashtag.name + '</span>';
+                })
+                $('#hashtagName').append(str);
+             }
+          })
+       }
+       
+       
+      /********** 구매수량 조절(+/-) **********/
+      var count = 1;
+      $('#count').val(count);
+      
+      var stock = /*[[${cd.stock}]]*/ null;
+      var price = /*[[${cd.price}]]*/ null;
+      
+      function formatPrice(price) {
+          return price.toLocaleString('ko-KR');
+      }
+      
+      function fnBtnPlus() {
+          count++;
+          count = (count <= stock) ? count : stock;
+          $('#count').val(count);
+          $('#price').text(formatPrice(count * price) + '원');
+      }
+      
+      function fnBtnMinus() {
+          if (count == 1) {
+              alert('최소 주문 수량은 1개입니다.');
+              return;
+          }
+          count--;
+          $('#count').val(count);
+          $('#price').text(formatPrice(count * price) + '원');
+      }
 
-	    var stock = /*[[${cd.stock}]]*/ null;
-	    var price = /*[[${cd.price}]]*/ null;
-	    
-	    function fnBtnPlus() {
-	    	count++;
-	    	count = (count <= stock) ? count : stock
-	    	$('#count').val(count);
-	    	$('#price').text(count * price);
-	   	}
-	    
-	    function fnBtnMinus() {
-	    	if(count == 1) {
-	    		alert('최소 주문 수량은 1개입니다.');
-	    		return;
-	    	}
-	    	count--;
-	    	$('#count').val(count);
-	    	$('#price').text(count * price);
-	    }
 
-		
-		/***************장바구니 담기***********/
-		function fnAddToCart(){
-			$('#btnAddToCart').on('click', function(){
-				var loginEmail = /*[[${session.email}]]*/ null;
-			  	var userNo = /*[[${session.loginUsersNo}]]*/ null;
-			  	if(userNo == null) {
-			  		alert('로그인이 필요합니다. 로그인 페이지로 이동합니다.');
-			  		location.href='/login.html';
-			  	}
-				$.ajax({
-					type: 'post',
-					url: '/shop/addCartDetail.do',
-					data: 'userNo=[[${session.loginUsersNo}]]&cdNo=[[${cd.cdNo}]]&count=' + $('#count').val(),
-					dataType: 'json',
-					success: function(resData) {  // resData = {"addCartDetailResult": 1, "cartNo": 100}
-						console.log(resData);
-						if(resData.addCartDetailResult == 1){
-							$('#cartNo').val(resData.cartNo);
-							fnOpenModal();
-						} else {
-							alert('장바구니에 추가되지 않았습니다.');
-						}
-					},
-					error: function(jqXHR) {
-						alert('오류 발생');
-					}
-				});
-			})
-		}
-		
-		/* 장바구니에 담기 성공 시 모달 */
-		const modal = $('#popup');
-		function fnOpenModal() {
-			modal.css('visibility', 'visible').css('opacity', '1');
-		}
-		function fnCloseModal() {
-			modal.css('visibility', 'hidden').css('opacity', '0');
-		}
-		
-		
-		/*******************************************/
-		
-		
-		
-		
-		
-	</script>
-	
+      
+      /***************장바구니 담기***********/
+      function fnAddToCart(){
+         $('#btnAddToCart').on('click', function(){
+            var loginEmail = /*[[${session.email}]]*/ null;
+              var userNo = /*[[${session.loginUsersNo}]]*/ null;
+              if(userNo == null) {
+                 alert('로그인이 필요합니다. 로그인 페이지로 이동합니다.');
+                 location.href='/login.html';
+              }
+            $.ajax({
+               type: 'post',
+               url: '/shop/addCartDetail.do',
+               data: 'userNo=[[${session.loginUsersNo}]]&cdNo=[[${cd.cdNo}]]&count=' + $('#count').val(),
+               dataType: 'json',
+               success: function(resData) {  // resData = {"addCartDetailResult": 1, "cartNo": 100}
+                  console.log(resData);
+                  if(resData.addCartDetailResult == 1){
+                     $('#cartNo').val(resData.cartNo);
+                     fnOpenModal();
+                  } else {
+                     alert('장바구니에 추가되지 않았습니다.');
+                  }
+               },
+               error: function(jqXHR) {
+                  alert('오류 발생');
+               }
+            });
+         })
+      }
+      
+      /* 장바구니에 담기 성공 시 모달 */
+      const modal = $('#popup');
+      function fnOpenModal() {
+         modal.css('visibility', 'visible').css('opacity', '1');
+      }
+      function fnCloseModal() {
+         modal.css('visibility', 'hidden').css('opacity', '0');
+      }
+      
+      
+      /*******************************************/
+      
+      
+      
+      
+      
+   </script>
+   
 </body>
 </html>

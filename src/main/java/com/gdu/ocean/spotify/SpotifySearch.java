@@ -48,7 +48,6 @@ public class SpotifySearch {
 		try {
 			final Paging<Track> trackPaging = searchTracksRequest.execute();
 
-//			System.out.println("Total: " + trackPaging.getTotal());
 			track = trackPaging.getItems()[0];	//해당가수의 첫번째 음악
 			
 			String title = track.getName();
@@ -58,10 +57,6 @@ public class SpotifySearch {
 			map.put("title", title);
 			map.put("singer", singer);
 			list.add(map);
-//			artist=trackPaging.getItems()[0].getArtists()[0];	//해당 노래를 부르는 메인 가수
-//			preview = trackPaging.getItems()[0].getPreviewUrl();	//미리듣기
-//			System.out.println("미리듣기 : " +preview);
-			
 
 		} catch (IOException | SpotifyWebApiException | ParseException e) {
 			System.out.println("Error: " + e.getMessage());
