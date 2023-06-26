@@ -70,6 +70,7 @@
 	    width: 65%;
 	  }
 	}
+	
 
 	
 	#new:hover {
@@ -106,6 +107,9 @@
 		left: 50%;
 		margin-right: 30px;
 	}
+	
+	
+	
 	
 	p {
 	  font-size: 1.2em;

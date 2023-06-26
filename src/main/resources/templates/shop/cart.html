@@ -2,62 +2,7 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{/layout/shopHeader::shopHead('welcome')}"></head>
 <link rel="stylesheet" th:href="@{/css/cart.css(ver=1.0)}"/>
-
-  
-
-   
-   <body>
-      <div id="shopList">
-         <div class="nav_title1">
-            <img th:src="@{/photo/OCEAN.png}" class="nav_ocean_link1" th:onclick="'fnBackground()'" th:ondblclick="'fnOcean()'" >   
-         </div>
-          
-            <div id="all">
-               <div id="top">
-                  <div id="new">
-                     <h1>Cart</h1>
-                     <header th:replace="~{layout/shopHeader::shopHeader}"></header>
-                  </div>
-
-                      <div class="cartbox">
-                       <table style="margin: 0 auto;">
-                           <th:block th:each="cdc,vs:${cartDetailList}">
-                            <tr colspan="5">
-                                 <td>
-                                    <img th:src="@{${cdc.cdNo.mainImg}}" width="200px">
-                                 </td>
-                                 <td>
-                                    <div th:text="${cdc.cdNo.singer}" style="margin-bottom: 25px;"></div>
-                               <div th:text="${cdc.cdNo.title}" style="margin-bottom: 25px;"></div>
-                               <div style="display: flex; align-items: center; margin-bottom: 25px;">
-                                 <span style="margin-right: 10px;">수량:</span>
-                                 <div th:text="${cdc.count}" id="count"></div>
-                               </div>
-                               <div style="display: flex; align-items: center;">
-                                 <span style="margin-right: 10px;">가격:</span>
-                                 <div th:text="${cdc.cdNo.price}" id="price"></div>
-                               	 <div th:text="${cdc.cdNo.cdNo}" id="cdNo" style="visibility: hidden;">cd</div>
-                               </div>
-                                 </td>
-                              </tr>
-                       
-                      </table>
-                     </th:block>
-                           
-                     
-                          <form action="/order/order" method="get">
-                            <input type="hidden" name="userNo" th:value="${session.loginUsersNo}">
-                           <input type="hidden" name="cartNo" th:value="${cartNo}">
-                           <input type="hidden" name="cdNo" th:value="${cdNo}">
-                           <button>구매하기</button>
-                      <input th:type="text" id="total" name="total" th:value="total" readOnly="readonly">
-                      </div>
-                        </form>
-                        
-						
-                        </div>
-                     </div>
-        <script th:inline="javascript">
+<script>
           var total = 0;
    
             function fnTotal() {
@@ -66,7 +11,7 @@
                var priceElements = document.querySelectorAll("#price");
                
                total = 0; // 초기화
-   
+               var total = 0; // 초기화   
                for (var i = 0; i < cdNoElements.length; i++) {
                   var cdNo = cdNoElements[i].innerText;
                   var count = countElements[i].innerText;
@@ -80,7 +25,6 @@
             
             fnTotal(); // 페이지 로드 후 fnTotal() 실행
 </script>
-<<<<<<< HEAD
 
    
    <body>
@@ -118,30 +62,16 @@
                               </tr>
                         </th:block>
                       </table>
-<<<<<<< HEAD
-                        <div id="total" class="total"></div>
-                           
-                     
-                          <form action="/order/order" method="get">
-                          	<input type="hidden" name="total" id="total">
-=======
                         <input type="text" id="total" value="Total" readOnly="readonly">
                            
                      
                           <form action="/order/order" method="get">
->>>>>>> hera
                            <input type="hidden" name="userNo" th:value="${session.loginUsersNo}">
                            <input type="hidden" name="cartNo" th:value="${cartNo}">
                            <button>구매하기</button>
+                           <button>구매하기 찐버튼</button>
                         </form>
                       </div>
-<<<<<<< HEAD
-                        </div>
-                     </div>
-                  </div>
-
-
-=======
                         
 
                         </div>
@@ -151,8 +81,5 @@
             </div>
          </div>
 
->>>>>>> hera
-=======
->>>>>>> hera
 </body>
 </html>

@@ -69,9 +69,26 @@ public class ShopServiceImpl implements ShopService {
 	public void getCdByNo(int cdNo, Model model) {
 		model.addAttribute("cd", shopMapper.getCdByNo(cdNo));
 	}
-
+	
+	@Override
 	public List<HashtagDTO> getHashtagName(int cdNo) {
 		return shopMapper.getHashtagName(cdNo);
+	}
+	
+	@Override
+	public Map<String, Object> directBuy(int userNo, int cdNo, int count, int cartNo) {
+		CartDTO cartDTO = shopMapper.getCartByUserNo(userNo);
+		// 파라미터 전달용 Map
+		Map<String, Object> map = new HashMap<>();
+		map.put("cartNo", cartDTO.getCartNo());
+		map.put("cdNo", cdNo);
+		map.put("count", count);
+		
+		Map<String, Object> resultMap = new HashMap<String,Object>();
+		resultMap.put("directResult", shopMapper.addCartDetail(map));
+		resultMap.put("cartNo", cartNo);
+		
+		return resultMap;
 	}
 	
 	@Override

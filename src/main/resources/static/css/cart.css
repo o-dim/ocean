@@ -1,7 +1,5 @@
 @charset "UTF-8";
 
-<<<<<<< HEAD
-<<<<<<< HEAD
    @font-face {
        font-family: 'GmarketSansMedium';
        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
@@ -56,10 +54,6 @@
       margin: 20px 0;
    }
    
-=======
->>>>>>> hera
-=======
->>>>>>> hera
 
    @font-face {
        font-family: 'GmarketSansMedium';
@@ -77,61 +71,29 @@
       position: sticky;
       margin: 0 auto;
       background-color: #d9d9d9;
-<<<<<<< HEAD
-<<<<<<< HEAD
-      width: 800px;
-=======
       width: 1400px;
->>>>>>> hera
+      width: 800px;
       height: 1250px;
       padding-top: 60px;
       padding-right: 50px;
       border-radius: 20px;
-<<<<<<< HEAD
+      text-align: center;
+      margin-left: 200px;
       margin-left: 50px;
-=======
-      text-align: center;
-      margin-left: 200px;
->>>>>>> hera
-=======
-      width: 1400px;
-      height: 800px;
-      padding-top: 60px;
-      padding-right: 50px;
-      border-radius: 20px;
-      text-align: center;
-      margin-left: 200px;
->>>>>>> hera
       margin-top: 40px;
    
    }
    
    table {
-<<<<<<< HEAD
-<<<<<<< HEAD
-      width: 70%;
-      font-size: 16px;
-=======
       width: 800px;
       font-size: 24px;
->>>>>>> hera
-=======
-      width: 1200px;
-      font-size: 24px;
->>>>>>> hera
+      width: 70%;
+      font-size: 16px;
       border-top: 1px solid black;
       border-bottom: 1px solid black;
       margin: 0 auto;
       
    }
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-   button {
-     font-size: 24px;
-=======
-=======
->>>>>>> hera
    
    img {
       width: 250px;
@@ -142,10 +104,9 @@
    
    button {
        font-size: 24px;
-<<<<<<< HEAD
->>>>>>> hera
-=======
->>>>>>> hera
+
+   button {
+     font-size: 24px;
      font-family: 'GmarketSansMedium';
      border:1px solid black;
      background-color: #e9e9e9;
@@ -154,7 +115,7 @@
      bottom: 0;
      left: 50%;
      transform: translateX(-50%);
-     margin-bottom: 180px;
+     margin-bottom: 20px;
 }
    
    button:hover {
@@ -163,36 +124,16 @@
 
    
    .cartbox input[type="text"] {
-<<<<<<< HEAD
-<<<<<<< HEAD
+      font-size: 24px;
       font-size: 16px;
-=======
-      font-size: 24px;
->>>>>>> hera
-=======
-      font-size: 24px;
->>>>>>> hera
       font-family: 'GmarketSansMedium';
       background-color: #d9d9d9;
       border: transparent;
       margin: 20px 0;
    }
    
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
+ 
    
    
 
    
->>>>>>> hera
-=======
-   #total {
-   	float : right;
-   }
-   
-   
-   
-
-   
->>>>>>> hera

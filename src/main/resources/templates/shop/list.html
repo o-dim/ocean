@@ -20,9 +20,7 @@
 						<div id="picture">
 							<img th:src="@{/photo/blackpink2.jpg}">
 						</div>
-					</div>
-				</div>
-					<div class="searchBar">
+					</div>	
 					<form id="frmSearch">
 						<select name="type" id="type" class="type">
 							<option value="title" id="title">title</option> 
@@ -31,7 +29,6 @@
 						<input type="text" id="searchText1" name="searchText1" class="searchText1" placeholder="음악의 대서양을 항해하다.Ocean" >
 						<span class="material-icons" id="searchicons" onclick="fnSearch()">search</span>
 					</form>
-					</div>	
 					
 					<div id="cdTable">
 							<th:block th:each="cd,vs:${cdList}">
@@ -41,7 +38,7 @@
     									<div id="listMainImg" class="photo">
 										<a th:href="@{/shop/detail.do(cdNo=${cd.cdNo})}">
 											 <div class="photo__feather"></div>
-											<img th:src="@{/manager/display.do(cdNo=${cd.cdNo})}" class="photo__image" >
+											<img th:src="@{/manage/display.do(cdNo=${cd.cdNo})}" class="photo__image" >
 			            				</a>
 									</div>
 								</div>
