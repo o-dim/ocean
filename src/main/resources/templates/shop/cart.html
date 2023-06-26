@@ -62,23 +62,20 @@
                               </tr>
                         </th:block>
                       </table>
-                        <input type="text" id="total" value="Total" readOnly="readonly">
+                        <div id="total" class="total"></div>
                            
                      
                           <form action="/order/order" method="get">
+                          	<input type="hidden" name="total" id="total">
                            <input type="hidden" name="userNo" th:value="${session.loginUsersNo}">
                            <input type="hidden" name="cartNo" th:value="${cartNo}">
                            <button>구매하기</button>
                         </form>
                       </div>
-                        
-
                         </div>
                      </div>
                   </div>
-               </div>
-            </div>
-         </div>
+
 
 </body>
 </html>
