@@ -1,5 +1,6 @@
 @charset "UTF-8";
 <<<<<<< HEAD
+<<<<<<< HEAD
    
    .listContent{
       display: flex;
@@ -15,6 +16,8 @@
    #cdTable {
    display: flex;
 =======
+=======
+>>>>>>> hera
 	
 	.listContent{
 		display: flex;
@@ -29,6 +32,9 @@
 	
 	#cdTable {
 	display: flex;
+<<<<<<< HEAD
+>>>>>>> hera
+=======
 >>>>>>> hera
     margin-top: 18px;
     width: 93%;
@@ -38,6 +44,7 @@
     flex-wrap: wrap;
     justify-content: space-between;
     flex-direction: row-reverse;
+<<<<<<< HEAD
 <<<<<<< HEAD
    }
    
@@ -138,6 +145,8 @@
         color: #efefef;
    }
 =======
+=======
+>>>>>>> hera
 	}
 	
 	#cdTable > * {
@@ -236,27 +245,31 @@
 	#new:hover {
   		color: #efefef;
 	}
+<<<<<<< HEAD
+>>>>>>> hera
+=======
 >>>>>>> hera
 
-   #new:after {
-     content: '';
-     margin-right: 30px;
-     display: block;
-     position: absolute;
-     top: 100%;
-     right: 0;
-     bottom: 0;
-     left: 0;
-     background: #333333;
-     z-index: -1;
-     background: -webkit-linear-gradient(#333333, #333333);
-     background: linear-gradient(#333333, #333333);
-   }
-   
-   #picture {
-      margin-left: 100px;
-   }
+	#new:after {
+	  content: '';
+	  margin-right: 30px;
+	  display: block;
+	  position: absolute;
+	  top: 100%;
+	  right: 0;
+	  bottom: 0;
+	  left: 0;
+	  background: #333333;
+	  z-index: -1;
+	  background: -webkit-linear-gradient(#333333, #333333);
+	  background: linear-gradient(#333333, #333333);
+	}
+	
+	#picture {
+		margin-left: 100px;
+	}
 
+<<<<<<< HEAD
 <<<<<<< HEAD
    body {
     font-family: lato, sans-serif;
@@ -272,6 +285,8 @@
       padding-right: 39px;
    }
 =======
+=======
+>>>>>>> hera
 	body {
     font-family: lato, sans-serif;
     font-size: 16px;
@@ -285,13 +300,17 @@
 		flex-direction: row;
 		padding-right: 39px;
 	}
+<<<<<<< HEAD
+>>>>>>> hera
+=======
 >>>>>>> hera
 
-   #all {
-      display: flex;
-      flex-direction: column;
-      left: 200px;      
+	#all {
+		display: flex;
+		flex-direction: column;
+		left: 200px;		
 
+<<<<<<< HEAD
 <<<<<<< HEAD
    }
    
@@ -326,6 +345,8 @@
    a {
        display: inline-block;
 =======
+=======
+>>>>>>> hera
 	}
 	
 	h1 {
@@ -358,11 +379,15 @@
 	
 	a {
 	    display: inline-block;
+<<<<<<< HEAD
+>>>>>>> hera
+=======
 >>>>>>> hera
     position: relative;
     color: #333333;
     text-decoration: none;
     padding: 1.2em 1em;
+<<<<<<< HEAD
 <<<<<<< HEAD
    }
    
@@ -385,6 +410,8 @@
    border-bottom: 2px solid #c0bfbe;
    }
 =======
+=======
+>>>>>>> hera
 	}
 	
 	a:hover {
@@ -405,17 +432,21 @@
 	.nav_ocean:hover{
 	border-bottom: 2px solid #c0bfbe;
 	}
+<<<<<<< HEAD
+>>>>>>> hera
+=======
 >>>>>>> hera
 
-   
-   
-   /* detail css */
-   #detailImg {
-      display: flex;
-      width: 300px;
-   }
-   
+	
+	
+	/* detail css */
+	#detailImg {
+		display: flex;
+		width: 300px;
+	}
+	
 
+<<<<<<< HEAD
 <<<<<<< HEAD
    
    
@@ -435,6 +466,8 @@
    body {
     background: var(--bg);
 =======
+=======
+>>>>>>> hera
 	
 	
 		
@@ -452,6 +485,9 @@
 	
 	body {
 	 background: var(--bg);
+<<<<<<< HEAD
+>>>>>>> hera
+=======
 >>>>>>> hera
     min-height: 100vh;
     min-width: 150vh;
@@ -464,8 +500,13 @@
     align-items: center;
     align-content: center;
 <<<<<<< HEAD
+<<<<<<< HEAD
      
    }
+=======
+	  
+	}
+>>>>>>> hera
 =======
 	  
 	}
@@ -505,6 +546,7 @@ box-shadow: 0 0 10px 10px var(--bg) inset, 0 0 30px 20px #c9c9c9 inset, 0 0 50px
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
    #searchicons:hover {
       cursor: pointer;
    }
@@ -518,6 +560,8 @@ box-shadow: 0 0 10px 10px var(--bg) inset, 0 0 30px 20px #c9c9c9 inset, 0 0 50px
       height: 100px;
    }
 =======
+=======
+>>>>>>> hera
 	#searchicons:hover {
 		cursor: pointer;
 	}
@@ -530,6 +574,9 @@ box-shadow: 0 0 10px 10px var(--bg) inset, 0 0 30px 20px #c9c9c9 inset, 0 0 50px
 		width: 200px;
 		height: 100px;
 	}
+<<<<<<< HEAD
+>>>>>>> hera
+=======
 >>>>>>> hera
 
 

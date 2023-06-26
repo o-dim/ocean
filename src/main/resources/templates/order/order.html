@@ -41,6 +41,7 @@ function execDaumPostcode() {
  */
 $(function() {
 <<<<<<< HEAD
+<<<<<<< HEAD
    var orderNum = "";
    function createOrderNum() {
       const date = new Date();
@@ -76,6 +77,8 @@ $(function() {
       })
    })
 =======
+=======
+>>>>>>> hera
 	var orderNum = "";
 	function createOrderNum() {
 		const date = new Date();
@@ -104,13 +107,16 @@ $(function() {
 			}
 		})
 	})
+<<<<<<< HEAD
+>>>>>>> hera
+=======
 >>>>>>> hera
 })
 
 
-
 </script>
 <body>
+<<<<<<< HEAD
 <<<<<<< HEAD
    <section class="container">
       <div class="prod_list">
@@ -168,6 +174,9 @@ $(function() {
       </div>
    </section>
 =======
+=======
+
+>>>>>>> hera
 	<section class="container">
 		<div class="prod_list">
 			<table border="1">
@@ -197,19 +206,20 @@ $(function() {
 			<input type="text" name="buyer_name" value="${cdc.cartNo.userNo.name}">
 			<input type="text" name="buyer_tel" value="${cdc.users.phoneNo}">
 			<input type="text" name="buyer_email" value="${cdc.usersDTO.email}">
+			
 			<form action="/order/ready" method="post" id="kakaopay">
 				<div>받으시는 분</div>
 				<!--  주문자와 받는 사람이 같은 경우 값이 자동으로 입력되도록 하기 -->
 				<input type="button" value="주문자와 동일합니다" onclick="sameorder()">
 				<!--  아닌 경우에는 각자 입력하도록 -->
-				<label for="buyer_name">이름</label>
-				<input type="text" id="buyer_name" placeholder="${cdc.usersDTO.name}">
+				<label for="payUserName">이름</label>
+				<input type="text" id="payUserName" name="payUserName">
 				
-				<label for="buyer_tel">전화번호</label>
-				<input type="tel" name="buyer_tel" placeholder="${cdc.usersDTO.phoneNo}"> <!--  이게 가능한지모르겠어...  -->
+				<label for="tel">전화번호</label>
+				<input type="tel" id="tel" name="tel">
 				
-				<label for="buyer_email">이메일</label>
-				<input type="text" name="buyer_email">
+				<label for="email">이메일</label>
+				<input type="text" id="email" name="email">
 				
 				
 				<label for="postcode">우편번호</label>
@@ -224,6 +234,10 @@ $(function() {
 			</form>
 		</div>
 	</section>
+<<<<<<< HEAD
+>>>>>>> hera
+=======
+  
 >>>>>>> hera
 </body>
 </html>

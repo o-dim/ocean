@@ -34,6 +34,7 @@ import retrofit2.http.GET;
 @RequiredArgsConstructor
 public class KakaoPayController {
 <<<<<<< HEAD
+<<<<<<< HEAD
    
    private final KakaopayService kakaoPayService;
    private final ShopService shopService;
@@ -157,6 +158,8 @@ public class KakaoPayController {
    }
    
 =======
+=======
+>>>>>>> hera
 	
 	private final KakaopayService kakaoPayService;
 	private final ShopService shopService;
@@ -243,6 +246,7 @@ public class KakaoPayController {
 		String tid = (String) session.getAttribute("tid");
 		// 카카오 결제 요청
 		KakaoApproveResponse approveResponse = kakaoPayService.kakaoPayApprove(tid, pgToken);
+		
 		log.info("KakapayCompleted찐찐성공 : " + approveResponse);
 		// 성공한 카트애들을 ORDER 테이블로 이동하기
 		
@@ -253,13 +257,14 @@ public class KakaoPayController {
 	public String completedPage() {
 		return "/order/kakaopayCompleted";
 	}
+	
 	/*
 	 * 	결제 취소
 	 */
 	@GetMapping("/order/kakaopayCancel")
 	public String kakaoPayCancel() {
 		log.info("kakaopayCancel..............");
-		return "/order/kakaopayCancel";
+		return "shop/list";
 	}
 	
 	/*
@@ -271,5 +276,9 @@ public class KakaoPayController {
 		return "redirect:/order/kakaopayFail";
 	}
 	
+<<<<<<< HEAD
+>>>>>>> hera
+=======
+   
 >>>>>>> hera
 }
