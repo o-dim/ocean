@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{/layout/header::oceanHead('kakaopay실험성공')}"></head>
+<head th:replace="~{/layout/header::oceanHead('결제 완료')}"></head>
 <script th:src="@{/js/lib/jquery-3.6.4.min.js}"></script>
 <script>
 </script>
 <body>
-	결과 400 / code -702 : 이미 처리된 결제
 	결제 성공!!!!!<br/>
+	<a th:href="@{/}">메인 화면으로 가기</a>
 </body>
 </html>
