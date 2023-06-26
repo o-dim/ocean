@@ -10,6 +10,7 @@
 	<meta charset="UTF-8">
 	<title th:text="${title}"></title>
 	<script th:src="@{/js/lib/jquery-3.6.4.min.js}"></script>
+	 <link rel="stylesheet" th:href="@{/css/order.css(ver=1.0)}">
 	<link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css}" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 </head>
@@ -110,8 +111,8 @@
 					<a href="#">SHOP</a>
 					<ul>
 						<li><a th:href="@{/shop/list.do}">new</a></li>
-						<li><a th:href="@{/shop/preOrder.do}">pre-order</a></li>
-						<li><a th:href="@{/shop/idol.do}">idol</a></li>
+						<li><a th:href="@{/shop/preOrder.html}">pre-order</a></li>
+						<li><a th:href="@{/shop/idol.html}">idol</a></li>
 					</ul>
 				</li>
 				<li>
