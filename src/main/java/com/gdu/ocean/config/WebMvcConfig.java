@@ -22,7 +22,7 @@ public class WebMvcConfig implements WebMvcConfigurer{
    @Override
    public void addInterceptors(InterceptorRegistry registry) {
       registry.addInterceptor(loginCheckInterceptor)
-            .addPathPatterns("/users/logout.do", "/users/mypage.do"); // 모든 요청 
+            .addPathPatterns("/users/logout.do", "/users/mypage.do", "/order"); // 모든 요청 
              
         registry.addInterceptor(autologinIntercepter)
               .addPathPatterns("/**");

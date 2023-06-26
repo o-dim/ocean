@@ -45,7 +45,7 @@
       background-color: #c0c0c0;
       margin-right: 100px;
       border-radius: 20px;
-      margin-left: 500px;
+      margin-left: 10%;
    }
    
    .order_list {
@@ -140,9 +140,9 @@
    }
    
    .kakaopaybtn {
-      width: 1200px;
+      width: 600px;
       height: 80px;
-      margin-left: 850px;
+      float: right;
    }
    
    #btn-kakao-pay {
@@ -152,7 +152,4 @@
       background-color: black;
       color: white;
    }
-   
-   
-   
    
