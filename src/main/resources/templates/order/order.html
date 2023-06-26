@@ -42,6 +42,7 @@ function execDaumPostcode() {
  * 주문번호 무작위 생성 메소드 d
  */
 $(function() {
+	var orderNum = "";
 	function createOrderNum() {
 		const date = new Date();
 		const year = date.getFullYear();
@@ -56,29 +57,27 @@ $(function() {
 	}
 	
 	$("#kakaopay").on('submit', function(){//카카오 눌렀을떄 서브밋이된다
-		
-		function kakaopay () {
-			$.ajax({
-				type:'post',
-				url:'/order/ready',
-				data:{
-					order_id : "33333233",
-					item_name : "ㅇ",
-					total_amount: 100000,
-					pay_user_name: $("#buyer_name").val(),
-					total_price: 100000,
-					tel: $("#buyer_tel").val(),
-					email: $("#buyer_email").val(),
-				},
-				success : 
-					function(resData){
-						window.location.href = resData;
-					}
-			})
-			
-		}
+		var totalValue = document.getElementById("total").innerText;
+		console.log(totalValue);
+		$.ajax({
+			type:'post',
+			url:'/order/ready',
+			data:{
+				order_id : orderNum,
+				item_name : "oceanCD",
+				total_amount: totalValue,
+				pay_user_name: $("#buyer_name").val(),
+				total_price: totalValue,
+				tel: $("#buyer_tel").val(),
+				email: $("#buyer_email").val(),
+			},
+			success : function(resData){
+					window.location.href = resData;
+			}
+		})
 	})
 })
+
 
 
 </script>
@@ -103,7 +102,7 @@ $(function() {
 				</tbody>
 			</table>
 			<div>
-				<span name="total" id="total"></span>
+				<span name="total" id="total" th:text=${total}></span>
 				<span>총 가격 필요</span>
 			</div>
 		</div>

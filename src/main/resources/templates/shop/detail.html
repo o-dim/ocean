@@ -2,15 +2,23 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{/layout/shopHeader3::shopHead('welcome')}"></head>
 <body>
+		<div id="shopList">
+				<div class="cdData">
+					<div class="nav_title1">
+				   		<img th:src="@{/photo/OCEAN.png}" class="nav_ocean_link1">	
+				   	</div>
+					<div id="all">
+						<div id="top">
+						<h1></h1>
+						<header th:replace="~{layout/shopHeader::shopHeader}"></header>		
+						</div>
+					</div>
 
-	<header th:replace="~{layout/shopHeader::shopHeader}"></header>
-	<!-- 빠진거 : 해시태그, 앨범 설명, 로그인 세션 유무(장바구니, 구매하기 로그인여부에따라) -->
-	
 	<div class="cdData">
 		<table>
 			<tr class="detailImg" >
 				<td rowspan="2">
-					<img th:src="@{/manager/display.do(cdNo=${cd.cdNo})}">
+					 <img th:src="@{/manager/display.do(cdNo=${cd.cdNo})}">
 				</td>
 				<td class="cdInfo" colspan="5">
 					<div th:text="${cd.singer}"></div>

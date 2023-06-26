@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.catalina.manager.util.SessionUtils;
 import org.apache.hc.core5.http.impl.bootstrap.HttpServer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.server.Session;
@@ -34,7 +35,7 @@ public class KakaopayService {
 	/*
 	 * 결제요청시도
 	 */
-	public KakaoReadyResponse kakaoPayReady() {
+	public KakaoReadyResponse kakaoPayReady(int total) {
 //		UsersDTO user = (UsersDTO)SessionUtils.getattribute("로그인아이디설정한거");
 //		List<CartDTO> carts = cartMapper..getCartByUserEmail(user.getEmail(); // 암튼 이런이름으로 있겠지...
 //		
@@ -48,9 +49,9 @@ public class KakaopayService {
 //			}
 //		}
 //		String itemName = cartNames[0];
-		String itemName = "ocean CD";
+		String itemName = "oceanCD";
 		String orderId = "3333333";
-		String totalAmount = "2222";
+		log.info("서비스 금액............" + total);
 		/*
 		 * 카카오 페이가 요구하는 결제요청 request 담기
 		 * */
@@ -60,7 +61,7 @@ public class KakaopayService {
 		parameters.add("partner_user_id", "ocean");
 		parameters.add("item_name", itemName); 
 		parameters.add("quantity", "1"); // String.valueOf(carts.size()) 총개수  
-		parameters.add("total_amount", "" + totalAmount);
+		parameters.add("total_amount", String.valueOf(total));
 		parameters.add("tax_free_amount", "0");
 		parameters.add("approval_url", "http://localhost:8080/order/payCompleted"); // 결제승인시 넘어갈 url
 		parameters.add("cancel_url", "http://localhost:8080/order/kakaopayCancel"); // 결제취소시 넘어갈 url
@@ -89,7 +90,7 @@ public class KakaopayService {
 	 */
 	public KakaoApproveResponse kakaoPayApprove(String tid, String orderId, String pgToken) {
 		// 장바구니 dto 뽑아오든지 언니가 지정해주면 됨.
-		String itemName = "소민이네 카카오페이^.^";
+		String itemName = "oceanCD";
 		// request값 담기.
 		MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
 		parameters.add("cid", "TC0ONETIME");

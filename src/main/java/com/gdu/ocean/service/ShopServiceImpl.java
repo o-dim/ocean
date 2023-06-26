@@ -32,7 +32,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ShopServiceImpl implements ShopService {
 
 	private final ShopMapper shopMapper;
-	private final PageUtil pageUtil;
+	private final PageUtil pageUtil2;
 	
 	@Override
 	public void getCdList(HttpServletRequest request, Model model) {
@@ -54,15 +54,15 @@ public class ShopServiceImpl implements ShopService {
 		
 		int totalRecord = shopMapper.getCdCount();
 		int recordPerPage = 20;
-		pageUtil.setPageUtil(page, totalRecord, recordPerPage);
+		pageUtil2.setPageUtil(page, totalRecord, recordPerPage);
 
-		map.put("begin", pageUtil.getBegin());
+		map.put("begin", pageUtil2.getBegin());
 		map.put("recordPerPage", recordPerPage);
 		
 		List<CdDTO> cdList = shopMapper.getCdList(map);
 		model.addAttribute("cdList", cdList);
 		model.addAttribute("beginNo", totalRecord - (page - 1) * recordPerPage);
-		model.addAttribute("pagination", pageUtil.getPagination("/shop/list.do?searchText1" + searchText1));
+		model.addAttribute("pagination", pageUtil2.getPagination("/shop/list.do?searchText1" + searchText1));
 	}
 	
 	@Override

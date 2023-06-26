@@ -38,8 +38,9 @@ public class KakaoPayController {
 	
 	
 	@GetMapping("/order/order")
-	public String order(int cartNo, int userNo, Model model) {
+	public String order(int cartNo, int userNo, int total, Model model) {
 		shopService.getCartDetailList(cartNo, model);
+		model.addAttribute("total", total);
 		return "/order/order";
 	}
 	/*
@@ -72,10 +73,11 @@ public class KakaoPayController {
 
 	@PostMapping("/order/ready")
 	@ResponseBody
-	public String kakaoPayReady(HttpSession session) {
+	public String kakaoPayReady(HttpSession session, @RequestParam("total_amount") int total) {
 		log.info("kakaopayReady 성공..............");
-		
-		KakaoReadyResponse readyResponse = kakaoPayService.kakaoPayReady();
+		log.info("total금액.................." + total);
+		session.setAttribute("total", total);
+		KakaoReadyResponse readyResponse = kakaoPayService.kakaoPayReady(total);
 		session.setAttribute("tid", readyResponse.getTid());
 		log.info("kakaopayReady tid : " + readyResponse.getTid());
 		//log.info(".........주문가격 : "+totalAmount);

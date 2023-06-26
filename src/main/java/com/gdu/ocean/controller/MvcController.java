@@ -11,8 +11,11 @@ public class MvcController {
 		return "index"; // src/main/resources/templates/index.html
 	}
 	
-	@GetMapping("/login.html")
-	public String cartGotoLogin() {
-		return "/users/login";
+	@GetMapping("/cartLogin.html")
+	   public String cartGotoLogin() {
+	      return "users/login";
+	   }
 	}
-}
+
+	
+
