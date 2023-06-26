@@ -64,9 +64,9 @@ public class KakaopayService {
 		parameters.add("quantity", "1"); // String.valueOf(carts.size()) 총개수  
 		parameters.add("total_amount", String.valueOf(total)); // int total 받을 시에는 total대신 String.valueOf(total)
 		parameters.add("tax_free_amount", "0");
-		parameters.add("approval_url", "http://localhost:8080/order/payCompleted"); // 결제승인시 넘어갈 url
-		parameters.add("cancel_url", "http://localhost:8080/order/kakaopayCancel"); // 결제취소시 넘어갈 url
-		parameters.add("fail_url", "http://localhost:8080/order/kakaopayFail"); // 결제 실패시 넘어갈 url
+		parameters.add("approval_url", "http://quddls6.cafe24.com/order/payCompleted"); // 결제승인시 넘어갈 url
+		parameters.add("cancel_url", "http://quddls6.cafe24.com/order/kakaopayCancel"); // 결제취소시 넘어갈 url
+		parameters.add("fail_url", "http://quddls6.cafe24.com/order/kakaopayFail"); // 결제 실패시 넘어갈 url
 		log.info("파트너 주문 아이디 : " + parameters.get("partner_order_id"));
 
 		HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(parameters, this.getHeader());

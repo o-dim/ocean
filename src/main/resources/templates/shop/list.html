@@ -20,7 +20,9 @@
 						<div id="picture">
 							<img th:src="@{/photo/blackpink2.jpg}">
 						</div>
-					</div>	
+					</div>
+				</div>
+					<div class="searchBar">
 					<form id="frmSearch">
 						<select name="type" id="type" class="type">
 							<option value="title" id="title">title</option> 
@@ -29,6 +31,7 @@
 						<input type="text" id="searchText1" name="searchText1" class="searchText1" placeholder="음악의 대서양을 항해하다.Ocean" >
 						<span class="material-icons" id="searchicons" onclick="fnSearch()">search</span>
 					</form>
+					</div>	
 					
 					<div id="cdTable">
 							<th:block th:each="cd,vs:${cdList}">

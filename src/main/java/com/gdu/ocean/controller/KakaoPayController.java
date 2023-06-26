@@ -137,7 +137,7 @@ public class KakaoPayController {
 	@GetMapping("/order/kakaopayCancel")
 	public String kakaoPayCancel() {
 		log.info("kakaopayCancel..............");
-		return "/order/kakaopayCancel";
+		return "shop/list";
 	}
 	
 	/*
