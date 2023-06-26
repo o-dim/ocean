@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{/layout/manageheader::headFrag('CD등록')}"></head>
+<script th:src="@{/js/lib/jquery-3.6.4.min.js}"></script>
+<link rel="stylesheet" th:href="@{/css/cdadd.css(ver=1.0)}">
+<script>
+
+   $(function(){
+      $('.hashtag').on('click', function(){
+         $(this).next().toggleClass('checked');
+      })
+   })
+
+</script>
+
+<body>
+
+   <div th:replace="~{/layout/manageheader::gnbFrag}"></div>
+   <div class="logo-top">
+          <a th:href="@{/}"><img th:src="@{/photo/OCEAN2.png}"></a>
+      </div>   
+      <div class="logo-btm">
+          <img th:src="@{/photo/OCEAN2.png}">
+      </div>  
+   <div class="all">
+   
+      <form method="post" th:action="@{/manage/addCd.do}" enctype="multipart/form-data">
+         <div class="add">
+            <div>
+               <label for="title">CD이름</label>
+               <input type="text" id="title" name="title">
+            </div>
+            <div>
+               <label for="singer">아티스트</label>
+               <input type="text" id="singer" name="singer">   
+            </div>
+            <div>
+               <div class="hashtag"><span>해시태그&nbsp;&nbsp;&nbsp;</span>
+                  <div class="hashtag_1" th:each="ht:${hashtagList}">
+                     <span>
+                        <input type="checkbox" name="hashtagNoList" th:value="${ht.htNo}" class="hashtag" th:id="|hashtag${ht.htNo}|">
+                        <label th:for="|hashtag${ht.htNo}|" th:id="|hashtagtext${ht.htNo}|" th:text="${ht.name}"></label>
+                     </span>
+                  </div>
+               </div>
+            </div>
+            <div>
+               <label for="price">CD가격</label>
+               <input type="text" id="price" name="price">
+            </div>
+             <div>
+               <label for="stock">재고</label>
+               <input type="text" id="stock" name="stock">
+            </div>
+            <div>
+              <label for="mainImg">메인이미지</label>
+              <input type="file" name="mainImg" id="mainImg">
+            </div>
+            <div>
+              <label for="detailImg">상세이미지</label>
+              <input type="file" name="detailImg" id="detailImg">
+            </div>
+         <div class="btn">
+            <button>상품 등록하기</button>
+         </div>
+         </div>
+      </form>
+      
+   </div>
+   
+</body>
+</html>

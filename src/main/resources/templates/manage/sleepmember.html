@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{/layout/manageheader::headFrag('게시판관리')}"></head>
+<link rel="stylesheet" th:href="@{/css/sleepmember.css(ver=1.0)}">
+
+<body>
+
+	<div th:replace="~{/layout/manageheader::gnbFrag}"></div>
+		<div class="logo-top">
+	    	<a th:href="@{/}"><img th:src="@{/photo/OCEAN2.png}"></a>
+		</div>	
+		<div class="logo-btm">
+		    <img th:src="@{/photo/OCEAN2.png}">
+		</div>	
+
+	<div class="all">
+		<div class="wrap">
+			<form id="frm1" th:action="@{/manage/sleepmember.do}">
+				<div class="group">
+					<div class="selectBox">
+						<select th:name="column" th:id="column">
+							<option th:value="NAME">NAME</option>
+							<option th:value="EMAIL">EMAIL</option>
+						</select>
+					</div>
+					<div>
+						<input class="search_query" type="text" th:name="query" th:id="query">
+						<button class="btn"><i class="fa-solid fa-magnifying-glass" ></i></button>
+					</div>
+				</div>
+			</form>
+
+			<table>
+				<thead>
+					<tr>
+						<td>회원번호</td>
+						<td>이름</td>
+						<td>이메일</td>
+						<td>휴대폰번호</td>
+						<td>우편번호</td>
+						<td>도로명주소</td>
+						<td>상세주소</td>
+						<td>가입일</td>
+						<td>휴면된날짜</td>
+					</tr>
+				</thead>
+				<tbody>
+					<th:block th:each="sleepUser,vs:${sleepUserList}">
+						<tr>
+							<td th:text="${sleepUserNo - vs.index}"></td>
+							<td th:text="${sleepUser.name}"></td>
+							<td th:text="${sleepUser.email}"></td>
+							<td th:text="${sleepUser.phoneNo}"></td>
+							<td th:text="${sleepUser.postcode}"></td>
+							<td th:text="${sleepUser.roadAddress}"></td>
+							<td th:text="${sleepUser.detailAddress}"></td>
+							<td th:text="${#dates.format(sleepUser.joinedAt, 'YYYY년 MM월 dd일')}"></td>
+							<td th:text="${#dates.format(sleepUser.sleptAt, 'YYYY년 MM월 dd일')}"></td>
+						</tr>
+					</th:block>			
+				</tbody>
+				<tfoot>
+					<tr>
+						<td class="page" colspan="12" th:utext="${pagination}"></td>
+					</tr>
+				</tfoot>
+			</table>
+		</div>
+	</div>
+	
+	
+	
+</body>
+</html>

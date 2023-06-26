@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{/layout/manageheader::headFrag('판매목록및관리')}"></head>
+<link rel="stylesheet" th:href="@{/css/salelist.css(ver=1.0)}"/>
+<script>
+
+   $(function(){
+
+      var cdNo = $('.cdNo');
+      
+      $.ajax({
+         type : 'get',
+         url : '/manage/getHashtag.do',
+         data : $('.cdNo').serialize(),
+         dataType : 'json',
+         success : function(resData) {
+            for(let a = 0; a < cdNo.length; a++){
+               $.each(resData.hashtagList, function(i, hashtag){
+                  let currentCdNo = $(cdNo[a]).val();
+                  if(currentCdNo == hashtag.cdNo){
+                     $(cdNo[a]).parent().append('<span>' + hashtag.name + '</span>');
+                  }
+               })
+            }
+         }
+      })
+
+      $('.frm_remove').on('submit', function(event){
+         if(confirm('삭제할까요?') == false){
+            event.preventDefault();
+            return;
+         }
+      })
+      
+   })
+
+</script>
+
+
+<body>
+   
+   <div th:replace="~{/layout/manageheader::gnbFrag}"></div>
+		<div class="logo-top">
+          <a th:href="@{/}"><img th:src="@{/photo/OCEAN2.png}"></a>
+		</div>   
+      <div class="logo-top">
+          <a th:href="@{/}"><img th:src="@{/photo/OCEAN2.png}"></a>
+      </div>   
+   <div class="all">
+      <div class="searchbar">
+         <div class="searchbar_1">
+            <form id="frm" th:action="@{/manage/salelist.do}">
+            <input class="search-bar__input" type="text" th:id="query" th:name="query">
+               <button class="btn">
+                  <i class="fa-solid fa-magnifying-glass"></i>
+               </button>
+            </form>
+         </div>
+         <div>
+         </div>
+      </div>
+      <div class="btn1">
+         <a th:href="@{/manage/cdadd.html}">상품 등록하기</a>
+      </div>
+      
+      
+      <div>
+         
+         <table style="margin: 0 auto;">
+            <th:block th:each="cd,vs:${cdList}">
+               <tbody class="hashtag">
+                  <tr>
+                     <td rowspan="4" ><img th:src="@{/manage/display.do(cdNo=${cd.cdNo})}"></td>
+                     <td th:text="${cd.title}"></td>
+                     <td>
+                        <form class="frm_remove" method="post" th:action="@{/manage/remove.do}">
+                           <input type="hidden" th:name="cdNo" th:value="${cd.cdNo}">
+                           <button>삭제</button>
+                        </form>
+                     </td>
+                  </tr>
+                  <tr>
+                     <td th:text="${cd.singer}"></td>
+                  </tr>
+                  <tr>
+                     <td colspan="2" class="cdHashTag">
+                     <input type="hidden" class="cdNo" name="cdNo" th:value="${cd.cdNo}">
+                     </td>
+                  </tr>
+                  <tr>
+                     <td th:text="|가격 : *{cd.price}|"></td>
+                     <td th:text="|재고 *{cd.stock}|"></td>
+                  </tr>
+               </tbody>
+            </th:block>
+               <tfoot>
+                  <tr>
+                     <td class="page" colspan="3" th:utext="${pagination}">
+                  </tr>
+               </tfoot>
+         </table>
+      </div>
+   </div>
+</body>
+</html>

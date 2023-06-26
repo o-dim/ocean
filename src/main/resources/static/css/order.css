@@ -45,7 +45,11 @@
       background-color: #c0c0c0;
       margin-right: 100px;
       border-radius: 20px;
+<<<<<<< HEAD
       margin-left: 500px;
+=======
+      margin-left: 10%;
+>>>>>>> fa6e8411a6c889010baf48b55e573e4559e4810a
    }
    
    .order_list {
@@ -140,9 +144,15 @@
    }
    
    .kakaopaybtn {
+<<<<<<< HEAD
       width: 1200px;
       height: 80px;
       margin-left: 850px;
+=======
+      width: 600px;
+      height: 80px;
+      float: right;
+>>>>>>> fa6e8411a6c889010baf48b55e573e4559e4810a
    }
    
    #btn-kakao-pay {
@@ -152,7 +162,10 @@
       background-color: black;
       color: white;
    }
+<<<<<<< HEAD
    
    
    
+=======
+>>>>>>> fa6e8411a6c889010baf48b55e573e4559e4810a
    

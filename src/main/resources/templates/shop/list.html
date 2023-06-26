@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{/layout/shopHeader::shopHead('welcome')}"></head>
@@ -93,4 +94,98 @@
 	</script>
 
 </body>
+=======
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{/layout/shopHeader::shopHead('welcome')}"></head>
+<!--/* <head th:replace="~{/layout/header::oceanHead('welcome')}"></head> */-->
+<body>
+
+
+
+
+			<div id="shopList">
+				<div class="nav_title1">
+			   		<img th:src="@{/photo/OCEAN.png}" class="nav_ocean_link1" th:onclick="'fnBackground()'" th:ondblclick="'fnOcean()'" >	
+			   	</div>
+				<div id="all">
+					<div id="top">
+						<div id="new">
+							<h1>new</h1>
+							<header th:replace="~{layout/shopHeader::shopHeader}"></header>
+						</div>
+						<div id="picture">
+							<img th:src="@{/photo/blackpink2.jpg}">
+						</div>
+					</div>	
+					<form id="frmSearch">
+						<select name="type" id="type" class="type">
+							<option value="title" id="title">title</option> 
+							<option value="singer" id="singer">singer</option> 
+						</select>
+						<input type="text" id="searchText1" name="searchText1" class="searchText1" placeholder="음악의 대서양을 항해하다.Ocean" >
+						<span class="material-icons" id="searchicons" onclick="fnSearch()">search</span>
+					</form>
+					
+					<div id="cdTable">
+							<th:block th:each="cd,vs:${cdList}">
+								<div class="cdList">
+								<div class="media">
+								   <div class="overlay"></div>
+    									<div id="listMainImg" class="photo">
+										<a th:href="@{/shop/detail.do(cdNo=${cd.cdNo})}">
+											 <div class="photo__feather"></div>
+											<img th:src="@{/manage/display.do(cdNo=${cd.cdNo})}" class="photo__image" >
+			            				</a>
+									</div>
+								</div>
+										
+										
+   								   <div class="image-details">
+								
+									<div>
+										<span class="btn from-top" a th:href="@{/shop/detail.do(cdNo=${cd.cdNo})}" th:text="${cd.cdNo}"></a>
+										<span class="btn from-left" a th:href="@{/shop/detail.do(cdNo=${cd.cdNo})}" th:text="${cd.title}"></a>
+										<span class="btn from-right" th:text="${cd.singer}"></span>
+										<span class="btn from-center" th:text="${cd.price}"></span>
+										<span class="btn from-bottom" th:text="${cd.stock}"></span>
+									</div>
+								</div>
+								</div>
+							</th:block>
+					</div>
+				<div th:utext="${pagination}"></div>
+			</div>	
+		</div>
+	
+	
+	
+	
+	<script>
+		function fnBackground() {
+			 $('body').css({
+				 	'background-image': 'linear-gradient(to top, rgba(92, 253, 225, 0.2) 50%,  #0095a8, #00e2ff), url("https://media.tenor.com/RCu7qA-pVOwAAAAd/water-sparkling.gif")',
+				    'background-size': 'cover',
+			    	'background-blend-mode': 'screen'
+			 }),
+			 
+			 $('.nav_title1').css({
+				 	'color': 'gray'
+			 });
+		}
+		function fnOcean() {
+   			location.href='/index.html';	 
+ 		}
+		
+		function fnSearch() {
+			var type = $('#type').val();
+		    var searchText1 = $('#searchText1').val();
+		    console.log(type + searchText1);
+			location.href='/shop/list.do?type=' + type + '&searchText1=' + searchText1;
+		}
+		
+	</script>
+
+</body>
+>>>>>>> fa6e8411a6c889010baf48b55e573e4559e4810a
 </html>
