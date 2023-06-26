@@ -15,18 +15,18 @@ public class MyFileUtil {
 	
 	// CD 이미지 경로(mainImg, detailImg)
 	public String getCdImgPath() {
-		return "/storage/cdImg/";
+		return "/quddls6/storage/cdImg/";
 	}
 	// String path 만들기
 	public String getPath() {
 		LocalDate now = LocalDate.now();
 		// 루트/storage/2023/05/08
-		return "/storage" + sep + now.getYear() + sep + String.format("%02d", now.getMonthValue()) + sep + String.format("%02d", now.getDayOfMonth());
+		return "/quddls6/storage" + sep + now.getYear() + sep + String.format("%02d", now.getMonthValue()) + sep + String.format("%02d", now.getDayOfMonth());
 	}
 	
 	// String summernoteImagePath 만들기
 	public String getSummernoteImagePath() {
-	  return "/storage" + sep + "summernote";
+	  return "/quddls6/storage" + sep + "summernote";
 	}
 	
 	// String filesystemName 만들기
@@ -55,7 +55,7 @@ public class MyFileUtil {
 
 	// String tempPath 만들기
 	public String getTempPath() {
-		return "/storage" + sep + "temp";
+		return "/quddls6/storage" + sep + "temp";
 	}
 	
 	// String tempfileName 만들기 (zip 파일)
@@ -67,7 +67,7 @@ public class MyFileUtil {
 	public String getYesterdayPath() {
 		LocalDate date = LocalDate.now();
 		date.minusDays(1);  // 1일 전
-		return "/storage" + sep + date.getYear() + sep + String.format("%02d", date.getMonthValue()) + sep + String.format("%02d", date.getDayOfMonth());
+		return "/quddls6/storage" + sep + date.getYear() + sep + String.format("%02d", date.getMonthValue()) + sep + String.format("%02d", date.getDayOfMonth());
 	}
 	
 }

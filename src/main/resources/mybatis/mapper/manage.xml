@@ -4,7 +4,7 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <!-- namespace는 @Mapper를 지정한다. -->
-<mapper namespace="com.gdu.ocean.mapper.ManagerMapper">
+<mapper namespace="com.gdu.ocean.mapper.ManageMapper">
 
 	<!-- CdDTO에서 HashtagDTO에있는 htNo를 가져오기위해 -->
 	<resultMap type="CdDTO" id="CdMap">

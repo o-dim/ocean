@@ -27,7 +27,7 @@ import com.gdu.ocean.domain.OutUsersDTO;
 import com.gdu.ocean.domain.ReplyDTO;
 import com.gdu.ocean.domain.SleepUsersDTO;
 import com.gdu.ocean.domain.UsersDTO;
-import com.gdu.ocean.mapper.ManagerMapper;
+import com.gdu.ocean.mapper.ManageMapper;
 import com.gdu.ocean.util.MyFileUtil;
 import com.gdu.ocean.util.PageUtil;
 
@@ -37,15 +37,15 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Service
 @Slf4j
-public class ManagerServiceImpl implements ManagerService {
+public class ManageServiceImpl implements ManageService {
 
-	private final ManagerMapper managerMapper;
+	private final ManageMapper manageMapper;
 	private final PageUtil pageUtil;
 	private final MyFileUtil myFileUtil;
 	
 	@Override
 	public List<HashtagDTO> getHashtagList() {
-		return managerMapper.getHashtagList();
+		return manageMapper.getHashtagList();
 	}
 	
 	@Override
@@ -60,7 +60,7 @@ public class ManagerServiceImpl implements ManagerService {
 		Optional<String> opt2 = Optional.ofNullable(request.getParameter("page"));
 		int page = Integer.parseInt(opt2.orElse("1"));
 		
-		int totalRecord = managerMapper.getCdCount();
+		int totalRecord = manageMapper.getCdCount();
 		
 		int recordPerPage = 10;
 		
@@ -70,9 +70,9 @@ public class ManagerServiceImpl implements ManagerService {
 		map.put("begin", pageUtil.getBegin());
 		map.put("recordPerPage", recordPerPage);
 		
-		List<CdDTO> cdList = managerMapper.getSaleList(map);
+		List<CdDTO> cdList = manageMapper.getSaleList(map);
 		model.addAttribute("cdList", cdList);
-		model.addAttribute("pagination", pageUtil.getPagination("/manager/salelist.do?query=" + query));
+		model.addAttribute("pagination", pageUtil.getPagination("/manage/salelist.do?query=" + query));
 
 		
 	}
@@ -81,14 +81,14 @@ public class ManagerServiceImpl implements ManagerService {
 	public Map<String, Object> getHashtagByNo(String cdNos) {
 		Map<String, Object> map = new HashMap<>();
 		String[] cdNo = cdNos.split(",");
-		List<HashtagDTO> list = managerMapper.getHashtagByNo(cdNo);
+		List<HashtagDTO> list = manageMapper.getHashtagByNo(cdNo);
 		map.put("hashtagList", list);
 		return map;
 	}
 	
 	@Override
 	public int removeCd(int cdNo) {
-		int removeResult = managerMapper.removeCd(cdNo);
+		int removeResult = manageMapper.removeCd(cdNo);
 		return removeResult;
 	}
 	
@@ -136,7 +136,7 @@ public class ManagerServiceImpl implements ManagerService {
 	         cdDTO.setDetailImg(path + detailImgFilename);         
 	      }
 	      
-	      int addCdResult = managerMapper.addCd(cdDTO);
+	      int addCdResult = manageMapper.addCd(cdDTO);
 	      
 	      // hashtag_cd 테이블
 	      // pk ht_no cd_no
@@ -148,7 +148,7 @@ public class ManagerServiceImpl implements ManagerService {
 	         CdDTO cdDTO2 = new CdDTO();
 	         cdDTO2.setCdNo(cdNo);
 	         
-	         // CdDTO cdDTO3 = managerMapper.getCdInfoByCdNo(cdNo);
+	         // CdDTO cdDTO3 = manageMapper.getCdInfoByCdNo(cdNo);
 	         HashtagDTO hashtagDTO = new HashtagDTO();
 	         hashtagDTO.setHtNo(Integer.parseInt(hashtagNoList[i]));
 	         
@@ -157,7 +157,7 @@ public class ManagerServiceImpl implements ManagerService {
 	         hashtagCdDTO.setCdDTO(cdDTO2);   // hashtagCdDTO.setCdDTO(cdDTO2);
 	         // System.out.println(hashtagCdDTO.getCdNo().getPrice());
 	         hashtagCdDTO.setHashtagDTO(hashtagDTO);
-	         managerMapper.addHashtagCd(hashtagCdDTO);
+	         manageMapper.addHashtagCd(hashtagCdDTO);
 	      }
 	      
 	      
@@ -181,7 +181,7 @@ public class ManagerServiceImpl implements ManagerService {
 		Optional<String> opt3 = Optional.ofNullable(request.getParameter("page"));
 		int page = Integer.parseInt(opt3.orElse("1"));
 		
-		int totalRecord = managerMapper.getUserSearchCount(map);
+		int totalRecord = manageMapper.getUserSearchCount(map);
 		
 		int recordPerPage = 10;
 		
@@ -190,10 +190,10 @@ public class ManagerServiceImpl implements ManagerService {
 		map.put("begin", pageUtil.getBegin());
 		map.put("recordPerPage", recordPerPage);
 		
-		List<UsersDTO> userList = managerMapper.getUserList(map);
+		List<UsersDTO> userList = manageMapper.getUserList(map);
 		
 		model.addAttribute("userList", userList);
-		model.addAttribute("pagination", pageUtil.getPagination(request.getContextPath() + "/manager/membersearch.do?column=" + column + "&query=" + query));
+		model.addAttribute("pagination", pageUtil.getPagination(request.getContextPath() + "/manage/membersearch.do?column=" + column + "&query=" + query));
 		model.addAttribute("userNo", totalRecord - (page - 1) * recordPerPage);
 		
 		
@@ -215,7 +215,7 @@ public class ManagerServiceImpl implements ManagerService {
 		Optional<String> opt3 = Optional.ofNullable(request.getParameter("page"));
 		int page = Integer.parseInt(opt3.orElse("1"));
 		
-		int totalRecord = managerMapper.getSleepUserSearchCount(map);
+		int totalRecord = manageMapper.getSleepUserSearchCount(map);
 		
 		int recordPerPage = 10;
 		
@@ -224,10 +224,10 @@ public class ManagerServiceImpl implements ManagerService {
 		map.put("begin", pageUtil.getBegin());
 		map.put("recordPerPage", recordPerPage);
 		
-		List<SleepUsersDTO> sleepUserList = managerMapper.getSleepUserList(map);
+		List<SleepUsersDTO> sleepUserList = manageMapper.getSleepUserList(map);
 		
 		model.addAttribute("sleepUserList", sleepUserList);
-		model.addAttribute("pagination", pageUtil.getPagination(request.getContextPath() + "/manager/sleepmember.do?column=" + column + "&query=" + query));
+		model.addAttribute("pagination", pageUtil.getPagination(request.getContextPath() + "/manage/sleepmember.do?column=" + column + "&query=" + query));
 		model.addAttribute("sleepUserNo", totalRecord - (page - 1) * recordPerPage);
 		
 		System.out.println("sleepUserList" + sleepUserList);
@@ -248,7 +248,7 @@ public class ManagerServiceImpl implements ManagerService {
 		Optional<String> opt3 = Optional.ofNullable(request.getParameter("page"));
 		int page = Integer.parseInt(opt3.orElse("1"));
 		
-		int totalRecord = managerMapper.getOutUserSearchCount(map);
+		int totalRecord = manageMapper.getOutUserSearchCount(map);
 		
 		int recordPerPage = 10;
 		
@@ -257,10 +257,10 @@ public class ManagerServiceImpl implements ManagerService {
 		map.put("begin", pageUtil.getBegin());
 		map.put("recordPerPage", recordPerPage);
 		
-		List<OutUsersDTO> outUserList = managerMapper.getOutUserList(map);
+		List<OutUsersDTO> outUserList = manageMapper.getOutUserList(map);
 		
 		model.addAttribute("outUserList", outUserList);
-		model.addAttribute("pagination", pageUtil.getPagination(request.getContextPath() + "/manager/outmember.do?query=" + query));
+		model.addAttribute("pagination", pageUtil.getPagination(request.getContextPath() + "/manage/outmember.do?query=" + query));
 		model.addAttribute("outUserNo", totalRecord - (page - 1) * recordPerPage);
 		
 	}
@@ -269,10 +269,10 @@ public class ManagerServiceImpl implements ManagerService {
 	@Override
 	public int userout(String email, HttpServletRequest request, HttpServletResponse response) {
 		log.info(email + "..................탈퇴시킬 email");
-		UsersDTO usersDTO = managerMapper.selectUserById(email);
+		UsersDTO usersDTO = manageMapper.selectUserById(email);
 		
-		int insertResult = managerMapper.insertOutUser(usersDTO);
-		int deleteResult = managerMapper.deleteUser(email);
+		int insertResult = manageMapper.insertOutUser(usersDTO);
+		int deleteResult = manageMapper.deleteUser(email);
 		return deleteResult;
 		/*
 		try {
@@ -283,7 +283,7 @@ public class ManagerServiceImpl implements ManagerService {
 			if(insertResult == 1 && deleteResult == 1) {
 								
 				out.println("alert('탈퇴 회원으로 이동되었습니다.');");
-				out.println("location.href='/manager/membersearch.do';");
+				out.println("location.href='/manage/membersearch.do';");
 				
 			} else {
 				out.println("alert('정보를 확인해주세요.');");
@@ -316,7 +316,7 @@ public class ManagerServiceImpl implements ManagerService {
 		map.put("column", column);
 		map.put("query", query);
 		
-		int totalRecord = managerMapper.getBoardCount();
+		int totalRecord = manageMapper.getBoardCount();
 		
 		int recordPerPage = 10;
 		
@@ -325,22 +325,22 @@ public class ManagerServiceImpl implements ManagerService {
 		map.put("begin", pageUtil.getBegin());
 		map.put("recordPerPage", recordPerPage);
 		
-		List<ReplyDTO> replyList = managerMapper.getBoardList(map);
+		List<ReplyDTO> replyList = manageMapper.getBoardList(map);
 		model.addAttribute("replyList", replyList);
-		model.addAttribute("pagination", pageUtil.getPagination("/manager/board.do?column=" + column + "&query=" + query));
+		model.addAttribute("pagination", pageUtil.getPagination("/manage/board.do?column=" + column + "&query=" + query));
 		model.addAttribute("idolNo", totalRecord - (page - 1) * recordPerPage);
 	}
 	
 	@Override
 	public int removeReply(int replyNo) {
-		int removeResult = managerMapper.removeReply(replyNo);
+		int removeResult = manageMapper.removeReply(replyNo);
 		return removeResult;
 		
 	}
 	
    	@Override
 	   public ResponseEntity<byte[]> display(int cdNo) {
-	      CdDTO cdDTO = managerMapper.getCdByNo(cdNo);
+	      CdDTO cdDTO = manageMapper.getCdByNo(cdNo);
 	      ResponseEntity<byte[]> image = null;
 	      try {
 	         File mainImg = new File(cdDTO.getMainImg());
@@ -357,7 +357,7 @@ public class ManagerServiceImpl implements ManagerService {
 	   
 	   @Override
 	   public ResponseEntity<byte[]> displaydetail(int cdNo) {
-		   CdDTO cdDTO = managerMapper.getCdByNo(cdNo);
+		   CdDTO cdDTO = manageMapper.getCdByNo(cdNo);
 		   ResponseEntity<byte[]> image = null;
 		   try {
 			   File detailImg = new File(cdDTO.getDetailImg());
@@ -376,7 +376,7 @@ public class ManagerServiceImpl implements ManagerService {
     @Override
 		public void getOrderList(HttpServletRequest request, Model model) {
 		
-    	int sum = managerMapper.getOrderSum();
+    	int sum = manageMapper.getOrderSum();
     	
     	Optional<String> opt1 = Optional.ofNullable(request.getParameter("query"));
     	String query = opt1.orElse("");
@@ -387,7 +387,7 @@ public class ManagerServiceImpl implements ManagerService {
     	Optional<String> opt2 = Optional.ofNullable(request.getParameter("page"));
     	int page = Integer.parseInt(opt2.orElse("1"));
     	
-    	int totalRecord = managerMapper.getOrderCount();
+    	int totalRecord = manageMapper.getOrderCount();
     	
     	int recordPerPage = 5;
     	
@@ -397,9 +397,9 @@ public class ManagerServiceImpl implements ManagerService {
     	map.put("begin", pageUtil.getBegin());
     	map.put("recordPerPage", recordPerPage);
     	
-    	List<OrderDTO> orderList = managerMapper.getOrderList(map);
+    	List<OrderDTO> orderList = manageMapper.getOrderList(map);
     	model.addAttribute("orderList", orderList);
-    	model.addAttribute("pagination", pageUtil.getPagination("/manager/sale.html?&query=" + query));
+    	model.addAttribute("pagination", pageUtil.getPagination("/manage/sale.html?&query=" + query));
     	model.addAttribute("sum", sum);
 	}
 

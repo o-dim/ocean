@@ -12,7 +12,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.gdu.ocean.domain.HashtagDTO;
 
-public interface ManagerService {
+public interface ManageService {
 	public void getSaleList(HttpServletRequest request, Model model);
 	public Map<String, Object> getHashtagByNo(String cdNo);
 	public int removeCd(int cdNo);

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{/layout/managerheader::headFrag('게시판관리')}"></head>
+<head th:replace="~{/layout/manageheader::headFrag('게시판관리')}"></head>
 <link rel="stylesheet" th:href="@{/css/member.css(ver=1.0)}">
 <script>
 
@@ -10,7 +10,7 @@
 			if(confirm('추방하시겠습니까?')){
 				$.ajax({
 					type:'get',
-					url : '/manager/userout.do',
+					url : '/manage/userout.do',
 					data : "email=" + email,
 					dataType:'text',
 					success : function(resData){
@@ -36,14 +36,14 @@
 </script>
 <body>
 
-	<div th:replace="~{/layout/managerheader::gnbFrag}"></div>
+	<div th:replace="~{/layout/manageheader::gnbFrag}"></div>
 		<div class="logo-top">
 	    	<a th:href="@{/}"><img th:src="@{/photo/OCEAN2.png}"></a>
 		</div>	
 
 	<div class="all">
 		<div class="wrap">
-			<form id="frm1" th:action="@{/manager/membersearch.do}">
+			<form id="frm1" th:action="@{/manage/membersearch.do}">
 				<div class="group">
 					<div class="selectBox">
 						<select th:name="column" th:id="column">

@@ -15,7 +15,7 @@ import com.gdu.ocean.domain.SleepUsersDTO;
 import com.gdu.ocean.domain.UsersDTO;
 
 @Mapper
-public interface ManagerMapper {
+public interface ManageMapper {
 	public int getCdCount();
 	public List<CdDTO> getSaleList(Map<String, Object> map);
 	public List<HashtagDTO> getHashtagByNo(String[] cdNo);

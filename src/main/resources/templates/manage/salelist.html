@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{/layout/managerheader::headFrag('판매목록및관리')}"></head>
+<head th:replace="~{/layout/manageheader::headFrag('판매목록및관리')}"></head>
 <link rel="stylesheet" th:href="@{/css/salelist.css(ver=1.0)}"/>
 <script>
 
@@ -10,7 +10,7 @@
       
       $.ajax({
          type : 'get',
-         url : '/manager/getHashtag.do',
+         url : '/manage/getHashtag.do',
          data : $('.cdNo').serialize(),
          dataType : 'json',
          success : function(resData) {
@@ -39,7 +39,7 @@
 
 <body>
    
-   <div th:replace="~{/layout/managerheader::gnbFrag}"></div>
+   <div th:replace="~{/layout/manageheader::gnbFrag}"></div>
 		<div class="logo-top">
           <a th:href="@{/}"><img th:src="@{/photo/OCEAN2.png}"></a>
 		</div>   
@@ -49,7 +49,7 @@
    <div class="all">
       <div class="searchbar">
          <div class="searchbar_1">
-            <form id="frm" th:action="@{/manager/salelist.do}">
+            <form id="frm" th:action="@{/manage/salelist.do}">
             <input class="search-bar__input" type="text" th:id="query" th:name="query">
                <button class="btn">
                   <i class="fa-solid fa-magnifying-glass"></i>
@@ -60,7 +60,7 @@
          </div>
       </div>
       <div class="btn1">
-         <a th:href="@{/manager/cdadd.html}">상품 등록하기</a>
+         <a th:href="@{/manage/cdadd.html}">상품 등록하기</a>
       </div>
       
       
@@ -70,10 +70,10 @@
             <th:block th:each="cd,vs:${cdList}">
                <tbody class="hashtag">
                   <tr>
-                     <td rowspan="4" ><img th:src="@{/manager/display.do(cdNo=${cd.cdNo})}"></td>
+                     <td rowspan="4" ><img th:src="@{/manage/display.do(cdNo=${cd.cdNo})}"></td>
                      <td th:text="${cd.title}"></td>
                      <td>
-                        <form class="frm_remove" method="post" th:action="@{/manager/remove.do}">
+                        <form class="frm_remove" method="post" th:action="@{/manage/remove.do}">
                            <input type="hidden" th:name="cdNo" th:value="${cd.cdNo}">
                            <button>삭제</button>
                         </form>

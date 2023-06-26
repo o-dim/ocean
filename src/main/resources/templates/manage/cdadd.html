@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{/layout/managerheader::headFrag('CD등록')}"></head>
+<head th:replace="~{/layout/manageheader::headFrag('CD등록')}"></head>
 <script th:src="@{/js/lib/jquery-3.6.4.min.js}"></script>
 <link rel="stylesheet" th:href="@{/css/cdadd.css(ver=1.0)}">
 <script>
@@ -15,7 +15,7 @@
 
 <body>
 
-   <div th:replace="~{/layout/managerheader::gnbFrag}"></div>
+   <div th:replace="~{/layout/manageheader::gnbFrag}"></div>
    <div class="logo-top">
           <a th:href="@{/}"><img th:src="@{/photo/OCEAN2.png}"></a>
       </div>   
@@ -24,7 +24,7 @@
       </div>  
    <div class="all">
    
-      <form method="post" th:action="@{/manager/addCd.do}" enctype="multipart/form-data">
+      <form method="post" th:action="@{/manage/addCd.do}" enctype="multipart/form-data">
          <div class="add">
             <div>
                <label for="title">CD이름</label>

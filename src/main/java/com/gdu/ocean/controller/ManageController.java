@@ -1,6 +1,5 @@
 package com.gdu.ocean.controller;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,106 +16,106 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.gdu.ocean.service.ManagerService;
+import com.gdu.ocean.service.ManageService;
 
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-@RequestMapping("/manager")
+@RequestMapping("/manage")
 @Controller
-public class ManagerController {
+public class ManageController {
 	
-	private final ManagerService managerService;
+	private final ManageService manageService;
 
 	@GetMapping("/salelist.do")
 	public String salelist(HttpServletRequest request, Model model) {
-		managerService.getSaleList(request, model);
-		return "manager/salelist";
+		manageService.getSaleList(request, model);
+		return "manage/salelist";
 	}
 	
 	@GetMapping(value="/getHashtag.do", produces="application/json")
 	@ResponseBody
 	public Map<String, Object> getHashtag(@RequestParam("cdNo") String cdNo) {
-		return managerService.getHashtagByNo(cdNo);
+		return manageService.getHashtagByNo(cdNo);
 	}
 	
 	@PostMapping("/remove.do")
 	public String remove(int cdNo, RedirectAttributes redirectAttributes) {
-		int removeResult = managerService.removeCd(cdNo);
+		int removeResult = manageService.removeCd(cdNo);
 		redirectAttributes.addFlashAttribute("removeResult", removeResult);
-		return "redirect:/manager/salelist.do";
+		return "redirect:/manage/salelist.do";
 	}
 	
 	
 	
 	@GetMapping("/sale.html")
 	public String sale(HttpServletRequest request, Model model) {
-		managerService.getOrderList(request, model);
-		return "manager/sale";
+		manageService.getOrderList(request, model);
+		return "manage/sale";
 	}
 	
 
 	@GetMapping("/board.do")
 	public String board(HttpServletRequest request, Model model) {
-		managerService.getBoardList(request, model);
-		return "manager/board.html";
+		manageService.getBoardList(request, model);
+		return "manage/board.html";
 	}
 	
 	@PostMapping("/boardremove.do")
 	public String boardremove(int replyNo, RedirectAttributes redirectAttributes) {
-		int removeResult = managerService.removeReply(replyNo);
+		int removeResult = manageService.removeReply(replyNo);
 		redirectAttributes.addFlashAttribute("removeResult", removeResult);
-		return "redirect:/manager/board.do";
+		return "redirect:/manage/board.do";
 	}
 	
 	// 해시태그 목록 가져오기
 	@GetMapping("/cdadd.html")
 	public String cdaddHtml(Model model) {
-		model.addAttribute("hashtagList", managerService.getHashtagList());
-		return "manager/cdadd";
+		model.addAttribute("hashtagList", manageService.getHashtagList());
+		return "manage/cdadd";
 	}
 	
 	// 페이지 네이션 목록가져오기
 	@GetMapping("/membersearch.do")
 	public String pagination(HttpServletRequest request, Model model) {
-		managerService.getUserList(request, model);
-		return "manager/member";
+		manageService.getUserList(request, model);
+		return "manage/member";
 	}
 	
 	@GetMapping("/sleepmember.do")
 	public String sleepmember(HttpServletRequest request, Model model) {
-		managerService.getSleepUserList(request, model);
-		return "manager/sleepmember";
+		manageService.getSleepUserList(request, model);
+		return "manage/sleepmember";
 	}
 	
 	@GetMapping("/outmember.do")
 	public String outmember(HttpServletRequest request, Model model) {
-		managerService.getOutUserList(request, model);
-		return "manager/outmember";
+		manageService.getOutUserList(request, model);
+		return "manage/outmember";
 	}
 	
 	@ResponseBody
 	@GetMapping("/userout.do")
 	public int userout(String email, HttpServletRequest request, HttpServletResponse response) {
-		int result = managerService.userout(email, request, response);
+		int result = manageService.userout(email, request, response);
 		return result;
 	}
 	
 	// 상품 추가하기
    @PostMapping("/addCd.do")
    public String addCd(MultipartHttpServletRequest multipartRequest, RedirectAttributes redirectAttributes) throws Exception {
-      managerService.addCd(multipartRequest);
-       return "redirect:/manager/salelist.do";
+      manageService.addCd(multipartRequest);
+       return "redirect:/manage/salelist.do";
    }
    
    @GetMapping("/display.do")
    public ResponseEntity<byte[]> display(@RequestParam("cdNo") int cdNo) {
-      return managerService.display(cdNo);
+      return manageService.display(cdNo);
    }
    
    @GetMapping("/displaydetail.do")
    public ResponseEntity<byte[]> displaydetail(@RequestParam("cdNo") int cdNo) {
-	   return managerService.displaydetail(cdNo);
+	   return manageService.displaydetail(cdNo);
    }
    
 	

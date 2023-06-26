@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{/layout/managerheader::headFrag('게시판관리')}"></head>
+<head th:replace="~{/layout/manageheader::headFrag('게시판관리')}"></head>
 <link rel="stylesheet" th:href="@{/css/outmember.css(ver=1.0)}">
 
 <body>
 
-	<div th:replace="~{/layout/managerheader::gnbFrag}"></div>
+	<div th:replace="~{/layout/manageheader::gnbFrag}"></div>
 		<div class="logo-top">
 	    	<a th:href="@{/}"><img th:src="@{/photo/OCEAN2.png}"></a>
 		</div>	
@@ -15,7 +15,7 @@
 
 	<div class="all">
 		<div class="wrap">
-			<form id="frm1" th:action="@{/manager/outmember.do}">
+			<form id="frm1" th:action="@{/manage/outmember.do}">
 				<input class="search_query" type="text" th:name="query" th:id="query">
 				<button class="btn"><i class="fa-solid fa-magnifying-glass" ></i></button>
 			</form>
