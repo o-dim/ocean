@@ -23,8 +23,13 @@
 			</tr>
 			<tr>	
 				<td>
-					<input type="button" class= btn id="btnAddToCart" value="장바구니에 담기">
-					<input type="button" id="btnBuy" class="btn btnPrimary btnBuy" value="바로주문해요" onclick="fnBuy()"/>
+					<input type="button" class="btn" id="btnAddToCart" value="장바구니에 담기">
+					<form action="/directBuy.do" method="post">
+						<input type="hidden" id="userNo" th:value="${session.loginUsersNo}" name="userNo">
+						<input type="hidden" id="cartNo" th:value=${cartNo} name="cartNo">
+						<input type="hidden" id="price" name="total">
+						<button>바로 주문해요</button>
+					</form>
 				</td>
 			</tr>
 			<tr>

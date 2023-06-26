@@ -3,14 +3,13 @@
 <head th:replace="~{/layout/shopHeader::shopHead('welcome')}"></head>
 <link rel="stylesheet" th:href="@{/css/cart.css(ver=1.0)}"/>
 <script>
-          var total = 0;
    
             function fnTotal() {
                var cdNoElements = document.querySelectorAll("#cdNo");
                var countElements = document.querySelectorAll("#count");
                var priceElements = document.querySelectorAll("#price");
                
-               total = 0; // 초기화
+               var total = 0; // 초기화
    
                for (var i = 0; i < cdNoElements.length; i++) {
                   var cdNo = cdNoElements[i].innerText;
@@ -68,7 +67,7 @@
                           <form action="/order/order" method="get">
                            <input type="hidden" name="userNo" th:value="${session.loginUsersNo}">
                            <input type="hidden" name="cartNo" th:value="${cartNo}">
-                           <button>구매하기</button>
+                           <button>구매하기 찐버튼</button>
                         </form>
                       </div>
                         

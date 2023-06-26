@@ -10,25 +10,12 @@
    body {
       background-color: #e9e9e9;
       font-family: 'GmarketSansMedium';
-   }
-   
-   .cartbox {
-      position: sticky;
-      margin: 0 auto;
-      background-color: #d9d9d9;
-      width: 1400px;
-      height: 1250px;
-      padding-top: 60px;
-      padding-right: 50px;
-      border-radius: 20px;
-      text-align: center;
-      margin-left: 200px;
-      margin-top: 40px;
-   
+		width: 100%;
+		height: auto;
    }
    
    table {
-      width: 800px;
+      width: 60%;
       font-size: 24px;
       border-top: 1px solid black;
       border-bottom: 1px solid black;
@@ -37,14 +24,13 @@
    }
    
    img {
-      width: 250px;
-      height: 250px;
+      width: 200px;
+      height: 200px;
    }
    
    
-   
    button {
-       font-size: 24px;
+     font-size: 24px;
      font-family: 'GmarketSansMedium';
      border:1px solid black;
      background-color: #e9e9e9;
@@ -60,7 +46,6 @@
    cursor: pointer;
 }
 
-   
    .cartbox input[type="text"] {
       font-size: 24px;
       font-family: 'GmarketSansMedium';
@@ -86,35 +71,27 @@
       position: sticky;
       margin: 0 auto;
       background-color: #d9d9d9;
-      width: 1400px;
+      width: 800px;
       height: 1250px;
       padding-top: 60px;
       padding-right: 50px;
       border-radius: 20px;
-      text-align: center;
-      margin-left: 200px;
+      margin-left: 50px;
       margin-top: 40px;
    
    }
    
    table {
-      width: 800px;
-      font-size: 24px;
+      width: 70%;
+      font-size: 16px;
       border-top: 1px solid black;
       border-bottom: 1px solid black;
       margin: 0 auto;
       
    }
-   
-   img {
-      width: 250px;
-      height: 250px;
-   }
-   
-   
-   
+
    button {
-       font-size: 24px;
+     font-size: 24px;
      font-family: 'GmarketSansMedium';
      border:1px solid black;
      background-color: #e9e9e9;
@@ -132,7 +109,7 @@
 
    
    .cartbox input[type="text"] {
-      font-size: 24px;
+      font-size: 16px;
       font-family: 'GmarketSansMedium';
       background-color: #d9d9d9;
       border: transparent;
