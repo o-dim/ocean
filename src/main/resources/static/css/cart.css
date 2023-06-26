@@ -1,5 +1,6 @@
 @charset "UTF-8";
 
+<<<<<<< HEAD
    @font-face {
        font-family: 'GmarketSansMedium';
        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
@@ -54,6 +55,8 @@
       margin: 20px 0;
    }
    
+=======
+>>>>>>> hera
 
    @font-face {
        font-family: 'GmarketSansMedium';
@@ -71,27 +74,54 @@
       position: sticky;
       margin: 0 auto;
       background-color: #d9d9d9;
+<<<<<<< HEAD
       width: 800px;
+=======
+      width: 1400px;
+>>>>>>> hera
       height: 1250px;
       padding-top: 60px;
       padding-right: 50px;
       border-radius: 20px;
+<<<<<<< HEAD
       margin-left: 50px;
+=======
+      text-align: center;
+      margin-left: 200px;
+>>>>>>> hera
       margin-top: 40px;
    
    }
    
    table {
+<<<<<<< HEAD
       width: 70%;
       font-size: 16px;
+=======
+      width: 800px;
+      font-size: 24px;
+>>>>>>> hera
       border-top: 1px solid black;
       border-bottom: 1px solid black;
       margin: 0 auto;
       
    }
+<<<<<<< HEAD
 
    button {
      font-size: 24px;
+=======
+   
+   img {
+      width: 250px;
+      height: 250px;
+   }
+   
+   
+   
+   button {
+       font-size: 24px;
+>>>>>>> hera
      font-family: 'GmarketSansMedium';
      border:1px solid black;
      background-color: #e9e9e9;
@@ -109,10 +139,21 @@
 
    
    .cartbox input[type="text"] {
+<<<<<<< HEAD
       font-size: 16px;
+=======
+      font-size: 24px;
+>>>>>>> hera
       font-family: 'GmarketSansMedium';
       background-color: #d9d9d9;
       border: transparent;
       margin: 20px 0;
    }
    
+<<<<<<< HEAD
+=======
+   
+   
+
+   
+>>>>>>> hera

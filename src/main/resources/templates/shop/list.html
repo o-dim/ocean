@@ -5,6 +5,8 @@
 <body>
 
 
+
+
 			<div id="shopList">
 				<div class="nav_title1">
 			   		<img th:src="@{/photo/OCEAN.png}" class="nav_ocean_link1" th:onclick="'fnBackground()'" th:ondblclick="'fnOcean()'" >	
@@ -27,22 +29,31 @@
 						<input type="text" id="searchText1" name="searchText1" class="searchText1" placeholder="음악의 대서양을 항해하다.Ocean" >
 						<span class="material-icons" id="searchicons" onclick="fnSearch()">search</span>
 					</form>
+					
 					<div id="cdTable">
 							<th:block th:each="cd,vs:${cdList}">
 								<div class="cdList">
-									<div id="listMainImg" class="photo">
+								<div class="media">
+								   <div class="overlay"></div>
+    									<div id="listMainImg" class="photo">
 										<a th:href="@{/shop/detail.do(cdNo=${cd.cdNo})}">
 											 <div class="photo__feather"></div>
-											<img th:src="@{/manager/display.do(cdNo=${cd.cdNo})}" class="photo__image">
+											<img th:src="@{/manager/display.do(cdNo=${cd.cdNo})}" class="photo__image" >
 			            				</a>
 									</div>
+								</div>
+										
+										
+   								   <div class="image-details">
+								
 									<div>
-										<span class="listContent" a th:href="@{/shop/detail.do(cdNo=${cd.cdNo})}" th:text="${cd.cdNo}"></a>
-										<span class="listContent" a th:href="@{/shop/detail.do(cdNo=${cd.cdNo})}" th:text="${cd.title}"></a>
-										<span class="listContent" th:text="${cd.singer}"></span>
-										<span class="listContent" th:text="${cd.price}"></span>
-										<span class="listContent" th:text="${cd.stock}"></span>
+										<span class="btn from-top" a th:href="@{/shop/detail.do(cdNo=${cd.cdNo})}" th:text="${cd.cdNo}"></a>
+										<span class="btn from-left" a th:href="@{/shop/detail.do(cdNo=${cd.cdNo})}" th:text="${cd.title}"></a>
+										<span class="btn from-right" th:text="${cd.singer}"></span>
+										<span class="btn from-center" th:text="${cd.price}"></span>
+										<span class="btn from-bottom" th:text="${cd.stock}"></span>
 									</div>
+								</div>
 								</div>
 							</th:block>
 					</div>

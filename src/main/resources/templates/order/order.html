@@ -40,6 +40,7 @@ function execDaumPostcode() {
  * 주문번호 무작위 생성 메소드 d
  */
 $(function() {
+<<<<<<< HEAD
    var orderNum = "";
    function createOrderNum() {
       const date = new Date();
@@ -74,12 +75,43 @@ $(function() {
          }
       })
    })
+=======
+	var orderNum = "";
+	function createOrderNum() {
+		const date = new Date();
+		const year = date.getFullYear();
+		const month = String(date.getMonth() + 1).padStart(2, "0");//날짜
+		const day = String(date.getDate()).padStart(2, "0");
+		
+		let orderNum = year + month + day;//고대로 들어감
+		for(let i=0;i<10;i++) {
+			orderNum += Math.floor(Math.random() * 8);	//무작위 숫자 8개
+		}
+		return orderNum;
+	}
+	
+	$("#btn-kakao-pay").on('click', function(){//카카오 눌렀을떄 서브밋이된다
+		var totalValue = document.getElementById("total");
+		console.log(totalValue);
+		$.ajax({
+			type:'post',
+			url:'/order/ready',
+			data:$('#kakaopay').serialize(),
+			dataType: 'json',
+			success : function(resData){
+					console.log(resData);
+					location.href=resData.url;
+			}
+		})
+	})
+>>>>>>> hera
 })
 
 
 
 </script>
 <body>
+<<<<<<< HEAD
    <section class="container">
       <div class="prod_list">
          <table border="1">
@@ -135,5 +167,63 @@ $(function() {
          </form>
       </div>
    </section>
+=======
+	<section class="container">
+		<div class="prod_list">
+			<table border="1">
+				<tbody>
+					<!-- 이게 맞는 지 모르겠어요 ... 문법 확인 부탁드립니다... -->
+					<th:block th:each="cdc,vs:${cartDetailList}">
+						<tr>
+							<td rowspan="3"><img th:src="@{${cdc.cdNo.mainImg}}" width="100px"></td>
+							<td th:text="${cdc.cdNo.title}"></td>
+						</tr>
+						<tr>
+							<td th:text="${cdc.cdNo.singer}"></td>
+						</tr>
+						<tr>
+							<td th:text="${cdc.count}"></td>
+						</tr>
+					</th:block>
+				</tbody>
+			</table>
+			<div>
+				<span name="total" id="total" th:text=${total}></span>
+				<span>총 가격 필요</span>
+			</div>
+		</div>
+		<div class="order_list">
+			<div>주문하시는 분</div>
+			<input type="text" name="buyer_name" value="${cdc.cartNo.userNo.name}">
+			<input type="text" name="buyer_tel" value="${cdc.users.phoneNo}">
+			<input type="text" name="buyer_email" value="${cdc.usersDTO.email}">
+			<form action="/order/ready" method="post" id="kakaopay">
+				<div>받으시는 분</div>
+				<!--  주문자와 받는 사람이 같은 경우 값이 자동으로 입력되도록 하기 -->
+				<input type="button" value="주문자와 동일합니다" onclick="sameorder()">
+				<!--  아닌 경우에는 각자 입력하도록 -->
+				<label for="buyer_name">이름</label>
+				<input type="text" id="buyer_name" placeholder="${cdc.usersDTO.name}">
+				
+				<label for="buyer_tel">전화번호</label>
+				<input type="tel" name="buyer_tel" placeholder="${cdc.usersDTO.phoneNo}"> <!--  이게 가능한지모르겠어...  -->
+				
+				<label for="buyer_email">이메일</label>
+				<input type="text" name="buyer_email">
+				
+				
+				<label for="postcode">우편번호</label>
+					<div class="button-group">
+						<input type="text" onclick="execDaumPostcode()" name="postcode" id="postcode"  readonly="readonly">
+						<input type="button" onclick="execDaumPostcode()" value="우편번호 검색">
+					</div>
+					<input type="text" name="roadAddress" id="roadAddress" placeholder="도로명주소">
+					<span id="guide" style="color:#999; display:none"></span>
+					<input type="text" name="detailAddress" id="detailAddress" placeholder="상세주소">
+				<button type="button" id="btn-kakao-pay">카카오페이 결제하기</button>
+			</form>
+		</div>
+	</section>
+>>>>>>> hera
 </body>
 </html>
