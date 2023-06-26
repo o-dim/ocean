@@ -361,7 +361,6 @@ public class ManagerServiceImpl implements ManagerService {
 		   ResponseEntity<byte[]> image = null;
 		   try {
 			   File detailImg = new File(cdDTO.getDetailImg());
-			   System.out.println("디테일이미지" + detailImg);
 			   if (detailImg.exists()) {
 				   FileInputStream inputStream = new FileInputStream(detailImg);
 				   byte[] imageBytes = IOUtils.toByteArray(inputStream);

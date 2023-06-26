@@ -56,23 +56,17 @@ $(function() {
 		return orderNum;
 	}
 	
-	$("#kakaopay").on('submit', function(){//카카오 눌렀을떄 서브밋이된다
-		var totalValue = document.getElementById("total").innerText;
+	$("#btn-kakao-pay").on('click', function(){//카카오 눌렀을떄 서브밋이된다
+		var totalValue = document.getElementById("total");
 		console.log(totalValue);
 		$.ajax({
 			type:'post',
 			url:'/order/ready',
-			data:{
-				order_id : orderNum,
-				item_name : "oceanCD",
-				total_amount: totalValue,
-				pay_user_name: $("#buyer_name").val(),
-				total_price: totalValue,
-				tel: $("#buyer_tel").val(),
-				email: $("#buyer_email").val(),
-			},
+			data:$('#kakaopay').serialize(),
+			dataType: 'json',
 			success : function(resData){
-					window.location.href = resData;
+					console.log(resData);
+					location.href=resData.url;
 			}
 		})
 	})
@@ -125,6 +119,7 @@ $(function() {
 				<label for="buyer_email">이메일</label>
 				<input type="text" name="buyer_email">
 				
+				
 				<label for="postcode">우편번호</label>
 					<div class="button-group">
 						<input type="text" onclick="execDaumPostcode()" name="postcode" id="postcode"  readonly="readonly">
@@ -133,8 +128,7 @@ $(function() {
 					<input type="text" name="roadAddress" id="roadAddress" placeholder="도로명주소">
 					<span id="guide" style="color:#999; display:none"></span>
 					<input type="text" name="detailAddress" id="detailAddress" placeholder="상세주소">
-				<button id="iamportBtn">일반결제하기</button>
-				<button id="btn-kakao-pay">카카오페이 결제하기</button>
+				<button type="button" id="btn-kakao-pay">카카오페이 결제하기</button>
 			</form>
 		</div>
 	</section>

@@ -35,7 +35,7 @@ public class KakaopayService {
 	/*
 	 * 결제요청시도
 	 */
-	public KakaoReadyResponse kakaoPayReady(int total) {
+	public KakaoReadyResponse kakaoPayReady() {
 //		UsersDTO user = (UsersDTO)SessionUtils.getattribute("로그인아이디설정한거");
 //		List<CartDTO> carts = cartMapper..getCartByUserEmail(user.getEmail(); // 암튼 이런이름으로 있겠지...
 //		
@@ -51,6 +51,7 @@ public class KakaopayService {
 //		String itemName = cartNames[0];
 		String itemName = "oceanCD";
 		String orderId = "3333333";
+		int total = 68000;
 		log.info("서비스 금액............" + total);
 		/*
 		 * 카카오 페이가 요구하는 결제요청 request 담기
@@ -61,7 +62,7 @@ public class KakaopayService {
 		parameters.add("partner_user_id", "ocean");
 		parameters.add("item_name", itemName); 
 		parameters.add("quantity", "1"); // String.valueOf(carts.size()) 총개수  
-		parameters.add("total_amount", String.valueOf(total));
+		parameters.add("total_amount", String.valueOf(total)); // int total 받을 시에는 total대신 String.valueOf(total)
 		parameters.add("tax_free_amount", "0");
 		parameters.add("approval_url", "http://localhost:8080/order/payCompleted"); // 결제승인시 넘어갈 url
 		parameters.add("cancel_url", "http://localhost:8080/order/kakaopayCancel"); // 결제취소시 넘어갈 url
@@ -88,9 +89,10 @@ public class KakaopayService {
 	/* 
 	 * 결제 승인요청
 	 */
-	public KakaoApproveResponse kakaoPayApprove(String tid, String orderId, String pgToken) {
+	public KakaoApproveResponse kakaoPayApprove(String tid, String pgToken) {
 		// 장바구니 dto 뽑아오든지 언니가 지정해주면 됨.
 		String itemName = "oceanCD";
+		String orderId = "3333333";
 		// request값 담기.
 		MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
 		parameters.add("cid", "TC0ONETIME");

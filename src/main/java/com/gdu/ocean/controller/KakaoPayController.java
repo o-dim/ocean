@@ -1,6 +1,7 @@
 package com.gdu.ocean.controller;
 
 import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -38,9 +39,9 @@ public class KakaoPayController {
 	
 	
 	@GetMapping("/order/order")
-	public String order(int cartNo, int userNo, int total, Model model) {
+	public String order(int cartNo, int userNo, Model model) {
 		shopService.getCartDetailList(cartNo, model);
-		model.addAttribute("total", total);
+		//model.addAttribute("total", total); < int total 매개변수로 넣어야함
 		return "/order/order";
 	}
 	/*
@@ -71,17 +72,21 @@ public class KakaoPayController {
 	}
 	*/
 
-	@PostMapping("/order/ready")
+	@PostMapping(value="/order/ready" ,produces="application/json")
 	@ResponseBody
-	public String kakaoPayReady(HttpSession session, @RequestParam("total_amount") int total) {
+	public Map<String, Object> kakaoPayReady(HttpSession session) {
 		log.info("kakaopayReady 성공..............");
-		log.info("total금액.................." + total);
-		session.setAttribute("total", total);
-		KakaoReadyResponse readyResponse = kakaoPayService.kakaoPayReady(total);
+		// log.info("total금액.................." + total);
+		KakaoReadyResponse readyResponse = kakaoPayService.kakaoPayReady();
 		session.setAttribute("tid", readyResponse.getTid());
 		log.info("kakaopayReady tid : " + readyResponse.getTid());
 		//log.info(".........주문가격 : "+totalAmount);
-		return readyResponse.getNext_redirect_pc_url();//만약 성공시 qr코드가 뜬다 
+		
+		Map<String, Object> map = new HashMap<>();
+		
+		map.put("url", readyResponse.getNext_redirect_pc_url());
+		
+		return map;//만약 성공시 qr코드가 뜬다 
 	}
 	
 	/*
@@ -107,13 +112,13 @@ public class KakaoPayController {
 	 * 결제 승인 요청 큐알 찎을시 내가 돌아가 
 	 */
 	@GetMapping("/order/payCompleted")
-	public String kakaoPayCompleted(@RequestParam("pg_token") String pgToken, @RequestParam("order_id") String orderId, HttpSession session) {
+	public String kakaoPayCompleted(@RequestParam("pg_token") String pgToken, HttpSession session) {
 		
 		log.info("kakaopayCompleted 성공..............");
 		log.info("KakapayCompleted pgToken : " + pgToken + "..............");
 		String tid = (String) session.getAttribute("tid");
 		// 카카오 결제 요청
-		KakaoApproveResponse approveResponse = kakaoPayService.kakaoPayApprove(tid, orderId, pgToken);
+		KakaoApproveResponse approveResponse = kakaoPayService.kakaoPayApprove(tid, pgToken);
 		log.info("KakapayCompleted찐찐성공 : " + approveResponse);
 		// 성공한 카트애들을 ORDER 테이블로 이동하기
 		
