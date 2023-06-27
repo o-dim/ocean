@@ -12,8 +12,8 @@ function execDaumPostcode() {
          oncomplete: function(data) {
             var roadAddr = data.roadAddress; // 도로명 주소 변수
 
-            document.getElementById('buyer_addr').value = data.zonecode;
-            document.getElementById("buyer_addr2").value = roadAddr;
+            document.getElementById('postcode').value = data.zonecode;
+            document.getElementById("roadAddress").value = roadAddr;
 
             var guideTextBox = document.getElementById("guide");
             if(data.autoRoadAddress) {
@@ -154,10 +154,8 @@ $(function() {
          </div>
       </div>
    </div>
-               <div class="kakaopaybtn">
-                  <form action="/order/ready" method="post" id="kakaopay">
+               
                      <button type="button" id="btn-kakao-pay">카카오페이 결제하기</button>
-                  </form>
-              </div>
+
 </body>
 </html>

@@ -4,32 +4,32 @@
 
 <script th:inline="javascript">
 
-	  $(function(){
-		  
-		  // 휴면해제
-		  $('#btnWakeup').on('click', function(){
-			  location.href = '/users/restore.do';
-		  })
-		  
-		  // 취소
-		  $('#btnCancel').on('click', function(){
-			  location.href = '/index.html';
-		  })
-		  
-	  })
-	</script>
+     $(function(){
+        
+        // 휴면해제
+        $('#btnWakeup').on('click', function(){
+           location.href = '/users/restore.do';
+        })
+        
+        // 취소
+        $('#btnCancel').on('click', function(){
+           location.href = '/index.html';
+        })
+        
+     })
+   </script>
 </head>
 <style>
-    	@font-face {
-	    font-family: 'GmarketSansMedium';
-	    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
-	    font-weight: normal;
-	    font-style: normal;
-		}
-	    
+       @font-face {
+       font-family: 'GmarketSansMedium';
+       src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+       font-weight: normal;
+       font-style: normal;
+      }
+       
         body {
             background-color: #E9E9E9;
-          	font-family: 'GmarketSansMedium';
+             font-family: 'GmarketSansMedium';
             font-size: 15px;
         }
 
@@ -83,67 +83,66 @@
         
 
         #container {
-         	margin-top: -50px;
+            margin-top: -50px;
             margin-bottom: 30px;
             text-align: left;
             color: white;
         }
         
      .form-row {
-	   display: flex;
-	   flex-direction: column;
-	   margin-top: 20px;
-	  
+      display: flex;
+      flex-direction: column;
+      margin-top: 20px;
+     
     }
     
-	  input[type="button"]
-		{
-			display: flex;
-			border: 1px solid white;
-			color: white;
-			width : 150px;
-			height: 30px;
-			margin-left : 5px;
-			border-radius: 20px;
-			cursor: pointer;
-			
-		}
-	     
-	     #btnWakeup, #btnCancel{
-	      margin-top: 20px;
-	      margin-left: 70px;
-	      justify-content: center;
-	     }
-	     
-	     .group_button {
-	     	display: flex;
-	     }
-	
+     input[type="button"]
+      {
+         display: flex;
+         border: 1px solid white;
+         color: white;
+         width : 150px;
+         height: 30px;
+         margin-left : 5px;
+         border-radius: 20px;
+         cursor: pointer;
+         
+      }
+        
+        #btnWakeup, #btnCancel{
+         margin-top: 20px;
+         margin-left: 70px;
+         justify-content: center;
+        }
+        
+        .group_button {
+           display: flex;
+        }
+   
     </style>
 <body>
 
-		<header th:replace="~{layout/header::oceanHeader}" ></header>
-		
-		<div class="logo-top"><img th:src="@{/photo/OCEAN2.png}"></div>
-		<div class="logo-btm"><img th:src="@{/photo/OCEAN2.png}"></div>
-		
-		<div id="container">
-	    	<div id="box">
-	    	
-			    <div>휴면계정안내</div>
-				<div class="form-row ">
-					<span th:utext="'안녕하세요, ' + ${session.sleepUsersEmail} + '님은 1년 이상 로그인하지 않아<br>관련 법령에 의해서 휴면회원으로 전환되었습니다.'"></span>
-			    </div>
-			     <div class="form-row ">
-			      <div>휴면해제를 위해서 휴면해제 버튼을 클릭하세요.</div>
-			      <div class="group_button">
-				      <input type="button" value="휴면해제" id="btnWakeup">
-				      <input type="button" value="취소" id="btnCancel">
-			      </div>
-			    </div>
-			    
-	    	</div>
-	  </div>
-		
+      
+      <div class="logo-top"><img th:src="@{/photo/OCEAN2.png}"></div>
+      <div class="logo-btm"><img th:src="@{/photo/OCEAN2.png}"></div>
+      
+      <div id="container">
+          <div id="box">
+          
+             <div>휴면계정안내</div>
+            <div class="form-row ">
+               <span th:utext="'안녕하세요, ' + ${session.sleepUsersEmail} + '님은 1년 이상 로그인하지 않아<br>관련 법령에 의해서 휴면회원으로 전환되었습니다.'"></span>
+             </div>
+              <div class="form-row ">
+               <div>휴면해제를 위해서 휴면해제 버튼을 클릭하세요.</div>
+               <div class="group_button">
+                  <input type="button" value="휴면해제" id="btnWakeup">
+                  <input type="button" value="취소" id="btnCancel">
+               </div>
+             </div>
+             
+          </div>
+     </div>
+      
 </body>
 </html>

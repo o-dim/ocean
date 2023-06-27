@@ -203,7 +203,7 @@ public class UsersController {
 	    // 네이버로그인을 이미 시도해서 회원가입된 사용자 : 로그인을 진행한다.
 	    else {
 	      usersService.naverLogin(request, response, naverUsers);
-	      return "redirect:/";
+	      return "redirect:";
 	    }
 	    
 	  }
@@ -253,7 +253,7 @@ public class UsersController {
 	    // 네이버로그인을 이미 시도해서 회원가입된 사용자 : 로그인을 진행한다.
 	    else {
 	      usersService.kakaoLogin(request, response, kakaoUsers);
-	      return "redirect:/";
+	      return "redirect:";
 	    }
 	    
 	  }

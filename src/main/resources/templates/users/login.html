@@ -50,19 +50,19 @@ function fnDisplayRememberEmail(){
   
 function fnNaver() {
   $('#btnNlogin').on('click', function() {
-	let naverApiURL = /*[[${naverApiURL}]]*/ '/index.html';
+   let naverApiURL = /*[[${naverApiURL}]]*/ '/index.html';
     location.href = naverApiURL;
   });
 }
 
 function fnKakao() {
-	  $('#btnKlogin').on('click', function() {
-		let kakaoApiURL = /*[[${kakaoApiURL}]]*/ '/index.html';
-	    location.href = kakaoApiURL;
-	  });
-	}
-	
-	
+     $('#btnKlogin').on('click', function() {
+      let kakaoApiURL = /*[[${kakaoApiURL}]]*/ '/index.html';
+       location.href = kakaoApiURL;
+     });
+   }
+   
+   
 
 $(function(){
     fnLogin();
@@ -74,7 +74,7 @@ $(function(){
 
 </script>
 
-	<style>
+   <style>
 @font-face {
     font-family: 'GmarketSansMedium';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
@@ -238,49 +238,49 @@ button {
 
 </head>
 <body>
-	
-	<div class="logo-top"><img th:src="@{/photo/OCEAN2.png}"></div>
-	<div class="logo-btm"><img th:src="@{/photo/OCEAN2.png}"></div>
+   
+   <div class="logo-top"><img th:src="@{/photo/OCEAN2.png}"></div>
+   <div class="logo-btm"><img th:src="@{/photo/OCEAN2.png}"></div>
 
-	<div id="container">
- 		<form id="frmLogin" method="post" th:action="@{/users/login.do}">
- 		<!-- 로그인 이후에 이동할 주소 -->
-      	<input type="hidden" name="url" th:value="${url}">
-		    <div id="box">
-		
-		        <div class="intro" style="margin-bottom: 30px;">
-		            <div>당신이 찾던 음악,</div>
-		            <div>모두 오션에서</div>
-		        </div>
-		        <div class="form-row">
-		            <label for="email">이메일</label>
-		            <input type="text" name="email" id="email" placeholder="example@naver.com">
-		        </div>
-		        <div class="form-row">
-		            <label for="pw">비밀번호</label>
-		            <input type="password" name="pw" id="pw">
-		        </div>
-	            <div class="checkbox">
-			        <input type="checkbox" id="chkRememberEmail">
-			        <label for="chkRememberEmail">이메일 기억</label>
-			        <input type="checkbox" name="chkAutologin" id="chkAutologin">
-			        <label for="chkAutologin">자동 로그인</label>
-		        </div>
-		            
-		         <div class="login">
-		            <button>로그인</button>
-		        </div>
-		        <div class="simpleLogin">
-		            <input type="button" name="n-login" id="btnNlogin" value="네이버로그인">
-		            <input type="button" name="k-login" id="btnKlogin" value="카카오로그인">
-		        </div>
-		        <div class="link">
-			        <a th:href="@{/users/findEmail.html}">아이디 / 비밀번호가 기억나지 않으신가요?</a><br>
-			        <a th:href="@{/users/agree.html}">가입으로 음악의 오션을 누려보기</a>
-		        </div>
-		    </div>
-	 </form>
-	</div>
+   <div id="container">
+       <form id="frmLogin" method="post" th:action="@{/users/login.do}">
+       <!-- 로그인 이후에 이동할 주소 -->
+         <input type="hidden" name="url" th:value="${url}">
+          <div id="box">
+      
+              <div class="intro" style="margin-bottom: 30px;">
+                  <div>당신이 찾던 음악,</div>
+                  <div>모두 오션에서</div>
+              </div>
+              <div class="form-row">
+                  <label for="email">이메일</label>
+                  <input type="text" name="email" id="email" placeholder="example@naver.com">
+              </div>
+              <div class="form-row">
+                  <label for="pw">비밀번호</label>
+                  <input type="password" name="pw" id="pw">
+              </div>
+               <div class="checkbox">
+                 <input type="checkbox" id="chkRememberEmail">
+                 <label for="chkRememberEmail">이메일 기억</label>
+                 <input type="checkbox" name="chkAutologin" id="chkAutologin">
+                 <label for="chkAutologin">자동 로그인</label>
+              </div>
+                  
+               <div class="login">
+                  <button>로그인</button>
+              </div>
+              <div class="simpleLogin">
+                  <input type="button" name="n-login" id="btnNlogin" value="네이버로그인">
+                  <input type="button" name="k-login" id="btnKlogin" value="카카오로그인">
+              </div>
+              <div class="link">
+                 <a th:href="@{/users/findEmail.html}">아이디 / 비밀번호가 기억나지 않으신가요?</a><br>
+                 <a th:href="@{/users/agree.html}">가입으로 음악의 오션을 누려보기</a>
+              </div>
+          </div>
+    </form>
+   </div>
 
 </body>
 </html>
