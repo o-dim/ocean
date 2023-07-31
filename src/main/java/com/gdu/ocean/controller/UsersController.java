@@ -203,7 +203,7 @@ public class UsersController {
 	    // 네이버로그인을 이미 시도해서 회원가입된 사용자 : 로그인을 진행한다.
 	    else {
 	      usersService.naverLogin(request, response, naverUsers);
-	      return "redirect:";
+	      return "redirect:/";
 	    }
 	    
 	  }
@@ -234,7 +234,7 @@ public class UsersController {
 	    
 	  }
 	  
-	  @GetMapping("/kakao/login.do")  // 네이버로그인
+	  @GetMapping("/kakao/login.do")  
 	  public String kakaoLogin(HttpServletRequest request, HttpServletResponse response, Model model) {
 	    
 	 
@@ -250,10 +250,10 @@ public class UsersController {
 	      model.addAttribute("profile", profile);
 	      return "users/kakao_join";
 	    }
-	    // 네이버로그인을 이미 시도해서 회원가입된 사용자 : 로그인을 진행한다.
+	    // 카카오로그인을 이미 시도해서 회원가입된 사용자 : 로그인을 진행한다.
 	    else {
 	      usersService.kakaoLogin(request, response, kakaoUsers);
-	      return "redirect:";
+	      return "redirect:/";
 	    }
 	    
 	  }

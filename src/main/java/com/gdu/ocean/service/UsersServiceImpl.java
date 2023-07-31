@@ -1004,7 +1004,7 @@ public UsersDTO getKakaoLoginProfile(String accessToken) {
      // 로그인 처리
      HttpSession session = request.getSession();
      String loginName = kakaoUsersDTO.getName();
-     session.setAttribute("loginEamil", email);
+     session.setAttribute("loginEmail", email);
      session.setAttribute("loginName", loginName);
      System.out.println(email + " "  + loginName);
      

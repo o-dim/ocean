@@ -11,12 +11,12 @@
 <div th:fragment="loginHeadFrag">
 	<div class="loginheader">
         <div th:if="${session.loginEmail != null}">
-            <span th:text="'안녕하세요, ' + ${session.loginUsersName} + '님!'" style="color:white"></span>
+            <span th:text="'안녕하세요, ' + ${session.loginEmail} + '님!'" style="color:white"></span>
             <a th:href="@{/users/mypage.do}" class="menu-link">마이페이지</a>
             <a th:href="@{/users/logout.do}" class="menu-link">로그아웃</a>
         </div>
         <div th:if="${session.loginEmail == null}">
-			<script>
+ 			<script>
 			function openPopup() {
 			    var url = "/users/login.html"; 
 			    var width = 850; // 팝업 창 너비
@@ -40,7 +40,12 @@
 			        });
 			    }
 			}
-			</script>
+			</script> 
+<!-- 			<script>
+				function Login() {
+					location.href = '/users/login.html';
+				}
+			</script> -->
             <button class="Login"  style="background-color: transparent; color: white; border: none; cursor: pointer; font-family: 'GmarketSansMedium';" onclick="openPopup()">로그인</button>
             <a th:href="@{/users/agree.html}" class="menu-link">회원가입</a>
         </div>

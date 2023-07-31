@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
+ 	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="/js/lib/jquery-3.6.4.min.js"></script>
     <script type="text/javascript" th:src="@{/slick/slick.min.js}"></script>
     <link rel="stylesheet" type="text/css" th:href="@{/slick/slick.css}"/>
@@ -249,13 +251,14 @@ $(document).ready(function(){
   AOS.init();
   
 
-function loginSuccess() {
+ function loginSuccess() {
     window.opener.postMessage('loginSuccess', '*');
+
 }
 
 $(document).ready(function() {
     loginSuccess();
-});
+}); 
 </script>
 </body>
 

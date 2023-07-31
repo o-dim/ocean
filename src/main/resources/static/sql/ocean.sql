@@ -1,4 +1,4 @@
-USE gdj61;
+USE quddls6;
 
 DROP TABLE IF EXISTS KAKAO_APPROVE_RESPONSE;
 DROP TABLE IF EXISTS AMOUNT;
@@ -27,8 +27,8 @@ DROP TABLE IF EXISTS USERS;
 CREATE TABLE USERS (
    USER_NO              INT             NOT NULL AUTO_INCREMENT,          -- 회원 번호      -PK
    EMAIL                VARCHAR(100)    NOT NULL UNIQUE,            -- 회원 이메일
-   PW                   VARCHAR(100)    NOT NULL,                   -- 회원 비밀번호
-   PHONENO              LONGTEXT        NOT NULL,                  -- 회원 전화번호
+   PW                   VARCHAR(100)    NULL,                   -- 회원 비밀번호
+   PHONENO              LONGTEXT        NULL,                  -- 회원 전화번호
    POSTCODE             VARCHAR(20)        NULL,                     -- 회원 우편번호
    ROAD_ADDRESS         VARCHAR(100)         NULL,                     -- 회원 도로명주소
    JIBUN_ADDRESS        VARCHAR(100)         NULL,                     -- 회원 지번
@@ -330,6 +330,7 @@ INSERT INTO USERS
                 ,NULL
             ,NULL
 );
+
 INSERT INTO USERS
             (
              EMAIL
@@ -876,38 +877,6 @@ INSERT INTO USERS
                 ,NULL
                 ,NULL
 );
-
-INSERT INTO SLEEP_USERS
-         (
-             EMAIL
-            , PW
-            , PHONENO
-            , POSTCODE
-            , ROAD_ADDRESS
-            , JIBUN_ADDRESS
-            , DETAIL_ADDRESS
-            , NAME
-            , JOINED_AT
-            , AGREECODE
-         , PW_MODIFIED_AT 
-         , SLEPT_AT 
-            ) VALUES (
-         'john@gmail.com'
-            , SHA2('mango123!',256)
-            , '010-1111-1111'
-            , '17425'
-            , '경기도 안산시 대부도로 123'
-            , '경기도 안산시 대부도동 123'
-            , '203호'
-            , 'john'
-            ,  DATE_SUB(DATE(NOW()), INTERVAL 1 YEAR)
-            ,0
-         ,NULL
-         ,NOW()
-);
-
-
-
 
 INSERT INTO HASHTAG (
          NAME
