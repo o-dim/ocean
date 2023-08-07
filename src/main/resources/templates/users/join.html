@@ -413,16 +413,6 @@ $('#rePw').on('keyup', function(){
 
 									document.getElementById('postcode').value = data.zonecode;
 									document.getElementById("roadAddress").value = roadAddr;
-
-									var guideTextBox = document.getElementById("guide");
-									if(data.autoRoadAddress) {
-										var expRoadAddr = data.autoRoadAddress + extraRoadAddr;
-										guideTextBox.innerHTML = '(예상 도로명 주소 : ' + expRoadAddr + ')';
-										guideTextBox.style.display = 'block';
-									} else {
-										guideTextBox.innerHTML = '';
-										guideTextBox.style.display= 'none';
-								}
 							}
 						}).open();
 					}

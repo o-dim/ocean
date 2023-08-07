@@ -560,7 +560,7 @@ public class UsersServiceImpl implements UsersService {
 
 /******************************************************************************************/
 /*** 네이버개발자센터 > Products > 네이버 로그인 > "네이버 로그인 API"를 이용 신청할 것 ***/
-/*** 제공 정보 6가지 : 회원이름, 연락처 이메일 주소, 성별, 생일, 출생연도, 휴대전화번호 ***/
+/*** 제공 정보 3가지 : 회원이름, 연락처 이메일 주소, 휴대전화번호 ***/
 /******************************************************************************************/
 @Value("${naver.client_id}")
 private String naverClientId;
@@ -778,10 +778,6 @@ public void naverJoin(HttpServletRequest request, HttpServletResponse response) 
   String phoneNo = request.getParameter("phoneNo");
   String location = request.getParameter("location");
   
-   /*
-    * // 비밀번호 SHA-256 암호화 String pw = securityUtil.getSha256(phoneNo);
-    */
-   
   
   // 이름 XSS 처리
   name = securityUtil.preventXSS(name);
@@ -1023,10 +1019,6 @@ public UsersDTO getKakaoLoginProfile(String accessToken) {
         String email = request.getParameter("email");
         String location = request.getParameter("location");
         
-         /*
-          * // 비밀번호 SHA-256 암호화 String pw = securityUtil.getSha256(name); // 이름을 초기비번으로
-          * 제공하기로 한다.
-          */
         
         // 이름 XSS 처리
         name = securityUtil.preventXSS(name);
