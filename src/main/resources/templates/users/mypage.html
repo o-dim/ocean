@@ -79,16 +79,12 @@ function fnModifyPw(){
         dataType: 'json',
         success: function(resData){  // resData = {"updateUserPasswordResult": 1}
           if(resData.updateUsersPasswordResult == 1){
-           	Swal.fire({
-         		  text: '비밀번호가 변경되었습니다.',
-         		})
+          alert('비밀번호가 변경되었습니다.');
             fnInitEditPwArea();
             $('#btnOpenEditPwArea').show();
             $('#editPwArea').hide();
           } else {
-           	Swal.fire({
-         		  text: '비밀번호 변경이 실패했습니다.',
-         		})
+        	alert('비밀번호가 변경이 실패했습니다.');
           }
         }
       })
@@ -351,7 +347,6 @@ $(function(){
 								<input type="button" onclick="execDaumPostcode()" value="우편번호 검색">
 							</div>
 							<input type="text" th:name="roadAddress" id="roadAddress" th:value="${loginUsers.roadAddress}" placeholder="도로명주소">
-							<span id="guide" style="color:#999; display:none"></span>
 							<input type="text" th:name="detailAddress" id="detailAddress" th:value="${loginUsers.detailAddress}" placeholder="상세주소">
 							<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 							<script>
